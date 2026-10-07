@@ -46,10 +46,10 @@
         .glass-panel { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
         .dark .glass-panel { background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
+        .animate-fade-in { animation: fadeIn 0.15s ease-out forwards; }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white" onclick="handleDocumentClick(event)">
 
     <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-3 pointer-events-none"></div>
 
@@ -57,7 +57,7 @@
         <div id="modal-content" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden animate-fade-in border border-slate-100 dark:border-slate-700 max-h-[90vh] flex flex-col"></div>
     </div>
 
-    <!-- PROFILE MENU / DRAWER -->
+    <!-- PROFILE DRAWER -->
     <div id="profile-drawer-backdrop" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden" onclick="toggleProfileDrawer(false)"></div>
     <div id="profile-drawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-sm bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
         <div class="p-6 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
@@ -66,16 +66,17 @@
                 <div>
                     <h3 id="drawer-user-name" class="font-bold text-base">Account</h3>
                     <p id="drawer-user-email" class="text-xs text-slate-400">guest@trendpro.com</p>
+                    <p id="drawer-customer-id" class="text-[10px] text-indigo-500 font-mono font-bold mt-0.5">ID: --</p>
                 </div>
             </div>
-            <button onclick="toggleProfileDrawer(false)" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <button onclick="toggleProfileDrawer(false)" class="p-2 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
         <div class="flex-1 overflow-y-auto p-6 space-y-2">
-            <button onclick="toggleProfileDrawer(false); navigateTo('profile')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-user-pen text-indigo-600 w-5"></i><span>Personal Details & Address</span></button>
-            <button onclick="toggleProfileDrawer(false); navigateTo('wallet')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-wallet text-indigo-600 w-5"></i><span>My Wallet & Gift Cards</span></button>
-            <button onclick="toggleProfileDrawer(false); navigateTo('orders')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-box-archive text-indigo-600 w-5"></i><span>My Orders</span></button>
-            <button onclick="toggleProfileDrawer(false); navigateTo('chat')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-comments text-indigo-600 w-5"></i><span>Messages & Support</span></button>
-            <button onclick="toggleProfileDrawer(false); navigateTo('notifications')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-bell text-indigo-600 w-5"></i><span>Notifications</span></button>
+            <button onclick="toggleProfileDrawer(false); navigateTo('profile')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm"><i class="fa-solid fa-user-pen text-indigo-600 w-5"></i><span>Personal Details & Address</span></button>
+            <button onclick="toggleProfileDrawer(false); navigateTo('wallet')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm"><i class="fa-solid fa-wallet text-indigo-600 w-5"></i><span>My Wallet & Gift Cards</span></button>
+            <button onclick="toggleProfileDrawer(false); navigateTo('orders')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm"><i class="fa-solid fa-box-archive text-indigo-600 w-5"></i><span>My Orders</span></button>
+            <button onclick="toggleProfileDrawer(false); navigateTo('chat')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm"><i class="fa-solid fa-comments text-indigo-600 w-5"></i><span>Support & Order Chat</span></button>
+            <button onclick="toggleProfileDrawer(false); navigateTo('notifications')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm"><i class="fa-solid fa-bell text-indigo-600 w-5"></i><span>Notifications</span></button>
             <div class="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2">
                 <button onclick="toggleProfileDrawer(false); navigateTo('policy', 'about')" class="w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-circle-info w-5"></i><span>About TrendPro</span></button>
                 <button onclick="toggleProfileDrawer(false); navigateTo('policy', 'faq')" class="w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-300"><i class="fa-solid fa-question w-5"></i><span>FAQs</span></button>
@@ -84,8 +85,7 @@
         </div>
         <div class="p-6 border-t border-slate-100 dark:border-slate-800">
             <button onclick="logoutUser(); toggleProfileDrawer(false);" class="w-full py-3 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-sm rounded-xl transition-colors flex items-center justify-center space-x-2">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Sign Out</span>
+                <i class="fa-solid fa-right-from-bracket"></i><span>Sign Out</span>
             </button>
         </div>
     </div>
@@ -100,17 +100,17 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
             <div class="flex items-center space-x-6">
                 <button onclick="navigateTo('index')" class="flex items-center space-x-2 group">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
                         <i class="fa-solid fa-bolt text-lg"></i>
                     </div>
                     <span class="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">TRENDPRO</span>
                 </button>
             </div>
 
-            <!-- ENHANCED LIVE SEARCH BAR -->
-            <div class="hidden md:flex flex-1 max-w-xl mx-4 relative">
+            <!-- LIVE SEARCH WITH OUTSIDE CLICK DISMISSAL -->
+            <div class="hidden md:flex flex-1 max-w-xl mx-4 relative" id="search-container-wrapper">
                 <div class="relative w-full">
-                    <input type="text" id="global-search-input" placeholder="Search by title, category, brand, specs, price..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full pl-11 pr-24 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all shadow-inner" oninput="handleInstantSearch(this.value)" onkeydown="if(event.key==='Enter') executeSearch(this.value)">
+                    <input type="text" id="global-search-input" placeholder="Search products, prices, specs, tags..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full pl-11 pr-24 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all shadow-inner" oninput="handleInstantSearch(this.value)" onkeydown="if(event.key==='Enter') executeSearch(this.value)">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </div>
@@ -118,24 +118,23 @@
                         Search
                     </button>
                 </div>
-                <!-- Instant Search Suggestions Box -->
                 <div id="search-suggestions-dropdown" class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 hidden z-50 max-h-96 overflow-y-auto p-2"></div>
             </div>
 
             <div class="flex items-center space-x-1 sm:space-x-3">
                 <button onclick="navigateTo('compare')" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Compare">
                     <i class="fa-solid fa-code-compare text-lg"></i>
-                    <span id="compare-badge" class="absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                    <span id="compare-badge" class="absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
                 </button>
 
                 <button onclick="navigateTo('wishlist')" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Wishlist">
                     <i class="fa-regular fa-heart text-lg"></i>
-                    <span id="wishlist-badge" class="absolute top-1.5 right-1.5 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                    <span id="wishlist-badge" class="absolute top-1.5 right-1.5 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
                 </button>
 
                 <button onclick="navigateTo('cart')" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Cart">
                     <i class="fa-bag-shopping text-lg"></i>
-                    <span id="cart-badge" class="absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                    <span id="cart-badge" class="absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden">0</span>
                 </button>
 
                 <div id="auth-section-header" class="relative pl-2"></div>
@@ -210,6 +209,7 @@
         let productsCache = [];
         let categoriesCache = [];
         let bannersCache = [];
+        let ordersCache = [];
         let cartCache = [];
         let wishlistCache = [];
         let compareCache = [];
@@ -230,8 +230,8 @@
             setTimeout(() => toast.classList.remove('translate-y-2', 'opacity-0'), 10);
             setTimeout(() => {
                 toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 3500);
+                setTimeout(() => toast.remove(), 250);
+            }, 3000);
         }
 
         function formatCurrency(amount) {
@@ -277,8 +277,10 @@
                 userRef.on('value', (snapshot) => {
                     userProfile = snapshot.val();
                     if (!userProfile) {
+                        const customerId = 'CUST-' + Math.floor(100000 + Math.random() * 900000);
                         userProfile = {
                             uid: user.uid,
+                            customerId: customerId,
                             name: user.displayName || 'Valued Customer',
                             email: user.email,
                             phone: user.phoneNumber || '',
@@ -288,6 +290,10 @@
                             createdAt: Date.now()
                         };
                         userRef.set(userProfile);
+                    } else if (!userProfile.customerId) {
+                        const customerId = 'CUST-' + Math.floor(100000 + Math.random() * 900000);
+                        userRef.update({ customerId });
+                        userProfile.customerId = customerId;
                     }
                     updateHeaderAuthUI();
                     syncUserData();
@@ -306,7 +312,7 @@
                 const isAdmin = currentUser.email === SPECIAL_ADMIN_EMAIL;
                 authContainer.innerHTML = `
                     <div class="flex items-center space-x-2">
-                        ${isAdmin ? `<button onclick="navigateTo('admin')" class="hidden lg:flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-all"><i class="fa-solid fa-shield-halved"></i><span>Admin</span></button>` : ''}
+                        ${isAdmin ? `<button onclick="navigateTo('admin')" class="hidden lg:flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-xs font-bold rounded-xl shadow-md"><i class="fa-solid fa-shield-halved"></i><span>Admin</span></button>` : ''}
                         <button onclick="toggleProfileDrawer(true)" class="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                             <img src="${userProfile?.photoURL || currentUser.photoURL || 'https://placehold.co/40x40/6366f1/ffffff?text=U'}" class="w-8 h-8 rounded-full object-cover border border-indigo-500" alt="Profile">
                             <span class="hidden sm:inline text-sm font-semibold truncate max-w-[100px]">${userProfile?.name || 'Account'}</span>
@@ -316,12 +322,14 @@
                 const drawerImg = document.getElementById('drawer-user-img');
                 const drawerName = document.getElementById('drawer-user-name');
                 const drawerEmail = document.getElementById('drawer-user-email');
+                const drawerCustId = document.getElementById('drawer-customer-id');
                 if (drawerImg) drawerImg.src = userProfile?.photoURL || currentUser.photoURL || 'https://placehold.co/100x100/6366f1/ffffff?text=U';
                 if (drawerName) drawerName.textContent = userProfile?.name || 'Valued Customer';
                 if (drawerEmail) drawerEmail.textContent = currentUser.email;
+                if (drawerCustId) drawerCustId.textContent = `ID: ${userProfile?.customerId || 'CUST-XXXX'}`;
             } else {
                 authContainer.innerHTML = `
-                    <button onclick="openAuthModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-md hover:shadow-indigo-500/20 transition-all flex items-center space-x-2">
+                    <button onclick="openAuthModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-md transition-all flex items-center space-x-2">
                         <i class="fa-solid fa-right-to-bracket"></i>
                         <span class="hidden sm:inline">Sign In</span>
                     </button>
@@ -338,7 +346,7 @@
                 setTimeout(() => drawer.classList.remove('translate-x-full'), 10);
             } else {
                 drawer.classList.add('translate-x-full');
-                setTimeout(() => backdrop.classList.add('hidden'), 300);
+                setTimeout(() => backdrop.classList.add('hidden'), 250);
             }
         }
 
@@ -346,18 +354,18 @@
             showModal(`
                 <div class="p-6 sm:p-8">
                     <div class="text-center mb-6">
-                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-bold shadow-inner">
+                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-bold">
                             <i class="fa-solid fa-bolt"></i>
                         </div>
                         <h2 class="text-2xl font-bold tracking-tight">Welcome to TrendPro</h2>
                         <p class="text-slate-500 text-sm mt-1">Sign in with Google to access your wallet, orders, and exclusive perks.</p>
                     </div>
-                    <button onclick="signInWithGoogle()" class="w-full py-3.5 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold text-sm flex items-center justify-center space-x-3 transition-all shadow-sm">
+                    <button onclick="signInWithGoogle()" class="w-full py-3.5 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 font-semibold text-sm flex items-center justify-center space-x-3 transition-all shadow-sm">
                         <i class="fa-brands fa-google text-red-500 text-lg"></i>
                         <span>Continue with Google</span>
                     </button>
                     <div class="mt-6 text-center">
-                        <button onclick="closeModal()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-medium">Cancel / Browse as Guest</button>
+                        <button onclick="closeModal()" class="text-xs text-slate-400 hover:text-slate-600 font-medium">Cancel / Browse as Guest</button>
                     </div>
                 </div>
             `);
@@ -399,6 +407,12 @@
                 bannersCache = val ? Object.entries(val).map(([id, b]) => ({ id, ...b })) : [];
                 renderRoute();
             });
+
+            db.ref('orders').on('value', (snap) => {
+                const val = snap.val();
+                ordersCache = val ? Object.entries(val).map(([id, o]) => ({ id, ...o })) : [];
+                renderRoute();
+            });
         }
 
         function syncUserData() {
@@ -425,45 +439,27 @@
             const compCount = compareCache.length;
 
             const cartEl = document.getElementById('cart-badge');
-            if (cartEl) {
-                cartEl.textContent = cartCount;
-                cartEl.classList.toggle('hidden', cartCount === 0);
-            }
-
+            if (cartEl) { cartEl.textContent = cartCount; cartEl.classList.toggle('hidden', cartCount === 0); }
             const wishEl = document.getElementById('wishlist-badge');
-            if (wishEl) {
-                wishEl.textContent = wishCount;
-                wishEl.classList.toggle('hidden', wishCount === 0);
-            }
-
+            if (wishEl) { wishEl.textContent = wishCount; wishEl.classList.toggle('hidden', wishCount === 0); }
             const compEl = document.getElementById('compare-badge');
-            if (compEl) {
-                compEl.textContent = compCount;
-                compEl.classList.toggle('hidden', compCount === 0);
-            }
+            if (compEl) { compEl.textContent = compCount; compEl.classList.toggle('hidden', compCount === 0); }
         }
 
         function seedDemoData() {
             const demoCategories = {
                 cat1: { name: "Electronics", image: "https://placehold.co/400x300/6366f1/ffffff?text=Electronics" },
                 cat2: { name: "Fashion", image: "https://placehold.co/400x300/ec4899/ffffff?text=Fashion" },
-                cat3: { name: "Home & Kitchen", image: "https://placehold.co/400x300/10b981/ffffff?text=Home" },
-                cat4: { name: "Gadgets", image: "https://placehold.co/400x300/f59e0b/ffffff?text=Gadgets" }
+                cat3: { name: "Home & Kitchen", image: "https://placehold.co/400x300/10b981/ffffff?text=Home" }
             };
             db.ref('categories').set(demoCategories);
-
             const demoBanners = {
-                b1: {
-                    title: "Next-Gen Tech Fest",
-                    subtitle: "Up to 50% OFF on Top Audio & Smartwear",
-                    image: "https://placehold.co/1200x500/4f46e5/ffffff?text=Next-Gen+Tech+Fest",
-                    buttonText: "Shop Collection"
-                }
+                b1: { title: "Next-Gen Tech Fest", subtitle: "Up to 50% OFF on Top Audio & Smartwear", image: "https://placehold.co/1200x500/4f46e5/ffffff?text=Next-Gen+Tech+Fest", buttonText: "Shop Collection" }
             };
             db.ref('banners').set(demoBanners);
         }
 
-        // --- INSTANT SEARCH SYSTEM ---
+        // --- INSTANT SEARCH & OUTSIDE CLICK DISMISSAL ---
         function handleInstantSearch(query) {
             const dropdown = document.getElementById('search-suggestions-dropdown');
             if (!dropdown) return;
@@ -475,19 +471,14 @@
             }
 
             const matches = productsCache.filter(p => {
-                const titleMatch = (p.title || '').toLowerCase().includes(q);
-                const descMatch = (p.description || '').toLowerCase().includes(q);
-                const catMatch = (p.category || '').toLowerCase().includes(q);
-                const priceMatch = String(p.price || '').includes(q) || String(p.discountedPrice || '').includes(q);
-                const specMatch = (p.specifications || []).some(s => (s.spec || '').toLowerCase().includes(q) || (s.value || '').toLowerCase().includes(q));
-                return titleMatch || descMatch || catMatch || priceMatch || specMatch;
+                return (p.title || '').toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q) || (p.category || '').toLowerCase().includes(q);
             });
 
             if (matches.length === 0) {
                 dropdown.innerHTML = `<div class="p-4 text-xs text-slate-400 text-center">No matching products found</div>`;
             } else {
                 dropdown.innerHTML = matches.slice(0, 5).map(p => `
-                    <div onclick="navigateTo('product', '${p.id}'); document.getElementById('search-suggestions-dropdown').classList.add('hidden');" class="flex items-center space-x-3 p-2.5 hover:bg-slate-100 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer transition-colors">
+                    <div onclick="navigateTo('product', '${p.id}'); document.getElementById('search-suggestions-dropdown').classList.add('hidden');" class="flex items-center space-x-3 p-2.5 hover:bg-slate-100 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer">
                         <img src="${p.thumbnail}" class="w-10 h-10 rounded-lg object-cover">
                         <div class="flex-1 min-w-0">
                             <h4 class="font-bold text-xs truncate">${p.title}</h4>
@@ -501,7 +492,16 @@
 
         function executeSearch(val) {
             if (!val) return;
+            document.getElementById('search-suggestions-dropdown')?.classList.add('hidden');
             navigateTo('search', encodeURIComponent(val));
+        }
+
+        function handleDocumentClick(event) {
+            const wrapper = document.getElementById('search-container-wrapper');
+            const dropdown = document.getElementById('search-suggestions-dropdown');
+            if (wrapper && dropdown && !wrapper.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
         }
 
         function renderRoute() {
@@ -552,14 +552,9 @@
             }
         }
 
-        // --- HOMEPAGE & BANNERS ---
+        // --- HOMEPAGE & CATEGORIES ---
         function renderHomePage() {
-            const banner = bannersCache[0] || {
-                title: "Elevate Your Lifestyle with TrendPro",
-                subtitle: "Discover top-tier electronics and premium streetwear",
-                image: "https://placehold.co/1200x500/4f46e5/ffffff?text=TrendPro+Hero",
-                buttonText: "Shop Collection"
-            };
+            const banner = bannersCache[0] || { title: "Elevate Your Lifestyle with TrendPro", subtitle: "Discover top-tier electronics and premium streetwear", image: "https://placehold.co/1200x500/4f46e5/ffffff?text=TrendPro+Hero", buttonText: "Shop Collection" };
 
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
@@ -667,19 +662,11 @@
             renderRoute();
         }
 
-        // --- PRODUCTS & DETAILS ---
         function renderProductsPage() {
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12">
-                    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <h1 class="text-3xl font-black tracking-tight">All Products (${productsCache.length})</h1>
-                            <p class="text-slate-500 text-sm mt-1">Explore our complete catalog</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${productsCache.map(p => renderProductCard(p)).join('')}
-                    </div>
+                    <div class="mb-8"><h1 class="text-3xl font-black tracking-tight">All Products (${productsCache.length})</h1><p class="text-slate-500 text-sm mt-1">Explore our complete catalog</p></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${productsCache.map(p => renderProductCard(p)).join('')}</div>
                 </div>
             `;
         }
@@ -688,29 +675,20 @@
             const filtered = productsCache.filter(p => p.category === catName);
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12">
-                    <div class="mb-8">
-                        <h1 class="text-3xl font-black tracking-tight">${catName}</h1>
-                        <p class="text-slate-500 text-sm mt-1">${filtered.length} products found in category</p>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${filtered.map(p => renderProductCard(p)).join('')}
-                    </div>
+                    <div class="mb-8"><h1 class="text-3xl font-black tracking-tight">${catName}</h1><p class="text-slate-500 text-sm mt-1">${filtered.length} products found</p></div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${filtered.map(p => renderProductCard(p)).join('')}</div>
                 </div>
             `;
         }
 
         function renderSearchPage(param) {
             const q = decodeURIComponent(param || '').toLowerCase();
-            const filtered = productsCache.filter(p => {
-                return (p.title || '').toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q) || (p.category || '').toLowerCase().includes(q);
-            });
+            const filtered = productsCache.filter(p => (p.title || '').toLowerCase().includes(q) || (p.description || '').toLowerCase().includes(q) || (p.category || '').toLowerCase().includes(q));
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12">
                     <h1 class="text-3xl font-black tracking-tight">Search Results for "${decodeURIComponent(param || '')}"</h1>
                     <p class="text-slate-500 text-sm mt-1">${filtered.length} matching products</p>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-                        ${filtered.map(p => renderProductCard(p)).join('')}
-                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">${filtered.map(p => renderProductCard(p)).join('')}</div>
                 </div>
             `;
         }
@@ -730,7 +708,7 @@
                                 <img id="main-product-img" src="${images[0]}" class="w-full h-full object-cover" alt="${p.title}">
                             </div>
                             <div class="flex space-x-3 overflow-x-auto pb-2">
-                                ${images.map((img) => `
+                                ${images.map(img => `
                                     <div onclick="document.getElementById('main-product-img').src='${img}'" class="w-20 h-20 rounded-2xl overflow-hidden border-2 border-transparent hover:border-indigo-600 cursor-pointer flex-shrink-0 bg-white dark:bg-slate-800 shadow-sm">
                                         <img src="${img}" class="w-full h-full object-cover" alt="Thumb">
                                     </div>
@@ -780,28 +758,17 @@
             `;
         }
 
-        // --- CART & CHECKOUT WITH CELEBRATORY POPUP ---
         async function addToCart(productId) {
             if (!currentUser) { openAuthModal(); return; }
             const p = productsCache.find(x => x.id === productId);
             if (!p) return;
             const stock = p.stock !== undefined ? Number(p.stock) : 10;
-            if (stock <= 0) {
-                showToast("Product is out of stock", "error");
-                return;
-            }
+            if (stock <= 0) { showToast("Product is out of stock", "error"); return; }
             const existing = cartCache.find(item => item.productId === productId);
-            const currentQty = existing ? existing.quantity : 0;
-            if (currentQty + 1 > stock) {
-                showToast("Cannot add more than available stock", "error");
-                return;
-            }
-
             if (existing) { existing.quantity += 1; }
             else { cartCache.push({ productId: p.id, title: p.title, price: p.discountedPrice || p.price, thumbnail: p.thumbnail, quantity: 1, stock }); }
             await db.ref(`users/${currentUser.uid}/cart`).set(cartCache);
             
-            // Show added to cart popup
             showModal(`
                 <div class="p-8 text-center space-y-4">
                     <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner animate-bounce">
@@ -833,7 +800,7 @@
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         <div class="lg:col-span-2 space-y-4">
                             ${cartCache.map((item, idx) => `
-                                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border flex items-center justify-between">
                                     <div class="flex items-center space-x-4">
                                         <img src="${item.thumbnail}" class="w-16 h-16 rounded-xl object-cover">
                                         <div><h3 class="font-bold text-sm">${item.title}</h3><p class="text-indigo-600 font-bold">${formatCurrency(item.price)} (Qty: ${item.quantity || 1})</p></div>
@@ -842,7 +809,7 @@
                                 </div>
                             `).join('')}
                         </div>
-                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border border-slate-100 dark:border-slate-700 h-max space-y-4">
+                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border h-max space-y-4">
                             <h3 class="font-bold text-lg">Summary</h3>
                             <div class="flex justify-between font-black text-lg"><span>Total</span><span>${formatCurrency(subtotal)}</span></div>
                             <button onclick="navigateTo('checkout')" class="w-full py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl">Proceed to Checkout</button>
@@ -866,7 +833,7 @@
             return `
                 <div class="max-w-4xl mx-auto px-4 py-10 space-y-6 mb-12">
                     <h1 class="text-3xl font-black tracking-tight">Checkout</h1>
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border">
                         <h3 class="font-bold mb-4">Select Delivery Address</h3>
                         ${Object.entries(addresses).map(([k, a]) => `
                             <label class="block p-4 border rounded-xl cursor-pointer mb-2">
@@ -875,14 +842,14 @@
                         `).join('')}
                     </div>
 
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 space-y-4">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border space-y-4">
                         <h3 class="font-bold text-lg">Payment Method</h3>
-                        <p class="text-xs text-slate-500">Your Wallet Balance: <strong class="text-indigo-600">${formatCurrency(walletBal)}</strong></p>
+                        <p class="text-xs text-slate-500">Wallet Balance: <strong class="text-indigo-600">${formatCurrency(walletBal)}</strong></p>
                         ${walletBal >= subtotal ? `
                             <label class="block p-4 border rounded-xl cursor-pointer bg-indigo-50/50">
                                 <input type="radio" name="pay-method" value="wallet" checked> Pay using Wallet (${formatCurrency(subtotal)})
                             </label>
-                        ` : `<p class="text-xs text-rose-500 font-semibold">Wallet balance insufficient. Please top up via Gift Voucher or use UPI Demo.</p>`}
+                        ` : `<p class="text-xs text-rose-500 font-semibold">Wallet balance insufficient. Use UPI Demo or top up.</p>`}
                         <label class="block p-4 border rounded-xl cursor-pointer">
                             <input type="radio" name="pay-method" value="upi" ${walletBal < subtotal ? 'checked' : ''}> Simulated UPI Payment (Demo Gateway)
                         </label>
@@ -891,7 +858,7 @@
                         </label>
                     </div>
 
-                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border flex items-center justify-between">
                         <div><span class="text-sm text-slate-400">Total Amount:</span><h2 class="text-2xl font-black">${formatCurrency(subtotal)}</h2></div>
                         <button onclick="placeOrder(${subtotal})" class="px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl">Complete Order</button>
                     </div>
@@ -905,27 +872,34 @@
 
             if (payMethod === 'wallet') {
                 const currentWallet = Number(userProfile.walletBalance || 0);
-                if (currentWallet < total) {
-                    showToast("Insufficient wallet balance", "error");
-                    return;
-                }
+                if (currentWallet < total) { showToast("Insufficient wallet balance", "error"); return; }
                 await db.ref(`users/${currentUser.uid}/walletBalance`).set(currentWallet - total);
             }
 
             const orderId = 'TP-' + Date.now();
-            
             for (const item of cartCache) {
                 const prodRef = db.ref(`products/${item.productId}`);
                 const snap = await prodRef.get();
                 if (snap.exists()) {
                     const pData = snap.val();
                     const currentStock = Number(pData.stock || 10);
-                    const newStock = Math.max(0, currentStock - item.quantity);
-                    await prodRef.update({ stock: newStock });
+                    await prodRef.update({ stock: Math.max(0, currentStock - item.quantity) });
                 }
             }
 
-            const orderData = { orderId, uid: currentUser.uid, customerName: userProfile.name, products: cartCache, totalAmount: total, paymentMethod: payMethod, status: 'New Order', timestamp: Date.now() };
+            const orderData = {
+                orderId,
+                uid: currentUser.uid,
+                customerId: userProfile.customerId || 'CUST-000000',
+                customerName: userProfile.name,
+                email: currentUser.email,
+                products: cartCache,
+                totalAmount: total,
+                paymentMethod: payMethod,
+                status: 'New Order',
+                timestamp: Date.now()
+            };
+
             await db.ref(`orders/${orderId}`).set(orderData);
             await db.ref(`users/${currentUser.uid}/cart`).set(null);
             navigateTo('order-success', orderId);
@@ -938,7 +912,7 @@
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
                     <h1 class="text-3xl font-black">Order Placed Successfully!</h1>
-                    <p class="text-slate-500 text-sm">Your order ID is <span class="font-bold text-indigo-600">${orderId}</span>. You can track live updates in your orders list.</p>
+                    <p class="text-slate-500 text-sm">Your order ID is <span class="font-bold text-indigo-600">${orderId}</span>.</p>
                     <div class="flex gap-4 justify-center pt-4">
                         <button onclick="navigateTo('orders')" class="px-6 py-3.5 bg-slate-100 dark:bg-slate-800 font-bold text-xs rounded-xl">View Orders</button>
                         <button onclick="navigateTo('index')" class="px-6 py-3.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-lg">Continue Shopping</button>
@@ -949,49 +923,53 @@
 
         function renderWishlistPage() {
             const items = productsCache.filter(p => wishlistCache.includes(p.id));
-            return `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12">
-                    <h1 class="text-3xl font-black tracking-tight mb-6">My Wishlist (${items.length})</h1>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        ${items.map(p => renderProductCard(p)).join('')}
-                    </div>
-                </div>
-            `;
+            return `<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12"><h1 class="text-3xl font-black mb-6">My Wishlist (${items.length})</h1><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">${items.map(p => renderProductCard(p)).join('')}</div></div>`;
         }
 
         function renderComparePage() {
             const items = productsCache.filter(p => compareCache.includes(p.id));
-            return `
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12">
-                    <h1 class="text-3xl font-black tracking-tight mb-6">Product Comparison (${items.length})</h1>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                        ${items.map(p => `
-                            <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border shadow-sm">
-                                <img src="${p.thumbnail}" class="w-full h-48 object-cover rounded-xl mb-3">
-                                <h3 class="font-bold">${p.title}</h3>
-                                <p class="text-indigo-600 font-bold mt-1">${formatCurrency(p.discountedPrice || p.price)}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+            return `<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-12"><h1 class="text-3xl font-black mb-6">Comparison (${items.length})</h1><div class="grid grid-cols-1 sm:grid-cols-3 gap-6">${items.map(p => `<div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border"><img src="${p.thumbnail}" class="w-full h-48 object-cover rounded-xl mb-3"><h3 class="font-bold">${p.title}</h3><p class="text-indigo-600 font-bold mt-1">${formatCurrency(p.discountedPrice || p.price)}</p></div>`).join('')}</div></div>`;
         }
 
         function renderOrdersPage() {
-            return `<div class="max-w-7xl mx-auto px-4 py-10 mb-12"><h1 class="text-3xl font-black mb-4">My Orders</h1><p class="text-slate-500">Orders tracking is fully integrated with Firebase real-time status.</p></div>`;
+            if (!currentUser) return '<div class="p-12 text-center">Please sign in</div>';
+            const myOrders = ordersCache.filter(o => o.uid === currentUser.uid);
+            return `
+                <div class="max-w-5xl mx-auto px-4 py-10 space-y-6 mb-12">
+                    <h1 class="text-3xl font-black tracking-tight">My Orders (${myOrders.length})</h1>
+                    ${myOrders.length === 0 ? `<p class="text-slate-400">No orders placed yet.</p>` : myOrders.map(o => `
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-4">
+                                <div>
+                                    <span class="text-xs font-mono font-bold text-indigo-600">${o.orderId}</span>
+                                    <p class="text-xs text-slate-400">${new Date(o.timestamp).toLocaleString()}</p>
+                                </div>
+                                <span class="px-3 py-1 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-full">${o.status}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-lg">${formatCurrency(o.totalAmount)}</span>
+                                <button onclick="openOrderChatModal('${o.orderId}')" class="px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl"><i class="fa-solid fa-comments"></i> Chat About Order</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
         function renderNotificationsPage() {
             return `<div class="max-w-7xl mx-auto px-4 py-10 mb-12"><h1 class="text-3xl font-black mb-4">Notifications</h1><p class="text-slate-500">No new notifications.</p></div>`;
         }
 
-        // --- PROFILE & WALLET & GIFT VOUCHERS ---
+        // --- PROFILE & WALLET ---
         function renderProfilePage() {
             if (!currentUser || !userProfile) return '';
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 mb-12">
                     <div class="flex items-center justify-between">
-                        <h1 class="text-3xl font-black">My Profile & Addresses</h1>
+                        <div>
+                            <h1 class="text-3xl font-black">My Profile & Addresses</h1>
+                            <p class="text-xs text-indigo-600 font-mono font-bold mt-1">Customer ID: ${userProfile.customerId || 'CUST-XXXX'}</p>
+                        </div>
                         <button onclick="logoutUser()" class="px-4 py-2 bg-rose-50 text-rose-600 font-bold text-xs rounded-xl">Sign Out</button>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -999,8 +977,7 @@
                             <div class="relative w-24 h-24 mx-auto">
                                 <img src="${userProfile.photoURL}" class="w-24 h-24 rounded-full object-cover border-4 border-indigo-500">
                                 <label class="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full cursor-pointer shadow-md">
-                                    <i class="fa-solid fa-camera text-xs"></i>
-                                    <input type="file" class="hidden" onchange="uploadProfilePhoto(this)">
+                                    <i class="fa-solid fa-camera text-xs"></i><input type="file" class="hidden" onchange="uploadProfilePhoto(this)">
                                 </label>
                             </div>
                             <h3 class="font-bold text-lg">${userProfile.name}</h3>
@@ -1027,9 +1004,8 @@
             if (!file) return;
             const reader = new FileReader();
             reader.onload = async function(e) {
-                const url = e.target.result;
-                await db.ref(`users/${currentUser.uid}/photoURL`).set(url);
-                showToast("Profile photo updated successfully!");
+                await db.ref(`users/${currentUser.uid}/photoURL`).set(e.target.result);
+                showToast("Profile photo updated!");
             };
             reader.readAsDataURL(file);
         }
@@ -1040,7 +1016,7 @@
                     <h3 class="font-bold text-xl">Add Delivery Address</h3>
                     <input type="text" id="a-name" placeholder="Full Name" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     <input type="text" id="a-phone" placeholder="Phone Number" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
-                    <input type="text" id="a-house" placeholder="House / Flat / Street" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    <input type="text" id="a-house" placeholder="House / Street" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     <input type="text" id="a-city" placeholder="City" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     <input type="text" id="a-pincode" placeholder="Pincode" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     <button onclick="saveAddress()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl">Save Address</button>
@@ -1071,15 +1047,13 @@
                             <span class="text-xs uppercase font-bold tracking-wider opacity-80">Wallet Balance</span>
                             <h2 class="text-4xl font-black mt-2">${formatCurrency(userProfile.walletBalance || 0)}</h2>
                         </div>
-                        <button onclick="openBuyGiftCardModal()" class="px-6 py-3.5 bg-white text-indigo-900 font-extrabold text-xs rounded-2xl shadow-lg hover:bg-slate-100 transition-all">
-                            + Buy Gift Voucher
-                        </button>
+                        <button onclick="openBuyGiftCardModal()" class="px-6 py-3.5 bg-white text-indigo-900 font-extrabold text-xs rounded-2xl shadow-lg">+ Buy Gift Voucher</button>
                     </div>
 
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm space-y-4">
                         <h3 class="font-bold text-lg">Redeem Gift Voucher Code</h3>
                         <div class="flex gap-3">
-                            <input type="text" id="redeem-code-input" placeholder="Enter code (e.g. TP-GIFT-1234-5678)" class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-4 py-3 text-sm">
+                            <input type="text" id="redeem-code-input" placeholder="Enter code (e.g. TP-GIFT-XXXX-XXXX)" class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-4 py-3 text-sm">
                             <button onclick="redeemGiftCardCode()" class="px-6 py-3 bg-indigo-600 text-white font-bold text-sm rounded-xl shadow-md">Redeem</button>
                         </div>
                     </div>
@@ -1092,14 +1066,11 @@
                 <div class="p-6 space-y-4">
                     <h3 class="font-bold text-xl">Purchase Gift Voucher</h3>
                     <input type="number" id="gc-amount" placeholder="Amount (₹)" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
-                    <div class="space-y-2">
-                        <label class="block text-xs font-bold text-slate-500">Recipient Option</label>
-                        <select id="gc-recipient-type" onchange="document.getElementById('recipient-name-box').style.display = this.value === 'other' ? 'block' : 'none'" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
-                            <option value="self">Buying for Myself (Add directly to wallet)</option>
-                            <option value="other">Buying for Someone Else (Generate Shareable Code Card)</option>
-                        </select>
-                    </div>
-                    <div id="recipient-name-box" style="display:none;" class="space-y-2">
+                    <select id="gc-recipient-type" onchange="document.getElementById('recipient-name-box').style.display = this.value === 'other' ? 'block' : 'none'" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                        <option value="self">Buying for Myself (Add directly to wallet)</option>
+                        <option value="other">Buying for Someone Else (Generate Code Card)</option>
+                    </select>
+                    <div id="recipient-name-box" style="display:none;">
                         <input type="text" id="gc-recipient" placeholder="Recipient Name" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     </div>
                     <button onclick="purchaseGiftCard()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Proceed to Pay via UPI Demo</button>
@@ -1111,14 +1082,10 @@
             const amount = Number(document.getElementById('gc-amount')?.value);
             const type = document.getElementById('gc-recipient-type')?.value;
             const recipient = document.getElementById('gc-recipient')?.value || 'Friend';
-
-            if (!amount || amount <= 0) {
-                showToast("Enter a valid amount", "error");
-                return;
-            }
+            if (!amount || amount <= 0) { showToast("Enter a valid amount", "error"); return; }
 
             const code = 'TP-GIFT-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(1000 + Math.random() * 9000);
-            await db.ref(`giftCards/${code}`).set({ code, amount, recipient, redeemed: false, createdBy: currentUser.uid });
+            await db.ref(`giftCards/${code}`).set({ code, amount, recipient, redeemed: false });
 
             if (type === 'self') {
                 const current = Number(userProfile.walletBalance || 0);
@@ -1134,11 +1101,8 @@
                             <i class="fa-solid fa-gift"></i>
                         </div>
                         <h3 class="text-xl font-black">Gift Voucher Generated!</h3>
-                        <p class="text-sm text-slate-500">Share this digital card code with <strong>${recipient}</strong>:</p>
-                        <div class="p-4 bg-slate-100 dark:bg-slate-900 border rounded-2xl font-mono font-bold text-lg text-indigo-600 tracking-wider">
-                            ${code}
-                        </div>
-                        <p class="text-xs text-slate-400">Value: ${formatCurrency(amount)}</p>
+                        <p class="text-sm text-slate-500">Share this code with <strong>${recipient}</strong>:</p>
+                        <div class="p-4 bg-slate-100 dark:bg-slate-900 border rounded-2xl font-mono font-bold text-lg text-indigo-600 tracking-wider">${code}</div>
                         <button onclick="closeModal()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl">Done</button>
                     </div>
                 `);
@@ -1149,29 +1113,19 @@
             const codeInput = document.getElementById('redeem-code-input');
             if (!codeInput) return;
             const code = codeInput.value.trim();
-            if (!code) { showToast("Enter a code", "error"); return; }
-
-            const ref = db.ref(`giftCards/${code}`);
-            const snap = await ref.get();
-            if (!snap.exists()) {
-                showToast("Invalid gift card code!", "error");
-                return;
-            }
-
+            const snap = await db.ref(`giftCards/${code}`).get();
+            if (!snap.exists()) { showToast("Invalid gift card code!", "error"); return; }
             const data = snap.val();
-            if (data.redeemed) {
-                showToast("Gift card already redeemed!", "error");
-                return;
-            }
+            if (data.redeemed) { showToast("Gift card already redeemed!", "error"); return; }
 
             const currentWallet = Number(userProfile.walletBalance || 0);
             await db.ref(`users/${currentUser.uid}/walletBalance`).set(currentWallet + data.amount);
-            await ref.update({ redeemed: true });
+            await db.ref(`giftCards/${code}`).update({ redeemed: true });
             codeInput.value = '';
-            showToast(`Successfully redeemed ${formatCurrency(data.amount)} into your wallet!`);
+            showToast(`Redeemed ${formatCurrency(data.amount)} into your wallet!`);
         }
 
-        // --- REAL-TIME CHAT SUPPORT SYSTEM ---
+        // --- ENHANCED CHAT SYSTEM WITH ORDER SELECTION & CLOSURE ---
         function renderChatPage() {
             if (!currentUser) return `<div class="p-12 text-center"><h2 class="text-2xl font-bold">Please Sign In</h2></div>`;
             const isAdmin = currentUser.email === SPECIAL_ADMIN_EMAIL;
@@ -1179,10 +1133,12 @@
             if (isAdmin) {
                 return `
                     <div class="max-w-5xl mx-auto px-4 py-10 mb-12">
-                        <h1 class="text-3xl font-black mb-6">Owner Customer Chats</h1>
-                        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border p-6 min-h-[500px]">
-                            <p class="text-xs text-slate-400 mb-4">Select a customer conversation from Firebase chats.</p>
-                            <div id="admin-chat-list" class="space-y-2"></div>
+                        <h1 class="text-3xl font-black mb-6">Owner Support & Order Chats</h1>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div id="admin-chat-threads" class="bg-white dark:bg-slate-800 p-4 rounded-3xl border shadow-sm space-y-2 max-h-[500px] overflow-y-auto"></div>
+                            <div id="admin-chat-box-area" class="md:col-span-2 bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm flex flex-col justify-between h-[500px]">
+                                <p class="text-center text-xs text-slate-400 mt-20">Select a conversation thread</p>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1190,86 +1146,185 @@
 
             return `
                 <div class="max-w-4xl mx-auto px-4 py-10 mb-12">
-                    <h1 class="text-3xl font-black mb-6">Customer Support Chat</h1>
-                    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border p-6 h-[500px] flex flex-col justify-between">
-                        <div id="customer-chat-messages" class="flex-1 overflow-y-auto space-y-3 pr-2">
-                            <p class="text-center text-xs text-slate-400">Loading live chat support...</p>
-                        </div>
-                        <div class="pt-4 border-t flex items-center gap-2">
-                            <label class="p-3 bg-slate-100 dark:bg-slate-700 rounded-xl cursor-pointer hover:bg-slate-200"><i class="fa-solid fa-image text-indigo-600"></i><input type="file" class="hidden" onchange="sendChatImage(this, '${currentUser.uid}')"></label>
-                            <input type="text" id="chat-input" placeholder="Type your message..." class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-4 py-3 text-sm">
-                            <button onclick="sendChatMessage('${currentUser.uid}')" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h1 class="text-3xl font-black">Support & Order Chat</h1>
+                        <button onclick="openStartChatModal()" class="px-4 py-2 bg-indigo-600 text-white font-bold text-xs rounded-xl">+ New Chat / Order Inquiry</button>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border p-6 h-[500px] flex flex-col justify-between" id="customer-active-chat-container">
+                        <div class="text-center text-slate-400 my-auto">Select or start a chat regarding an order.</div>
                     </div>
                 </div>
             `;
         }
 
-        // Setup real-time listener for customer chat
-        setTimeout(() => {
-            if (currentUser && currentUser.email !== SPECIAL_ADMIN_EMAIL) {
-                db.ref(`chats/${currentUser.uid}`).on('value', (snap) => {
-                    const box = document.getElementById('customer-chat-messages');
-                    if (!box) return;
-                    const msgs = snap.val();
-                    if (!msgs) {
-                        box.innerHTML = `<p class="text-center text-xs text-slate-400">Start a conversation with TrendPro Support.</p>`;
-                        return;
-                    }
-                    box.innerHTML = Object.values(msgs).map(m => `
-                        <div class="flex flex-col ${m.sender === currentUser.uid ? 'items-end' : 'items-start'}">
-                            <div class="max-w-md p-3.5 rounded-2xl text-xs ${m.sender === currentUser.uid ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700'}">
-                                ${m.image ? `<img src="${m.image}" class="w-48 h-48 rounded-xl object-cover mb-2">` : ''}
-                                <p>${m.text || ''}</p>
-                            </div>
-                        </div>
-                    `).join('');
-                    box.scrollTop = box.scrollHeight;
-                });
-            }
-        }, 1000);
+        function openStartChatModal() {
+            const myOrders = ordersCache.filter(o => o.uid === currentUser.uid);
+            showModal(`
+                <div class="p-6 space-y-4">
+                    <h3 class="font-bold text-xl">Start Inquiry Chat</h3>
+                    <p class="text-xs text-slate-500">Select the order you are inquiring about or general support:</p>
+                    <select id="chat-order-select" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                        <option value="GENERAL">General Support Inquiry</option>
+                        ${myOrders.map(o => `<option value="${o.orderId}">Order ID: ${o.orderId} (${o.status})</option>`).join('')}
+                    </select>
+                    <button onclick="initiateChatSession()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md">Open Chat</button>
+                </div>
+            `);
+        }
 
-        async function sendChatMessage(chatId) {
-            const input = document.getElementById('chat-input');
+        async function initiateChatSession() {
+            const orderId = document.getElementById('chat-order-select')?.value || 'GENERAL';
+            closeModal();
+            loadCustomerChatThread(orderId);
+        }
+
+        function loadCustomerChatThread(orderId) {
+            const container = document.getElementById('customer-active-chat-container');
+            if (!container) return;
+
+            db.ref(`chats/${currentUser.uid}_${orderId}`).on('value', (snap) => {
+                const data = snap.val() || {};
+                const messages = data.messages || {};
+                const isClosed = data.status === 'closed';
+
+                container.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-3 mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-indigo-600">Inquiry: ${orderId}</span>
+                            <p class="text-[10px] text-slate-400">Status: ${isClosed ? '🔴 Closed' : '🟢 Active'}</p>
+                        </div>
+                        ${!isClosed ? `<button onclick="closeChatSession('${currentUser.uid}_${orderId}')" class="px-3 py-1 bg-rose-50 text-rose-600 font-bold text-xs rounded-lg">End Chat</button>` : ''}
+                    </div>
+                    <div id="chat-msgs-scroll" class="flex-1 overflow-y-auto space-y-3 pr-2">
+                        ${Object.values(messages).length === 0 ? `<p class="text-center text-xs text-slate-400">Send a message to start conversation.</p>` : Object.values(messages).map(m => `
+                            <div class="flex flex-col ${m.sender === currentUser.uid ? 'items-end' : 'items-start'}">
+                                <div class="max-w-md p-3.5 rounded-2xl text-xs ${m.sender === currentUser.uid ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700'}">
+                                    ${m.image ? `<img src="${m.image}" class="w-40 h-40 rounded-xl object-cover mb-2">` : ''}
+                                    <p>${m.text || ''}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${!isClosed ? `
+                        <div class="pt-4 border-t flex items-center gap-2">
+                            <label class="p-3 bg-slate-100 dark:bg-slate-700 rounded-xl cursor-pointer"><i class="fa-solid fa-image text-indigo-600"></i><input type="file" class="hidden" onchange="sendChatImage(this, '${currentUser.uid}_${orderId}')"></label>
+                            <input type="text" id="chat-txt-input" placeholder="Type message..." class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-4 py-3 text-sm">
+                            <button onclick="sendChatMessage('${currentUser.uid}_${orderId}')" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    ` : `<div class="p-3 bg-slate-100 dark:bg-slate-800 text-center text-xs text-slate-400 rounded-xl">This conversation has been closed.</div>`}
+                `;
+                const scrollBox = document.getElementById('chat-msgs-scroll');
+                if (scrollBox) scrollBox.scrollTop = scrollBox.scrollHeight;
+            });
+        }
+
+        async function sendChatMessage(threadId) {
+            const input = document.getElementById('chat-txt-input');
             if (!input) return;
             const text = input.value.trim();
             if (!text) return;
-            const msgId = db.ref(`chats/${chatId}`).push().key;
-            await db.ref(`chats/${chatId}/${msgId}`).set({ sender: currentUser.uid, text, timestamp: Date.now() });
+            const msgId = db.ref(`chats/${threadId}/messages`).push().key;
+            await db.ref(`chats/${threadId}/messages/${msgId}`).set({ sender: currentUser.uid, text, timestamp: Date.now() });
             input.value = '';
         }
 
-        async function sendChatImage(input, chatId) {
+        async function sendChatImage(input, threadId) {
             const file = input.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = async function(e) {
-                const image = e.target.result;
-                const msgId = db.ref(`chats/${chatId}`).push().key;
-                await db.ref(`chats/${chatId}/${msgId}`).set({ sender: currentUser.uid, image, timestamp: Date.now() });
+                const msgId = db.ref(`chats/${threadId}/messages`).push().key;
+                await db.ref(`chats/${threadId}/messages/${msgId}`).set({ sender: currentUser.uid, image: e.target.result, timestamp: Date.now() });
             };
             reader.readAsDataURL(file);
+        }
+
+        async function closeChatSession(threadId) {
+            await db.ref(`chats/${threadId}/status`).set('closed');
+            showToast("Chat conversation ended.");
+        }
+
+        function openOrderChatModal(orderId) {
+            navigateTo('chat');
+            setTimeout(() => loadCustomerChatThread(orderId), 300);
+        }
+
+        // Setup owner chat threads listener
+        setTimeout(() => {
+            if (currentUser && currentUser.email === SPECIAL_ADMIN_EMAIL) {
+                db.ref('chats').on('value', (snap) => {
+                    const listEl = document.getElementById('admin-chat-threads');
+                    if (!listEl) return;
+                    const chats = snap.val() || {};
+                    listEl.innerHTML = Object.entries(chats).map(([threadId, data]) => `
+                        <div onclick="loadAdminChatThread('${threadId}')" class="p-3 hover:bg-slate-100 dark:hover:bg-slate-700/50 rounded-xl cursor-pointer border">
+                            <h4 class="font-bold text-xs">Thread: ${threadId}</h4>
+                            <p class="text-[10px] text-slate-400">Status: ${data.status || 'active'}</p>
+                        </div>
+                    `).join('');
+                });
+            }
+        }, 1000);
+
+        function loadAdminChatThread(threadId) {
+            const area = document.getElementById('admin-chat-box-area');
+            if (!area) return;
+            db.ref(`chats/${threadId}`).on('value', (snap) => {
+                const data = snap.val() || {};
+                const messages = data.messages || {};
+                area.innerHTML = `
+                    <div class="flex justify-between items-center border-b pb-3">
+                        <span class="text-xs font-bold text-indigo-600">Thread: ${threadId}</span>
+                        <button onclick="closeChatSession('${threadId}')" class="px-3 py-1 bg-rose-50 text-rose-600 text-xs font-bold rounded-lg">Close Chat</button>
+                    </div>
+                    <div id="admin-chat-scroll" class="flex-1 overflow-y-auto space-y-3 pr-2 my-2">
+                        ${Object.values(messages).map(m => `
+                            <div class="flex flex-col ${m.sender === currentUser.uid ? 'items-end' : 'items-start'}">
+                                <div class="max-w-md p-3.5 rounded-2xl text-xs ${m.sender === currentUser.uid ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700'}">
+                                    ${m.image ? `<img src="${m.image}" class="w-40 h-40 rounded-xl object-cover mb-2">` : ''}
+                                    <p>${m.text || ''}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="pt-2 border-t flex gap-2">
+                        <input type="text" id="admin-chat-input" placeholder="Type reply..." class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-3 py-2 text-xs">
+                        <button onclick="sendAdminChatMessage('${threadId}')" class="px-4 py-2 bg-indigo-600 text-white font-bold text-xs rounded-xl">Send</button>
+                    </div>
+                `;
+            });
+        }
+
+        async function sendAdminChatMessage(threadId) {
+            const input = document.getElementById('admin-chat-input');
+            if (!input) return;
+            const text = input.value.trim();
+            if (!text) return;
+            const msgId = db.ref(`chats/${threadId}/messages`).push().key;
+            await db.ref(`chats/${threadId}/messages/${msgId}`).set({ sender: currentUser.uid, text, timestamp: Date.now() });
+            input.value = '';
         }
 
         // --- STATIC PAGES ---
         function renderPolicyPage(type) {
             const content = {
-                about: { title: "About TrendPro", text: "TrendPro is a cutting-edge next-generation e-commerce marketplace dedicated to delivering top-tier consumer electronics, innovative smart gadgets, and premium streetwear with lightning-fast delivery and absolute reliability." },
-                faq: { title: "Frequently Asked Questions", text: "Q: How do I track my order? A: Go to My Orders in your profile to view live status milestones. Q: How does wallet redemption work? A: Vouchers and promotional credits apply instantly upon checkout." },
-                privacy: { title: "Privacy Policy", text: "Your personal data, including delivery addresses and phone numbers, are secured securely using state-of-the-art Firebase authentication and Realtime Database rules." },
-                terms: { title: "Terms & Conditions", text: "By accessing TrendPro, you agree to comply with all marketplace purchase guidelines, refund policies, and promotional code rules." },
+                about: { title: "About TrendPro", text: "TrendPro is a cutting-edge next-generation e-commerce marketplace dedicated to delivering top-tier consumer electronics, innovative smart gadgets, and premium streetwear." },
+                faq: { 
+                    title: "Frequently Asked Questions", 
+                    text: `Q: How do I track my order? A: Go to My Orders in your profile to view live status milestones.<br><br>
+                           Q: How does wallet redemption work? A: Vouchers and promotional credits apply instantly upon checkout.<br><br>
+                           Q: What is a Customer ID? A: Every user is assigned a unique Customer ID (e.g. CUST-XXXXXX) mapped to their profile for accurate identification.<br><br>
+                           Q: Can I chat with the store owner? A: Yes, every order has an integrated real-time support chat system with image uploads.` 
+                },
+                privacy: { title: "Privacy Policy", text: "Your personal data and order histories are secured securely using Firebase authentication and Realtime Database rules." },
+                terms: { title: "Terms & Conditions", text: "By accessing TrendPro, you agree to comply with all marketplace purchase guidelines and return rules." },
                 returns: { title: "Return Policy", text: "You can apply for returns within 7 days of delivery for eligible items directly from your order tracking panel." }
             }[type] || { title: "Policy", text: "Welcome to TrendPro." };
 
-            return `
-                <div class="max-w-4xl mx-auto px-4 py-12 space-y-6 mb-12">
-                    <h1 class="text-3xl font-black">${content.title}</h1>
-                    <p class="text-slate-600 dark:text-slate-300 leading-relaxed">${content.text}</p>
-                </div>
-            `;
+            return `<div class="max-w-4xl mx-auto px-4 py-12 space-y-6 mb-12"><h1 class="text-3xl font-black">${content.title}</h1><p class="text-slate-600 dark:text-slate-300 leading-relaxed">${content.text}</p></div>`;
         }
 
-        // --- OWNER ADMIN DASHBOARD & FULL MANAGEMENT ---
+        // --- ADMIN DASHBOARD & FULL MANAGEMENT ---
         function renderAdminPage() {
             return `
                 <div class="flex h-full min-h-screen bg-slate-100 dark:bg-slate-950">
@@ -1277,10 +1332,10 @@
                         <div class="space-y-6">
                             <h3 class="font-extrabold text-lg">Admin Portal</h3>
                             <nav class="space-y-1">
-                                <button onclick="switchAdminTab('dashboard')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='dashboard'?'bg-indigo-50 text-indigo-600':''}">Dashboard</button>
+                                <button onclick="switchAdminTab('dashboard')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='dashboard'?'bg-indigo-50 text-indigo-600':''}">Dashboard & Orders</button>
                                 <button onclick="switchAdminTab('products')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='products'?'bg-indigo-50 text-indigo-600':''}">Products (${productsCache.length})</button>
+                                <button onclick="switchAdminTab('categories')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='categories'?'bg-indigo-50 text-indigo-600':''}">Categories (${categoriesCache.length})</button>
                                 <button onclick="switchAdminTab('wallet')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='wallet'?'bg-indigo-50 text-indigo-600':''}">Owner Wallet</button>
-                                <button onclick="switchAdminTab('chat')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='chat'?'bg-indigo-50 text-indigo-600':''}">Customer Chats</button>
                                 <button onclick="switchAdminTab('banners')" class="w-full text-left px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab==='banners'?'bg-indigo-50 text-indigo-600':''}">Banners</button>
                             </nav>
                         </div>
@@ -1304,12 +1359,26 @@
                 if (!area) return;
                 if (activeAdminTab === 'dashboard') {
                     area.innerHTML = `
-                        <h1 class="text-2xl font-black mb-6">Dashboard Summary</h1>
-                        <div class="grid grid-cols-3 gap-6">
-                            <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border shadow-sm">
-                                <span class="text-xs font-bold text-slate-400">Total Products</span>
-                                <h3 class="text-3xl font-black mt-2">${productsCache.length}</h3>
-                            </div>
+                        <h1 class="text-2xl font-black mb-6">Owner Orders Dashboard (${ordersCache.length})</h1>
+                        <div class="space-y-4">
+                            ${ordersCache.length === 0 ? `<p class="text-slate-400">No orders recorded yet.</p>` : ordersCache.map(o => `
+                                <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border shadow-sm space-y-3">
+                                    <div class="flex justify-between items-center border-b pb-3">
+                                        <div>
+                                            <span class="text-xs font-mono font-bold text-indigo-600">${o.orderId}</span>
+                                            <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">Customer: ${o.customerName} (<span class="font-mono text-indigo-500">${o.customerId || 'CUST-XXXX'}</span>)</p>
+                                            <p class="text-[10px] text-slate-400">Placed: ${new Date(o.timestamp).toLocaleString()}</p>
+                                        </div>
+                                        <select onchange="updateOrderStatus('${o.orderId}', this.value)" class="bg-slate-100 dark:bg-slate-800 border rounded-xl px-3 py-1.5 text-xs font-bold">
+                                            ${['New Order', 'Confirmed', 'Packed', 'Dispatched', 'Out for Delivery', 'Delivered', 'Cancelled'].map(s => `<option value="${s}" ${o.status===s?'selected':''}>${s}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                    <div class="flex justify-between items-center text-xs">
+                                        <span>Payment: <strong>${o.paymentMethod}</strong></span>
+                                        <span class="font-black text-sm">${formatCurrency(o.totalAmount)}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     `;
                 } else if (activeAdminTab === 'products') {
@@ -1336,27 +1405,39 @@
                             `).join('')}
                         </div>
                     `;
+                } else if (activeAdminTab === 'categories') {
+                    area.innerHTML = `
+                        <div class="flex justify-between items-center mb-6">
+                            <h1 class="text-2xl font-black">Manage Categories (${categoriesCache.length})</h1>
+                            <button onclick="openAddCategoryModal()" class="px-4 py-2.5 bg-indigo-600 text-white text-xs font-bold rounded-xl shadow-md">+ Add Category</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            ${categoriesCache.map(c => `
+                                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl border flex items-center justify-between shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="${c.image}" class="w-12 h-12 rounded-xl object-cover">
+                                        <h4 class="font-bold text-sm">${c.name}</h4>
+                                    </div>
+                                    <button onclick="openEditCategoryModal('${c.id}', '${c.name}', '${c.image}')" class="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"><i class="fa-solid fa-pen"></i></button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
                 } else if (activeAdminTab === 'wallet') {
                     area.innerHTML = `
                         <h1 class="text-2xl font-black mb-6">Owner Wallet Credit Management</h1>
                         <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border space-y-4 max-w-lg shadow-sm">
-                            <p class="text-xs text-slate-500">Issue promotional wallet credits to customers instantly.</p>
                             <input type="text" id="ow-uid" placeholder="Customer User UID" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                             <input type="number" id="ow-amount" placeholder="Credit Amount (₹)" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                             <button onclick="ownerAddWalletCredit()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md">Issue Credit</button>
                         </div>
-                    `;
-                } else if (activeAdminTab === 'chat') {
-                    area.innerHTML = `
-                        <h1 class="text-2xl font-black mb-6">Customer Support Chat Center</h1>
-                        <p class="text-slate-500 text-sm">Real-time owner messaging system connected to customer inquiries.</p>
                     `;
                 } else if (activeAdminTab === 'banners') {
                     area.innerHTML = `
                         <h1 class="text-2xl font-black mb-6">Banner Customization</h1>
                         <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl border space-y-4 max-w-lg shadow-sm">
                             <input type="text" id="b-title" placeholder="Banner Title" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="${bannersCache[0]?.title || ''}">
-                            <input type="text" id="b-subtitle" placeholder="Banner Subtitle" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="${bannersCache[0]?.subtitle || ''}">
+                            <input type="text" id="b-subtitle" placeholder="Subtitle" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="${bannersCache[0]?.subtitle || ''}">
                             <input type="text" id="b-image" placeholder="Image URL" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="${bannersCache[0]?.image || ''}">
                             <button onclick="saveBanner()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md">Save Banner</button>
                         </div>
@@ -1365,20 +1446,54 @@
             }
         };
 
-        async function ownerAddWalletCredit() {
-            const uid = document.getElementById('ow-uid')?.value;
-            const amt = Number(document.getElementById('ow-amount')?.value);
-            if (!uid || !amt) { showToast("Enter UID and amount", "error"); return; }
-            const uRef = db.ref(`users/${uid}/walletBalance`);
-            const snap = await uRef.get();
-            const current = snap.exists() ? snap.val() : 0;
-            await uRef.set(current + amt);
-            showToast(`Successfully credited ₹${amt} to user wallet!`);
+        async function updateOrderStatus(orderId, status) {
+            await db.ref(`orders/${orderId}/status`).set(status);
+            showToast("Order status updated!");
         }
 
         async function deleteProduct(productId) {
             await db.ref(`products/${productId}`).remove();
-            showToast("Product deleted successfully");
+            showToast("Product deleted");
+        }
+
+        function openAddCategoryModal() {
+            showModal(`
+                <div class="p-6 space-y-4">
+                    <h3 class="font-bold text-xl">Add Category</h3>
+                    <input type="text" id="cat-name-input" placeholder="Category Name" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    <input type="text" id="cat-img-input" placeholder="Category Image URL" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="https://placehold.co/400x300/6366f1/ffffff?text=Category">
+                    <button onclick="saveNewCategory()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl">Save Category</button>
+                </div>
+            `);
+        }
+
+        async function saveNewCategory() {
+            const name = document.getElementById('cat-name-input')?.value;
+            const image = document.getElementById('cat-img-input')?.value;
+            if (!name) { showToast("Enter category name", "error"); return; }
+            const key = db.ref('categories').push().key;
+            await db.ref(`categories/${key}`).set({ name, image });
+            closeModal();
+            showToast("Category added successfully!");
+        }
+
+        function openEditCategoryModal(id, currentName, currentImg) {
+            showModal(`
+                <div class="p-6 space-y-4">
+                    <h3 class="font-bold text-xl">Edit Category</h3>
+                    <input type="text" id="edit-cat-name" value="${currentName}" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    <input type="text" id="edit-cat-img" value="${currentImg}" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    <button onclick="saveEditedCategory('${id}')" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl">Update Category</button>
+                </div>
+            `);
+        }
+
+        async function saveEditedCategory(id) {
+            const name = document.getElementById('edit-cat-name')?.value;
+            const image = document.getElementById('edit-cat-img')?.value;
+            await db.ref(`categories/${id}`).update({ name, image });
+            closeModal();
+            showToast("Category updated!");
         }
 
         function openAddProductModal() {
@@ -1393,17 +1508,18 @@
                         <input type="number" id="p-stock" placeholder="Stock Qty" class="bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="10">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1">Select Existing Category or Type New</label>
-                        <select id="p-cat-select" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm mb-2" onchange="if(this.value==='__new__') { document.getElementById('p-cat-custom').style.display='block'; } else { document.getElementById('p-cat-custom').style.display='none'; }">
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Select Category</label>
+                        <select id="p-cat-select" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                             ${categoriesCache.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}
-                            <option value="__new__">+ Create New Category</option>
                         </select>
-                        <input type="text" id="p-cat-custom" placeholder="New Category Name" style="display:none;" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1">Main Thumbnail Image File</label>
-                        <input type="file" id="p-thumb-file" class="w-full text-xs" onchange="previewThumb(this)">
-                        <input type="text" id="p-thumb" placeholder="Or Image URL" class="w-full mt-2 bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Main Thumbnail Image URL</label>
+                        <input type="text" id="p-thumb" placeholder="https://..." class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="https://placehold.co/600x600/6366f1/ffffff?text=Product">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Extra Image URLs (comma separated)</label>
+                        <input type="text" id="p-extras" placeholder="https://img1.jpg, https://img2.jpg" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     </div>
                     <div>
                         <h4 class="font-bold text-sm mb-2">Specifications</h4>
@@ -1442,13 +1558,10 @@
             const price = Number(document.getElementById('ep-price')?.value);
             const discountedPrice = Number(document.getElementById('ep-discount')?.value);
             const stock = Number(document.getElementById('ep-stock')?.value);
-
             await db.ref(`products/${productId}`).update({ title, price, discountedPrice, stock });
             closeModal();
-            showToast("Product updated successfully!");
+            showToast("Product updated!");
         }
-
-        let tempExtraImages = [];
 
         function addSpecRow() {
             const container = document.getElementById('spec-rows');
@@ -1459,33 +1572,16 @@
             container.appendChild(row);
         }
 
-        function previewThumb(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) { 
-                    const thumbInput = document.getElementById('p-thumb');
-                    if (thumbInput) thumbInput.value = e.target.result; 
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
         async function saveNewProductComplete() {
             const title = document.getElementById('p-title')?.value;
             const description = document.getElementById('p-desc')?.value;
             const price = Number(document.getElementById('p-price')?.value);
             const discountedPrice = Number(document.getElementById('p-discount')?.value);
             const stock = Number(document.getElementById('p-stock')?.value || 10);
-            
-            let category = document.getElementById('p-cat-select')?.value;
-            if (category === '__new__') {
-                category = document.getElementById('p-cat-custom')?.value || 'General';
-                const catKey = db.ref('categories').push().key;
-                await db.ref(`categories/${catKey}`).set({ name: category, image: 'https://placehold.co/400x300/6366f1/ffffff?text=' + encodeURIComponent(category) });
-            }
-
+            const category = document.getElementById('p-cat-select')?.value || 'General';
             const thumbnail = document.getElementById('p-thumb')?.value || 'https://placehold.co/600x600/6366f1/ffffff?text=Product';
+            const extrasRaw = document.getElementById('p-extras')?.value || '';
+            const images = extrasRaw ? extrasRaw.split(',').map(s => s.trim()).filter(Boolean) : [];
 
             const specNames = document.querySelectorAll('.spec-name');
             const specVals = document.querySelectorAll('.spec-val');
@@ -1496,26 +1592,10 @@
                 }
             }
 
-            if (!title || !price) {
-                showToast("Please fill required fields", "error");
-                return;
-            }
+            if (!title || !price) { showToast("Please fill required fields", "error"); return; }
 
             const productId = db.ref('products').push().key;
-            const prodData = {
-                id: productId,
-                title,
-                description,
-                shortDescription: description.substring(0, 80),
-                price,
-                discountedPrice,
-                stock,
-                category,
-                thumbnail,
-                images: [],
-                specifications,
-                createdAt: Date.now()
-            };
+            const prodData = { id: productId, title, description, shortDescription: description.substring(0, 80), price, discountedPrice, stock, category, thumbnail, images, specifications, createdAt: Date.now() };
 
             await db.ref(`products/${productId}`).set(prodData);
             closeModal();
@@ -1527,12 +1607,11 @@
             const subtitle = document.getElementById('b-subtitle')?.value;
             const image = document.getElementById('b-image')?.value;
             await db.ref('banners/b1').set({ title, subtitle, image, buttonText: "Shop Collection" });
-            showToast("Banner updated successfully!");
+            showToast("Banner updated!");
         }
 
         function dismissAnnouncement() {
-            const bar = document.getElementById('announcement-bar');
-            if (bar) bar.style.display = 'none';
+            document.getElementById('announcement-bar')?.remove();
         }
 
         window.onload = function() {

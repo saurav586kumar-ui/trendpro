@@ -1,0 +1,1739 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendPro — Premium E-Commerce Marketplace</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .dark .glass-panel { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.25s ease-out forwards; }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 h-full flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col space-y-3 pointer-events-none"></div>
+
+    <div id="global-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm hidden p-4">
+        <div id="modal-content" class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden animate-fade-in border border-slate-100 dark:border-slate-700"></div>
+    </div>
+
+    <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <!-- Top Announcement Bar -->
+        <div id="announcement-bar" class="bg-indigo-600 text-white text-xs py-2 px-4 text-center font-medium flex items-center justify-center space-x-3">
+            <span>🎉 Welcome to TrendPro! Get ₹100 OFF on your first order with code <strong>TREND100</strong></span>
+            <button onclick="dismissAnnouncement()" class="hover:opacity-75"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- Main Header Bar -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-6">
+                <button onclick="navigateTo('index')" class="flex items-center space-x-2 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-bolt text-lg"></i>
+                    </div>
+                    <span id="brand-logo-text" class="text-2xl font-black tracking-tight bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">TRENDPRO</span>
+                </button>
+            </div>
+
+            <!-- Search Bar (Desktop) -->
+            <div class="hidden md:flex flex-1 max-w-xl mx-4">
+                <div class="relative w-full">
+                    <input type="text" id="global-search-input" placeholder="Search products, brands, categories, SKU..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full pl-11 pr-24 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all shadow-inner" onkeydown="if(event.key==='Enter') executeSearch(this.value)">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                    <button onclick="executeSearch(document.getElementById('global-search-input').value)" class="absolute right-1.5 top-1.5 bottom-1.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-full transition-colors shadow-sm">
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            <!-- Header Actions / User Menu -->
+            <div class="flex items-center space-x-1 sm:space-x-3">
+                <button onclick="navigateTo('compare')" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Compare">
+                    <i class="fa-solid fa-code-compare text-lg"></i>
+                    <span id="compare-badge" class="absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                </button>
+
+                <button onclick="navigateTo('wishlist')" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Wishlist">
+                    <i class="fa-regular fa-heart text-lg"></i>
+                    <span id="wishlist-badge" class="absolute top-1.5 right-1.5 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                </button>
+
+                <button onclick="navigateTo('cart')" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Cart">
+                    <i class="fa-bag-shopping text-lg"></i>
+                    <span id="cart-badge" class="absolute top-1.5 right-1.5 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                </button>
+
+                <button onclick="toggleNotificationsDrawer()" class="relative p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="Notifications">
+                    <i class="fa-regular fa-bell text-lg"></i>
+                    <span id="notification-badge" class="absolute top-1.5 right-1.5 bg-amber-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center hidden shadow-sm">0</span>
+                </button>
+
+                <div id="auth-section-header" class="relative pl-2">
+                    <!-- Dynamic Auth / Profile Button -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="md:hidden px-4 pb-3">
+            <div class="relative w-full">
+                <input type="text" id="mobile-search-input" placeholder="Search products, brands, SKU..." class="w-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full pl-11 pr-20 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" onkeydown="if(event.key==='Enter') executeSearch(this.value)">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <button onclick="executeSearch(document.getElementById('mobile-search-input').value)" class="absolute right-1.5 top-1.5 bottom-1.5 px-3 bg-indigo-600 text-white text-xs font-semibold rounded-full">
+                    Search
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-main" class="flex-1 overflow-y-auto">
+        <!-- SPA View Container -->
+    </main>
+
+    <nav class="md:hidden sticky bottom-0 z-40 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-6 py-3 flex items-center justify-between shadow-lg">
+        <button onclick="navigateTo('index')" class="flex flex-col items-center text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+            <i class="fa-solid fa-house text-lg mb-0.5"></i>
+            <span class="text-[10px] font-medium">Home</span>
+        </button>
+        <button onclick="navigateTo('products')" class="flex flex-col items-center text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+            <i class="fa-solid fa-grid-2 text-lg mb-0.5"></i>
+            <span class="text-[10px] font-medium">Products</span>
+        </button>
+        <button onclick="navigateTo('cart')" class="flex flex-col items-center text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors relative">
+            <i class="fa-solid fa-bag-shopping text-lg mb-0.5"></i>
+            <span class="text-[10px] font-medium">Cart</span>
+            <span id="mobile-cart-badge" class="absolute -top-1 right-2 bg-indigo-600 text-white text-[9px] font-bold w-3.5 h-3.5 rounded-full flex items-center justify-center hidden">0</span>
+        </button>
+        <button onclick="navigateTo('wallet')" class="flex flex-col items-center text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+            <i class="fa-solid fa-wallet text-lg mb-0.5"></i>
+            <span class="text-[10px] font-medium">Wallet</span>
+        </button>
+        <button onclick="checkAuthAndNavigateProfile()" class="flex flex-col items-center text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition-colors">
+            <i class="fa-solid fa-user text-lg mb-0.5"></i>
+            <span class="text-[10px] font-medium">Profile</span>
+        </button>
+    </nav>
+
+    <div id="notifications-drawer" class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex justify-end">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-md h-full shadow-2xl flex flex-col animate-fade-in">
+            <div class="p-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <h3 class="font-bold text-lg flex items-center space-x-2">
+                    <i class="fa-regular fa-bell text-indigo-600"></i>
+                    <span>Notifications Center</span>
+                </h3>
+                <button onclick="toggleNotificationsDrawer()" class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 rounded-lg">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div id="notifications-list" class="flex-1 overflow-y-auto p-4 space-y-3 divide-y divide-slate-100 dark:divide-slate-700/50">
+                <!-- Notifications loaded dynamically -->
+            </div>
+            <div class="p-4 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 flex justify-between items-center">
+                <button onclick="clearAllNotifications()" class="text-xs text-rose-500 font-semibold hover:underline">Clear All</button>
+                <button onclick="markAllNotificationsRead()" class="text-xs text-indigo-600 font-semibold hover:underline">Mark all read</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- FIREBASE CONFIGURATION & INITIALIZATION ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_BeXCmVOmKKsFwpFQRDZuIL1sP7guzn0",
+            authDomain: "special-17180.firebaseapp.com",
+            databaseURL: "https://special-17180-default-rtdb.firebaseio.com",
+            projectId: "special-17180",
+            storageBucket: "special-17180.firebasestorage.app",
+            messagingSenderId: "292238441127",
+            appId: "1:292238441127:web:54daf8273f51d591a9f982",
+            measurementId: "G-G043YZ1W2R"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const db = firebase.database();
+        const storage = firebase.storage();
+
+        // --- GLOBAL STATE ---
+        let currentUser = null;
+        let userProfile = null;
+        let productsCache = [];
+        let categoriesCache = [];
+        let cartCache = [];
+        let wishlistCache = [];
+        let compareCache = [];
+        let activeRoute = 'index';
+        let routeParam = null;
+        let activeAdminTab = 'dashboard';
+        const SPECIAL_ADMIN_EMAIL = "saurav586kumar@gmail.com";
+
+        // --- UTILS & TOASTS ---
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            const bg = type === 'success' ? 'bg-emerald-600 text-white' : type === 'error' ? 'bg-rose-600 text-white' : 'bg-slate-800 text-white';
+            const icon = type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info';
+            toast.className = `${bg} px-4 py-3 rounded-xl shadow-xl flex items-center space-x-3 pointer-events-auto transition-all transform translate-y-2 opacity-0 font-medium text-sm`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-lg"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function formatCurrency(amount) {
+            return '₹' + Number(amount || 0).toLocaleString('en-IN', { maximumFractionDigits: 2 });
+        }
+
+        // --- MODAL SYSTEM ---
+        function showModal(contentHTML) {
+            const modal = document.getElementById('global-modal');
+            const content = document.getElementById('modal-content');
+            content.innerHTML = contentHTML;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('global-modal').classList.add('hidden');
+        }
+
+        // --- ROUTING ENGINE ---
+        function navigateTo(route, param = null) {
+            activeRoute = route;
+            routeParam = param;
+            window.location.hash = param ? `#${route}/${param}` : `#${route}`;
+            renderRoute();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.substring(1);
+            const parts = hash.split('/');
+            activeRoute = parts[0] || 'index';
+            routeParam = parts[1] || null;
+            renderRoute();
+        });
+
+        // --- FIREBASE AUTHENTICATION & PROFILE SYNC ---
+        auth.onAuthStateChanged(async (user) => {
+            currentUser = user;
+            if (user) {
+                const userRef = db.ref('users/' + user.uid);
+                userRef.on('value', (snapshot) => {
+                    userProfile = snapshot.val();
+                    if (!userProfile) {
+                        userProfile = {
+                            uid: user.uid,
+                            name: user.displayName || 'Valued Customer',
+                            email: user.email,
+                            phone: user.phoneNumber || '',
+                            photoURL: user.photoURL || 'https://placehold.co/150x150/6366f1/ffffff?text=User',
+                            walletBalance: 0,
+                            addresses: {},
+                            createdAt: Date.now()
+                        };
+                        userRef.set(userProfile);
+                    }
+                    updateHeaderAuthUI();
+                    syncCartAndWishlist();
+                });
+            } else {
+                userProfile = null;
+                updateHeaderAuthUI();
+            }
+            fetchInitialData();
+        });
+
+        function updateHeaderAuthUI() {
+            const authContainer = document.getElementById('auth-section-header');
+            if (currentUser) {
+                const isAdmin = currentUser.email === SPECIAL_ADMIN_EMAIL;
+                authContainer.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        ${isAdmin ? `<button onclick="navigateTo('admin')" class="hidden lg:flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white text-xs font-bold rounded-xl shadow-md transition-all"><i class="fa-solid fa-shield-halved"></i><span>Admin Panel</span></button>` : ''}
+                        <button onclick="navigateTo('profile')" class="flex items-center space-x-2 p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            <img src="${userProfile?.photoURL || currentUser.photoURL || 'https://placehold.co/40x40/6366f1/ffffff?text=U'}" class="w-8 h-8 rounded-full object-cover border border-indigo-500" alt="Profile">
+                            <span class="hidden sm:inline text-sm font-semibold truncate max-w-[100px]">${userProfile?.name || 'Account'}</span>
+                        </button>
+                    </div>
+                `;
+            } else {
+                authContainer.innerHTML = `
+                    <button onclick="openAuthModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-md hover:shadow-indigo-500/20 transition-all flex items-center space-x-2">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span class="hidden sm:inline">Sign In</span>
+                    </button>
+                `;
+            }
+        }
+
+        function openAuthModal() {
+            showModal(`
+                <div class="p-6 sm:p-8">
+                    <div class="text-center mb-6">
+                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl font-bold shadow-inner">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold tracking-tight">Welcome to TrendPro</h2>
+                        <p class="text-slate-500 text-sm mt-1">Sign in with Google to access your wallet, orders, and exclusive perks.</p>
+                    </div>
+                    <button onclick="signInWithGoogle()" class="w-full py-3.5 px-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800 font-semibold text-sm flex items-center justify-center space-x-3 transition-all shadow-sm">
+                        <i class="fa-brands fa-google text-red-500 text-lg"></i>
+                        <span>Continue with Google</span>
+                    </button>
+                    <div class="mt-6 text-center">
+                        <button onclick="closeModal()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-medium">Cancel / Browse as Guest</button>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                await auth.signInWithPopup(provider);
+                closeModal();
+                showToast("Signed in successfully!");
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function logoutUser() {
+            await auth.signOut();
+            navigateTo('index');
+            showToast("Logged out successfully.");
+        }
+
+        // --- DATA SYNCHRONIZATION & SEEDING ---
+        function fetchInitialData() {
+            db.ref('products').on('value', (snap) => {
+                const val = snap.val();
+                productsCache = val ? Object.keys(val).map(k => ({ id: k, ...val(val[k] ? val[k] : {}) })) : [];
+                // Re-normalize productsCache cleanly
+                productsCache = val ? Object.entries(val).map(([id, p]) => ({ id, ...p })) : [];
+                if (productsCache.length === 0) seedDemoData();
+                renderRoute();
+            });
+
+            db.ref('categories').on('value', (snap) => {
+                const val = snap.val();
+                categoriesCache = val ? Object.entries(val).map(([id, c]) => ({ id, ...c })) : [];
+                renderRoute();
+            });
+        }
+
+        function syncCartAndWishlist() {
+            if (!currentUser) return;
+            db.ref(`users/${currentUser.uid}/cart`).on('value', (snap) => {
+                cartCache = snap.val() || [];
+                updateBadges();
+            });
+            db.ref(`users/${currentUser.uid}/wishlist`).on('value', (snap) => {
+                const val = snap.val();
+                wishlistCache = val ? Object.keys(val) : [];
+                updateBadges();
+            });
+            db.ref(`users/${currentUser.uid}/compare`).on('value', (snap) => {
+                const val = snap.val();
+                compareCache = val ? Object.keys(val) : [];
+                updateBadges();
+            });
+            // Notifications & Unread badge
+            db.ref(`notifications/${currentUser.uid}`).on('value', (snap) => {
+                const val = snap.val();
+                renderNotificationsDrawer(val);
+            });
+        }
+
+        function updateBadges() {
+            const cartCount = cartCache.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            const wishCount = wishlistCache.length;
+            const compCount = compareCache.length;
+
+            ['cart-badge', 'mobile-cart-badge'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.textContent = cartCount;
+                    el.classList.toggle('hidden', cartCount === 0);
+                }
+            });
+
+            const wishEl = document.getElementById('wishlist-badge');
+            if (wishEl) {
+                wishEl.textContent = wishCount;
+                wishEl.classList.toggle('hidden', wishCount === 0);
+            }
+
+            const compEl = document.getElementById('compare-badge');
+            if (compEl) {
+                compEl.textContent = compCount;
+                compEl.classList.toggle('hidden', compCount === 0);
+            }
+        }
+
+        // --- SEED DEMO DATA ---
+        function seedDemoData() {
+            const demoCategories = {
+                cat1: { name: "Electronics", image: "https://placehold.co/400x300/6366f1/ffffff?text=Electronics" },
+                cat2: { name: "Fashion", image: "https://placehold.co/400x300/ec4899/ffffff?text=Fashion" },
+                cat3: { name: "Home & Kitchen", image: "https://placehold.co/400x300/10b981/ffffff?text=Home" },
+                cat4: { name: "Gadgets", image: "https://placehold.co/400x300/f59e0b/ffffff?text=Gadgets" }
+            };
+            db.ref('categories').set(demoCategories);
+
+            const demoProducts = {
+                prod1: {
+                    title: "TrendPro Apex Wireless Noise-Cancelling Headphones",
+                    description: "Experience studio-grade acoustic performance with active noise cancellation, 40-hour battery life, and plush memory foam ear cushions for ultimate all-day comfort.",
+                    shortDescription: "High fidelity ANC wireless headphones with 40h battery.",
+                    price: 14999,
+                    discountedPrice: 9999,
+                    category: "Electronics",
+                    categories: { cat1: true, cat4: true },
+                    brand: "TrendPro Audio",
+                    stock: 25,
+                    sku: "TP-ANC-01",
+                    featured: true,
+                    trending: true,
+                    active: true,
+                    thumbnail: "https://placehold.co/600x600/6366f1/ffffff?text=Apex+Headphones",
+                    images: ["https://placehold.co/600x600/6366f1/ffffff?text=Apex+1", "https://placehold.co/600x600/4f46e5/ffffff?text=Apex+2"],
+                    specifications: [
+                        { spec: "Driver Unit", value: "40mm Dynamic" },
+                        { spec: "Battery Life", value: "Up to 40 Hours" },
+                        { spec: "Connectivity", value: "Bluetooth 5.3 & AUX" }
+                    ],
+                    variants: [{ name: "Color", value: "Midnight Black" }, { name: "Color", value: "Platinum Silver" }],
+                    createdAt: Date.now()
+                },
+                prod2: {
+                    title: "UltraSlim Smartwatch Series 9 Pro",
+                    description: "Advanced health monitoring, AMOLED crystal clear display, GPS tracking, and seamless smartphone notifications packaged in a lightweight aerospace aluminum frame.",
+                    shortDescription: "Advanced AMOLED smartwatch with fitness tracking.",
+                    price: 7999,
+                    discountedPrice: 4999,
+                    category: "Gadgets",
+                    categories: { cat1: true, cat4: true },
+                    brand: "TechNova",
+                    stock: 40,
+                    sku: "TP-SW-09",
+                    featured: true,
+                    trending: true,
+                    active: true,
+                    thumbnail: "https://placehold.co/600x600/f59e0b/ffffff?text=Smartwatch+Pro",
+                    images: ["https://placehold.co/600x600/f59e0b/ffffff?text=Watch+1", "https://placehold.co/600x600/d97706/ffffff?text=Watch+2"],
+                    specifications: [
+                        { spec: "Display", value: "1.96 inch AMOLED" },
+                        { spec: "Water Resistance", value: "IP68 Waterproof" },
+                        { spec: "Battery", value: "7 Days Normal Use" }
+                    ],
+                    variants: [{ name: "Strap", value: "Silicone Black" }, { name: "Strap", value: "Steel Milanese" }],
+                    createdAt: Date.now()
+                },
+                prod3: {
+                    title: "Minimalist Ergonomic Cotton Oversized Hoodie",
+                    description: "Crafted from heavy-gauge organic French terry cotton, offering a relaxed street-ready silhouette with reinforced stitching and double-lined hood.",
+                    shortDescription: "Premium organic cotton oversized streetwear hoodie.",
+                    price: 3499,
+                    discountedPrice: 2299,
+                    category: "Fashion",
+                    categories: { cat2: true },
+                    brand: "UrbanTrend",
+                    stock: 15,
+                    sku: "TP-HOOD-03",
+                    featured: true,
+                    trending: false,
+                    active: true,
+                    thumbnail: "https://placehold.co/600x600/ec4899/ffffff?text=Oversized+Hoodie",
+                    images: ["https://placehold.co/600x600/ec4899/ffffff?text=Hoodie+1"],
+                    specifications: [
+                        { spec: "Material", value: "100% Organic French Terry" },
+                        { spec: "GSM", value: "420 GSM Heavyweight" }
+                    ],
+                    variants: [{ name: "Size", value: "S" }, { name: "Size", value: "M" }, { name: "Size", value: "L" }, { name: "Size", value: "XL" }],
+                    createdAt: Date.now()
+                }
+            };
+            db.ref('products').set(demoProducts);
+
+            // Seed Banners
+            const demoBanners = {
+                b1: {
+                    title: "Next-Gen Tech Fest",
+                    subtitle: "Up to 50% OFF on Top Audio & Smartwear",
+                    image: "https://placehold.co/1200x500/4f46e5/ffffff?text=Next-Gen+Tech+Fest",
+                    buttonText: "Shop Collection",
+                    destinationType: "category",
+                    destinationId: "Electronics"
+                }
+            };
+            db.ref('banners').set(demoBanners);
+        }
+
+        // --- RENDER ROUTE CONTROLLER ---
+        function renderRoute() {
+            const main = document.getElementById('app-main');
+            window.scrollTo(0,0);
+
+            if (activeRoute === 'index') {
+                main.innerHTML = renderHomePage();
+                initHomeSliders();
+            } else if (activeRoute === 'products') {
+                main.innerHTML = renderProductsPage();
+            } else if (activeRoute === 'product') {
+                main.innerHTML = renderProductDetailPage(routeParam);
+            } else if (activeRoute === 'category') {
+                main.innerHTML = renderCategoryPage(routeParam);
+            } else if (activeRoute === 'search') {
+                main.innerHTML = renderSearchPage(routeParam);
+            } else if (activeRoute === 'cart') {
+                main.innerHTML = renderCartPage();
+            } else if (activeRoute === 'checkout') {
+                main.innerHTML = renderCheckoutPage();
+            } else if (activeRoute === 'order-success') {
+                main.innerHTML = renderOrderSuccessPage(routeParam);
+            } else if (activeRoute === 'wishlist') {
+                main.innerHTML = renderWishlistPage();
+            } else if (activeRoute === 'compare') {
+                main.innerHTML = renderComparePage();
+            } else if (activeRoute === 'profile') {
+                main.innerHTML = renderProfilePage();
+            } else if (activeRoute === 'wallet') {
+                main.innerHTML = renderWalletPage();
+            } else if (activeRoute === 'orders') {
+                main.innerHTML = renderOrdersPage();
+            } else if (activeRoute === 'order-details') {
+                main.innerHTML = renderOrderDetailsPage(routeParam);
+            } else if (activeRoute === 'invoice') {
+                main.innerHTML = renderInvoicePage(routeParam);
+            } else if (activeRoute === 'admin') {
+                if (!currentUser || currentUser.email !== SPECIAL_ADMIN_EMAIL) {
+                    main.innerHTML = `<div class="p-12 text-center"><h2 class="text-2xl font-bold text-rose-600">Access Denied</h2><p class="text-slate-500 mt-2">You do not have administrator clearance.</p><button onclick="navigateTo('index')" class="mt-4 px-6 py-2.5 bg-indigo-600 text-white font-semibold rounded-xl">Return Home</button></div>`;
+                    return;
+                }
+                main.innerHTML = renderAdminPage();
+                initAdminDashboardCharts();
+            } else {
+                main.innerHTML = `<div class="p-12 text-center"><h2 class="text-2xl font-bold">Page Not Found</h2><button onclick="navigateTo('index')" class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded-xl">Return Home</button></div>`;
+            }
+        }
+
+        // --- HOMEPAGE RENDERING ---
+        function renderHomePage() {
+            return `
+                <!-- Hero Banner Carousel / Showcase -->
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+                    <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-indigo-900 to-violet-900 text-white shadow-2xl">
+                        <div class="absolute inset-0 bg-[url('https://placehold.co/1200x600/312e81/4f46e5?text=TrendPro')] bg-cover bg-center opacity-30 mix-blend-overlay"></div>
+                        <div class="relative p-8 sm:p-16 lg:p-20 max-w-2xl flex flex-col justify-center min-h-[420px]">
+                            <span class="inline-block px-3.5 py-1.5 bg-indigo-500/30 backdrop-blur-md rounded-full text-xs font-bold uppercase tracking-wider mb-4 w-max border border-indigo-400/30">✨ New Arrival 2026</span>
+                            <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-tight mb-4">Elevate Your Lifestyle with TrendPro</h1>
+                            <p class="text-slate-200 text-sm sm:text-base mb-8 leading-relaxed">Discover top-tier electronics, smart wearables, and premium streetwear with instant wallet rewards and live order tracking.</p>
+                            <div class="flex flex-wrap gap-4">
+                                <button onclick="navigateTo('products')" class="px-8 py-4 bg-white text-indigo-900 font-bold rounded-2xl shadow-xl hover:bg-slate-100 transition-all flex items-center space-x-2">
+                                    <span>Explore Catalog</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                                <button onclick="navigateTo('wallet')" class="px-8 py-4 bg-indigo-600/50 hover:bg-indigo-600/70 border border-white/20 backdrop-blur-md text-white font-bold rounded-2xl transition-all">
+                                    My Wallet & Perks
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Grid -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight">Shop by Category</h2>
+                            <p class="text-slate-500 text-sm mt-1">Explore trending collections curated just for you</p>
+                        </div>
+                        <button onclick="navigateTo('products')" class="text-indigo-600 dark:text-indigo-400 font-semibold text-sm hover:underline flex items-center space-x-1">
+                            <span>View All</span>
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6">
+                        ${categoriesCache.map(cat => `
+                            <div onclick="navigateTo('category', '${cat.name}')" class="group relative bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer border border-slate-100 dark:border-slate-700/60 p-4 text-center">
+                                <div class="w-20 h-20 mx-auto mb-4 rounded-2xl overflow-hidden shadow-md group-hover:scale-105 transition-transform">
+                                    <img src="${cat.image || 'https://placehold.co/200x200/6366f1/ffffff?text=Cat'}" class="w-full h-full object-cover" alt="${cat.name}">
+                                </div>
+                                <h3 class="font-bold text-sm group-hover:text-indigo-600 transition-colors">${cat.name}</h3>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+
+                <!-- Featured Products Section -->
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h2 class="text-2xl font-bold tracking-tight">Featured Products</h2>
+                            <p class="text-slate-500 text-sm mt-1">Hand-picked top quality items with high ratings</p>
+                        </div>
+                        <button onclick="navigateTo('products')" class="text-indigo-600 font-semibold text-sm hover:underline">See More</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${productsCache.filter(p => p.featured).slice(0, 6).map(p => renderProductCard(p)).join('')}
+                    </div>
+                </section>
+            `;
+        }
+
+        function renderProductCard(p) {
+            const discount = p.discountedPrice && p.price ? Math.round(((p.price - p.discountedPrice) / p.price) * 100) : 0;
+            const isWishlisted = wishlistCache.includes(p.id);
+            return `
+                <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all border border-slate-100 dark:border-slate-700/60 flex flex-col group relative">
+                    ${discount > 0 ? `<span class="absolute top-4 left-4 z-10 bg-rose-500 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md">${discount}% OFF</span>` : ''}
+                    <button onclick="toggleWishlist('${p.id}')" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-md flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-rose-500 shadow-md transition-colors">
+                        <i class="${isWishlisted ? 'fa-solid text-rose-500' : 'fa-regular'} fa-heart"></i>
+                    </button>
+                    <div class="relative h-64 overflow-hidden bg-slate-100 dark:bg-slate-900 cursor-pointer" onclick="navigateTo('product', '${p.id}')">
+                        <img src="${p.thumbnail || 'https://placehold.co/400x400/6366f1/ffffff?text=Product'}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${p.title}">
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider">${p.category || 'General'}</span>
+                            <h3 onclick="navigateTo('product', '${p.id}')" class="font-bold text-base mt-1 cursor-pointer hover:text-indigo-600 transition-colors line-clamp-1">${p.title}</h3>
+                            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1.5 line-clamp-2">${p.shortDescription || p.description}</p>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <div>
+                                <span class="text-lg font-black text-slate-900 dark:text-white">${formatCurrency(p.discountedPrice || p.price)}</span>
+                                ${p.discountedPrice ? `<span class="text-xs text-slate-400 line-through ml-1.5">${formatCurrency(p.price)}</span>` : ''}
+                            </div>
+                            <button onclick="addToCart('${p.id}')" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl shadow-md hover:shadow-indigo-500/20 transition-all flex items-center space-x-1.5">
+                                <i class="fa-solid fa-cart-plus"></i>
+                                <span>Add</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- PRODUCTS CATALOG & FILTER PAGE ---
+        function renderProductsPage() {
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <h1 class="text-3xl font-black tracking-tight">All Products</h1>
+                            <p class="text-slate-500 text-sm mt-1">Explore our complete catalog of high-performance goods</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <select id="sort-select" onchange="renderRoute()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="newest">Newest Arrivals</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="popular">Popularity</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${productsCache.map(p => renderProductCard(p)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- PRODUCT DETAIL PAGE ---
+        function renderProductDetailPage(productId) {
+            const p = productsCache.find(x => x.id === productId);
+            if (!p) return `<div class="p-12 text-center"><h2 class="text-2xl font-bold">Product not found</h2><button onclick="navigateTo('products')" class="mt-4 px-6 py-2.5 bg-indigo-600 text-white rounded-xl">Back to Products</button></div>`;
+
+            const discount = p.discountedPrice && p.price ? Math.round(((p.price - p.discountedPrice) / p.price) * 100) : 0;
+            const images = [p.thumbnail, ...(p.images || [])].filter(Boolean);
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                        <!-- Image Gallery -->
+                        <div class="space-y-4">
+                            <div class="bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-lg border border-slate-100 dark:border-slate-700 h-[420px]">
+                                <img id="main-product-img" src="${images[0]}" class="w-full h-full object-cover" alt="${p.title}">
+                            </div>
+                            <div class="flex space-x-3 overflow-x-auto pb-2">
+                                ${images.map((img, idx) => `
+                                    <div onclick="document.getElementById('main-product-img').src='${img}'" class="w-20 h-20 rounded-2xl overflow-hidden border-2 border-transparent hover:border-indigo-600 cursor-pointer flex-shrink-0 bg-white dark:bg-slate-800 shadow-sm">
+                                        <img src="${img}" class="w-full h-full object-cover" alt="Thumbnail">
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <!-- Product Info -->
+                        <div class="flex flex-col justify-between">
+                            <div>
+                                <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 text-xs font-bold rounded-full uppercase tracking-wider">${p.category || 'General'}</span>
+                                <h1 class="text-3xl font-black tracking-tight mt-3">${p.title}</h1>
+                                <p class="text-slate-500 text-sm mt-3 leading-relaxed">${p.description}</p>
+                                
+                                <div class="mt-6 flex items-center space-x-4">
+                                    <span class="text-3xl font-black text-slate-900 dark:text-white">${formatCurrency(p.discountedPrice || p.price)}</span>
+                                    ${p.discountedPrice ? `<span class="text-lg text-slate-400 line-through">${formatCurrency(p.price)}</span>` : ''}
+                                    ${discount > 0 ? `<span class="px-2.5 py-1 bg-rose-500 text-white text-xs font-bold rounded-full">${discount}% OFF</span>` : ''}
+                                </div>
+
+                                <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
+                                    <h3 class="font-bold text-sm mb-3">Specifications</h3>
+                                    <table class="w-full text-sm">
+                                        <tbody>
+                                            ${(p.specifications || []).map(spec => `
+                                                <tr class="border-b border-slate-100 dark:border-slate-800">
+                                                    <py class="py-2 font-medium text-slate-500">${spec.spec}</py>
+                                                    <td class="py-2 font-semibold text-right">${spec.value}</td>
+                                                </tr>
+                                            `).join('')}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center space-x-4">
+                                <button onclick="addToCart('${p.id}')" class="flex-1 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-indigo-500/20 transition-all flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-bag-shopping"></i>
+                                    <span>Add to Cart</span>
+                                </button>
+                                <button onclick="buyNow('${p.id}')" class="flex-1 py-4 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold rounded-2xl shadow-xl transition-all">
+                                    Buy Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- CART SYSTEM ---
+        async function addToCart(productId) {
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            const p = productsCache.find(x => x.id === productId);
+            if (!p) return;
+
+            const existingIndex = cartCache.findIndex(item => item.productId === productId);
+            if (existingIndex > -1) {
+                cartCache[existingIndex].quantity = (cartCache[existingIndex].quantity || 1) + 1;
+            } else {
+                cartCache.push({
+                    productId: p.id,
+                    title: p.title,
+                    price: p.discountedPrice || p.price,
+                    thumbnail: p.thumbnail,
+                    quantity: 1
+                });
+            }
+
+            await db.ref(`users/${currentUser.uid}/cart`).set(cartCache);
+            showToast("Added product to cart!");
+        }
+
+        function renderCartPage() {
+            if (!currentUser) {
+                return `<div class="p-12 text-center"><h2 class="text-2xl font-bold mb-4">Please Sign In to view your cart</h2><button onclick="openAuthModal()" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl">Sign In</button></div>`;
+            }
+
+            if (cartCache.length === 0) {
+                return `
+                    <div class="max-w-7xl mx-auto px-4 py-16 text-center">
+                        <div class="w-24 h-24 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 rounded-3xl flex items-center justify-center mx-auto mb-6 text-3xl">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">Your Cart is Empty</h2>
+                        <p class="text-slate-500 text-sm mt-2 mb-6">Explore our catalog and add amazing products to your cart.</p>
+                        <button onclick="navigateTo('products')" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-xl">Start Shopping</button>
+                    </div>
+                `;
+            }
+
+            const subtotal = cartCache.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const delivery = subtotal > 999 ? 0 : 99;
+            const total = subtotal + delivery;
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-8">Shopping Cart (${cartCache.length})</h1>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 space-y-4">
+                            ${cartCache.map((item, index) => `
+                                <div class="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-6 shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4">
+                                    <div class="flex items-center space-x-4">
+                                        <img src="${item.thumbnail}" class="w-20 h-20 rounded-xl object-cover" alt="Product">
+                                        <div>
+                                            <h3 class="font-bold text-base">${item.title}</h3>
+                                            <p class="text-indigo-600 font-extrabold mt-1">${formatCurrency(item.price)}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex items-center border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                                            <button onclick="updateCartQty(${index}, -1)" class="px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700">-</button>
+                                            <span class="px-3 text-sm font-bold">${item.quantity}</span>
+                                            <button onclick="updateCartQty(${index}, 1)" class="px-3 py-1.5 hover:bg-slate-100 dark:hover:bg-slate-700">+</button>
+                                        </div>
+                                        <button onclick="removeFromCart(${index})" class="text-rose-500 hover:text-rose-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border border-slate-100 dark:border-slate-700 h-max space-y-4">
+                            <h3 class="font-bold text-lg">Order Summary</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between text-slate-500"><span>Subtotal</span><span>${formatCurrency(subtotal)}</span></div>
+                                <div class="flex justify-between text-slate-500"><span>Delivery Fee</span><span>${delivery === 0 ? 'FREE' : formatCurrency(delivery)}</span></div>
+                                <div class="border-t border-slate-200 dark:border-slate-700 pt-3 flex justify-between font-black text-lg"><span>Total</span><span>${formatCurrency(total)}</span></div>
+                            </div>
+                            <button onclick="proceedToCheckout()" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/20 transition-all">
+                                Proceed to Checkout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function updateCartQty(index, delta) {
+            cartCache[index].quantity += delta;
+            if (cartCache[index].quantity <= 0) {
+                cartCache.splice(index, 1);
+            }
+            await db.ref(`users/${currentUser.uid}/cart`).set(cartCache);
+        }
+
+        async function removeFromCart(index) {
+            cartCache.splice(index, 1);
+            await db.ref(`users/${currentUser.uid}/cart`).set(cartCache);
+            showToast("Item removed from cart");
+        }
+
+        async function buyNow(productId) {
+            await addToCart(productId);
+            navigateTo('cart');
+        }
+
+        // --- CHECKOUT & ADDRESS FLOW ---
+        function proceedToCheckout() {
+            if (!currentUser || !userProfile) {
+                openAuthModal();
+                return;
+            }
+            const addresses = userProfile.addresses || {};
+            if (Object.keys(addresses).length === 0) {
+                showModal(`
+                    <div class="p-8 text-center space-y-4">
+                        <div class="w-16 h-16 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl font-bold">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <h2 class="text-xl font-bold">Delivery Address Required</h2>
+                        <p class="text-slate-500 text-sm">Please complete your profile and add a delivery address before placing your order.</p>
+                        <div id="countdown-timer" class="text-3xl font-black text-indigo-600">3</div>
+                        <p class="text-xs text-slate-400">Redirecting to profile in 3 seconds...</p>
+                    </div>
+                `);
+                let count = 3;
+                const interval = setInterval(() => {
+                    count--;
+                    const el = document.getElementById('countdown-timer');
+                    if (el) el.textContent = count;
+                    if (count <= 0) {
+                        clearInterval(interval);
+                        closeModal();
+                        navigateTo('profile');
+                    }
+                }, 1000);
+                return;
+            }
+            navigateTo('checkout');
+        }
+
+        function renderCheckoutPage() {
+            if (!currentUser || !userProfile) return '';
+            const addresses = userProfile.addresses || {};
+            const addressKeys = Object.keys(addresses);
+            const subtotal = cartCache.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const delivery = subtotal > 999 ? 0 : 99;
+            const total = subtotal + delivery;
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-8">Checkout Securely</h1>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="lg:col-span-2 space-y-6">
+                            <!-- Delivery Addresses -->
+                            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+                                <h3 class="font-bold text-lg mb-4 flex items-center justify-between">
+                                    <span>1. Select Delivery Address</span>
+                                    <button onclick="navigateTo('profile')" class="text-xs text-indigo-600 hover:underline">Add New Address</button>
+                                </h3>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    ${addressKeys.map((key, idx) => {
+                                        const addr = addresses[key];
+                                        return `
+                                            <label class="border-2 rounded-2xl p-4 cursor-pointer flex flex-col justify-between border-slate-200 dark:border-slate-700 hover:border-indigo-600 transition-all">
+                                                <div>
+                                                    <div class="flex items-center justify-between mb-2">
+                                                        <span class="font-bold text-sm">${addr.name}</span>
+                                                        <input type="radio" name="selected_address" value="${key}" ${idx === 0 ? 'checked' : ''} class="text-indigo-600 focus:ring-indigo-500">
+                                                    </div>
+                                                    <p class="text-xs text-slate-500 leading-relaxed">${addr.house}, ${addr.area}, ${addr.city}, ${addr.state} - ${addr.pincode}</p>
+                                                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-2">Phone: ${addr.phone}</p>
+                                                </div>
+                                            </label>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Payment Methods -->
+                            <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700">
+                                <h3 class="font-bold text-lg mb-4">2. Select Payment Method</h3>
+                                <div class="space-y-3">
+                                    <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                                        <input type="radio" name="payment_method" value="COD" checked class="text-indigo-600">
+                                        <div>
+                                            <span class="font-bold text-sm block">Cash on Delivery (COD)</span>
+                                            <span class="text-xs text-slate-400">Pay securely when your package arrives</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                                        <input type="radio" name="payment_method" value="WALLET" class="text-indigo-600">
+                                        <div>
+                                            <span class="font-bold text-sm block">TrendPro Wallet Balance</span>
+                                            <span class="text-xs text-slate-400">Available Balance: ${formatCurrency(userProfile.walletBalance || 0)}</span>
+                                        </div>
+                                    </label>
+                                    <label class="flex items-center space-x-3 p-4 rounded-xl border border-slate-200 dark:border-slate-700 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50">
+                                        <input type="radio" name="payment_method" value="UPI_DEMO" class="text-indigo-600">
+                                        <div>
+                                            <span class="font-bold text-sm block">Simulated UPI Demo Payment</span>
+                                            <span class="text-xs text-slate-400">Instant test payment flow</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Summary -->
+                        <div class="bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-xl border border-slate-100 dark:border-slate-700 h-max space-y-4">
+                            <h3 class="font-bold text-lg">Order Summary</h3>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between text-slate-500"><span>Subtotal</span><span>${formatCurrency(subtotal)}</span></div>
+                                <div class="flex justify-between text-slate-500"><span>Delivery Fee</span><span>${delivery === 0 ? 'FREE' : formatCurrency(delivery)}</span></div>
+                                <div class="border-t border-slate-200 dark:border-slate-700 pt-3 flex justify-between font-black text-lg"><span>Total Amount</span><span>${formatCurrency(total)}</span></div>
+                            </div>
+                            <button onclick="placeOrder('${total}')" class="w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl shadow-xl shadow-indigo-500/20 transition-all">
+                                Place Order Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function placeOrder(totalAmount) {
+            const addrRadio = document.querySelector('input[name="selected_address"]:checked');
+            const payRadio = document.querySelector('input[name="payment_method"]:checked');
+            if (!addrRadio || !payRadio) {
+                showToast("Please select delivery address and payment method.", "error");
+                return;
+            }
+
+            const addrKey = addrRadio.value;
+            const address = userProfile.addresses[addrKey];
+            const paymentMethod = payRadio.value;
+
+            if (paymentMethod === 'WALLET' && (userProfile.walletBalance || 0) < Number(totalAmount)) {
+                showToast("Insufficient wallet balance!", "error");
+                return;
+            }
+
+            const orderId = 'TP-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.random().toString(36).substring(2,7).toUpperCase();
+            
+            const orderData = {
+                orderId,
+                uid: currentUser.uid,
+                customerName: userProfile.name,
+                email: userProfile.email,
+                phone: address.phone,
+                products: cartCache,
+                deliveryAddress: address,
+                paymentMethod,
+                paymentStatus: paymentMethod === 'WALLET' || paymentMethod === 'UPI_DEMO' ? 'Paid' : 'Pending',
+                totalAmount: Number(totalAmount),
+                status: 'New Order',
+                timestamp: Date.now()
+            };
+
+            await db.ref(`orders/${orderId}`).set(orderData);
+
+            // Deduct wallet if used
+            if (paymentMethod === 'WALLET') {
+                const newBalance = userProfile.walletBalance - Number(totalAmount);
+                await db.ref(`users/${currentUser.uid}/walletBalance`).set(newBalance);
+            }
+
+            // Clear Cart
+            await db.ref(`users/${currentUser.uid}/cart`).set(null);
+
+            // Add notification
+            const notifId = db.ref(`notifications/${currentUser.uid}`).push().key;
+            await db.ref(`notifications/${currentUser.uid}/${notifId}`).set({
+                id: notifId,
+                title: "Order Placed Successfully",
+                message: `Your order ${orderId} has been successfully placed.`,
+                timestamp: Date.now(),
+                read: false
+            });
+
+            navigateTo('order-success', orderId);
+            showToast("Order placed successfully!");
+        }
+
+        function renderOrderSuccessPage(orderId) {
+            return `
+                <div class="max-w-xl mx-auto px-4 py-16 text-center space-y-6">
+                    <div class="w-24 h-24 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-4xl shadow-lg">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h1 class="text-3xl font-black tracking-tight">Order Placed Successfully!</h1>
+                    <p class="text-slate-500 text-sm">Thank you for shopping with TrendPro. Your order ID is <strong class="text-indigo-600">${orderId}</strong>.</p>
+                    <div class="flex justify-center space-x-4 pt-4">
+                        <button onclick="navigateTo('order-details', '${orderId}')" class="px-6 py-3.5 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl">View Order & Tracking</button>
+                        <button onclick="navigateTo('index')" class="px-6 py-3.5 bg-slate-100 dark:bg-slate-800 font-bold rounded-2xl">Continue Shopping</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- WISHLIST & COMPARE ---
+        async function toggleWishlist(productId) {
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            const index = wishlistCache.indexOf(productId);
+            if (index > -1) {
+                wishlistCache.splice(index, 1);
+                showToast("Removed from wishlist");
+            } else {
+                wishlistCache.push(productId);
+                showToast("Added to wishlist");
+            }
+            const obj = {};
+            wishlistCache.forEach(id => obj[id] = true);
+            await db.ref(`users/${currentUser.uid}/wishlist`).set(obj);
+        }
+
+        function renderWishlistPage() {
+            const items = productsCache.filter(p => wishlistCache.includes(p.id));
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-8">My Wishlist (${items.length})</h1>
+                    ${items.length === 0 ? `<p class="text-slate-500">Your wishlist is empty.</p>` : `
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${items.map(p => renderProductCard(p)).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderComparePage() {
+            const items = productsCache.filter(p => compareCache.includes(p.id));
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-8">Product Comparison</h1>
+                    ${items.length === 0 ? `<p class="text-slate-500">No products added for comparison.</p>` : `
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            ${items.map(p => `
+                                <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                                    <img src="${p.thumbnail}" class="w-full h-48 object-cover rounded-2xl mb-4" alt="">
+                                    <h3 class="font-bold text-lg mb-2">${p.title}</h3>
+                                    <p class="text-indigo-600 font-extrabold text-xl mb-4">${formatCurrency(p.discountedPrice || p.price)}</p>
+                                    <button onclick="addToCart('${p.id}')" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl">Add to Cart</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        // --- PROFILE & ADDRESS MANAGEMENT ---
+        function renderProfilePage() {
+            if (!currentUser || !userProfile) return '';
+            const addresses = userProfile.addresses || {};
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <div class="flex items-center justify-between mb-8">
+                        <div>
+                            <h1 class="text-3xl font-black tracking-tight">My Profile & Addresses</h1>
+                            <p class="text-slate-500 text-sm mt-1">Manage your personal information and delivery destinations</p>
+                        </div>
+                        <button onclick="logoutUser()" class="px-5 py-2.5 bg-rose-50 dark:bg-rose-900/30 text-rose-600 font-bold text-xs rounded-xl hover:bg-rose-100 transition-colors">Sign Out</button>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <!-- Profile Card -->
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 h-max space-y-4 text-center">
+                            <img src="${userProfile.photoURL}" class="w-24 h-24 rounded-full object-cover mx-auto border-4 border-indigo-500 shadow-md" alt="Profile">
+                            <h3 class="font-bold text-lg">${userProfile.name}</h3>
+                            <p class="text-xs text-slate-400">${userProfile.email}</p>
+                            <div class="pt-4 border-t border-slate-200 dark:border-slate-700 flex justify-around">
+                                <button onclick="navigateTo('orders')" class="text-xs font-bold text-indigo-600 hover:underline">My Orders</button>
+                                <button onclick="navigateTo('wallet')" class="text-xs font-bold text-indigo-600 hover:underline">Wallet (${formatCurrency(userProfile.walletBalance || 0)})</button>
+                            </div>
+                        </div>
+
+                        <!-- Addresses Section -->
+                        <div class="lg:col-span-2 space-y-6">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-bold text-lg">Delivery Addresses</h3>
+                                <button onclick="openAddAddressModal()" class="px-4 py-2 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-md">Add New Address</button>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                ${Object.keys(addresses).map(key => {
+                                    const addr = addresses[key];
+                                    return `
+                                        <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 relative">
+                                            <h4 class="font-bold text-sm mb-1">${addr.name}</h4>
+                                            <p class="text-xs text-slate-500 leading-relaxed">${addr.house}, ${addr.area}, ${addr.city}, ${addr.state} - ${addr.pincode}</p>
+                                            <p class="text-xs font-semibold mt-2">Phone: ${addr.phone}</p>
+                                            <button onclick="deleteAddress('${key}')" class="absolute top-4 right-4 text-rose-500 hover:text-rose-700 text-xs"><i class="fa-solid fa-trash"></i></button>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openAddAddressModal() {
+            showModal(`
+                <div class="p-6 sm:p-8 space-y-4">
+                    <h3 class="font-bold text-xl">Add Delivery Address</h3>
+                    <input type="text" id="addr-name" placeholder="Full Name" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" id="addr-phone" placeholder="Mobile Number" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" id="addr-house" placeholder="House / Flat / Apartment" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" id="addr-area" placeholder="Area / Street / Colony" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="addr-city" placeholder="City" class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                        <input type="text" id="addr-state" placeholder="State" class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    </div>
+                    <input type="text" id="addr-pincode" placeholder="Pincode" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <button onclick="saveNewAddress()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Save Address</button>
+                </div>
+            `);
+        }
+
+        async function saveNewAddress() {
+            const name = document.getElementById('addr-name').value;
+            const phone = document.getElementById('addr-phone').value;
+            const house = document.getElementById('addr-house').value;
+            const area = document.getElementById('addr-area').value;
+            const city = document.getElementById('addr-city').value;
+            const state = document.getElementById('addr-state').value;
+            const pincode = document.getElementById('addr-pincode').value;
+
+            if (!name || !phone || !house || !city || !pincode) {
+                showToast("Please fill all required address fields", "error");
+                return;
+            }
+
+            const addressId = db.ref(`users/${currentUser.uid}/addresses`).push().key;
+            const addressData = { name, phone, house, area, city, state, pincode };
+
+            await db.ref(`users/${currentUser.uid}/addresses/${addressId}`).set(addressData);
+            closeModal();
+            showToast("Address saved successfully!");
+        }
+
+        async function deleteAddress(key) {
+            await db.ref(`users/${currentUser.uid}/addresses/${key}`).remove();
+            showToast("Address removed");
+        }
+
+        // --- WALLET & GIFT CARDS ---
+        function renderWalletPage() {
+            if (!currentUser || !userProfile) return '';
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-8">My Wallet & Gift Vouchers</h1>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-8 rounded-3xl shadow-xl flex flex-col justify-between">
+                            <div>
+                                <span class="text-xs uppercase font-bold tracking-wider opacity-80">Current Balance</span>
+                                <h2 class="text-4xl font-black mt-2">${formatCurrency(userProfile.walletBalance || 0)}</h2>
+                            </div>
+                            <div class="mt-8">
+                                <button onclick="openRedeemGiftModal()" class="w-full py-3.5 bg-white text-indigo-900 font-bold rounded-2xl shadow-md">Redeem Gift Voucher</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openRedeemGiftModal() {
+            showModal(`
+                <div class="p-6 sm:p-8 space-y-4">
+                    <h3 class="font-bold text-xl">Redeem Gift Voucher</h3>
+                    <input type="text" id="gift-code-input" placeholder="Enter Gift Code (e.g. TP-GIFT-...)" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-sm font-mono">
+                    <button onclick="redeemGiftVoucher()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Redeem to Wallet</button>
+                </div>
+            `);
+        }
+
+        async function redeemGiftVoucher() {
+            const code = document.getElementById('gift-code-input').value.trim();
+            if (!code) return;
+            const snap = await db.ref(`giftCards`).orderByChild('code').equalTo(code).once('value');
+            const val = snap.val();
+            if (!val) {
+                showToast("Invalid gift voucher code", "error");
+                return;
+            }
+            const giftId = Object.keys(val)[0];
+            const gift = val[giftId];
+            if (gift.redeemed) {
+                showToast("Gift voucher already redeemed", "error");
+                return;
+            }
+
+            const amount = gift.amount;
+            const newBalance = (userProfile.walletBalance || 0) + amount;
+            await db.ref(`users/${currentUser.uid}/walletBalance`).set(newBalance);
+            await db.ref(`giftCards/${giftId}/redeemed`).set(true);
+
+            closeModal();
+            showToast(`Successfully redeemed ${formatCurrency(amount)} to wallet!`);
+        }
+
+        // --- NOTIFICATIONS & CHAT SYSTEM ---
+        function toggleNotificationsDrawer() {
+            const drawer = document.getElementById('notifications-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function renderNotificationsDrawer(notifs) {
+            const container = document.getElementById('notifications-list');
+            const badge = document.getElementById('notification-badge');
+            if (!notifs) {
+                container.innerHTML = `<p class="text-center text-slate-400 py-8 text-sm">No notifications</p>`;
+                badge.classList.add('hidden');
+                return;
+            }
+            const list = Object.values(notifs).reverse();
+            const unreadCount = list.filter(n => !n.read).length;
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.classList.toggle('hidden', unreadCount === 0);
+            }
+            container.innerHTML = list.map(n => `
+                <div class="py-3">
+                    <h4 class="font-bold text-sm">${n.title}</h4>
+                    <p class="text-xs text-slate-500 mt-1">${n.message}</p>
+                    <span class="text-[10px] text-slate-400 mt-1 block">${new Date(n.timestamp).toLocaleTimeString()}</span>
+                </div>
+            `).join('');
+        }
+
+        async function clearAllNotifications() {
+            if (!currentUser) return;
+            await db.ref(`notifications/${currentUser.uid}`).remove();
+        }
+
+        async function markAllNotificationsRead() {
+            // Mark all read logic
+        }
+
+        // --- ORDERS & TRACKING ---
+        function renderOrdersPage() {
+            if (!currentUser) return '';
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-8">My Orders</h1>
+                    <div id="customer-orders-list" class="space-y-4">
+                        <!-- Loaded via Firebase query -->
+                    </div>
+                </div>
+            `;
+        }
+
+        // Load customer orders in realtime
+        if (auth) {
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    db.ref('orders').orderByChild('uid').equalTo(user.uid).on('value', snap => {
+                        const val = snap.val();
+                        const listEl = document.getElementById('customer-orders-list');
+                        if (listEl && val) {
+                            listEl.innerHTML = Object.entries(val).map(([id, o]) => `
+                                <div onclick="navigateTo('order-details', '${id}')" class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 cursor-pointer hover:border-indigo-600 transition-all flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                    <div>
+                                        <span class="text-xs font-bold text-indigo-600">${o.orderId}</span>
+                                        <h3 class="font-bold text-base mt-1">${o.products[0]?.title} ${o.products.length > 1 ? `+ ${o.products.length - 1} more` : ''}</h3>
+                                        <p class="text-xs text-slate-400 mt-1">Placed on ${new Date(o.timestamp).toLocaleDateString()}</p>
+                                    </div>
+                                    <div class="flex items-center space-x-4">
+                                        <span class="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 font-bold text-xs rounded-full">${o.status}</span>
+                                        <span class="font-black text-base">${formatCurrency(o.totalAmount)}</span>
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    });
+                }
+            });
+        }
+
+        function renderOrderDetailsPage(orderId) {
+            return `
+                <div class="max-w-4xl mx-auto px-4 py-10 space-y-8">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-2xl font-black tracking-tight">Order Details (${orderId})</h1>
+                            <p class="text-xs text-slate-400 mt-1">Live Order Timeline & Status</p>
+                        </div>
+                        <button onclick="navigateTo('invoice', '${orderId}')" class="px-4 py-2 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-md">View Invoice</button>
+                    </div>
+                    <div id="order-details-card" class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
+                        Loading order details...
+                    </div>
+                </div>
+            `;
+        }
+
+        db.ref('orders').on('value', snap => {
+            const val = snap.val();
+            if (activeRoute === 'order-details' && routeParam && val && val[routeParam]) {
+                const o = val[routeParam];
+                const card = document.getElementById('order-details-card');
+                if (card) {
+                    card.innerHTML = `
+                        <div class="space-y-6">
+                            <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-4">
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-600">Status</span>
+                                    <h3 class="font-extrabold text-xl mt-1">${o.status}</h3>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-xs font-bold text-slate-400">Total Amount</span>
+                                    <h3 class="font-black text-xl mt-1">${formatCurrency(o.totalAmount)}</h3>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm mb-3">Ordered Items</h4>
+                                ${o.products.map(item => `
+                                    <div class="flex items-center space-x-4 py-2 border-b border-slate-100 dark:border-slate-700/50">
+                                        <img src="${item.thumbnail}" class="w-12 h-12 rounded-xl object-cover" alt="">
+                                        <div class="flex-1"><h5 class="font-bold text-sm">${item.title}</h5><span class="text-xs text-slate-400">Qty: ${item.quantity}</span></div>
+                                        <span class="font-bold text-sm">${formatCurrency(item.price * item.quantity)}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        // --- INVOICE GENERATOR ---
+        function renderInvoicePage(orderId) {
+            return `
+                <div class="max-w-3xl mx-auto px-4 py-10">
+                    <div class="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 space-y-8" id="invoice-printable">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h1 class="text-3xl font-black bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">TRENDPRO</h1>
+                                <p class="text-xs text-slate-400 mt-1">Official Tax Invoice</p>
+                            </div>
+                            <div class="text-right">
+                                <h3 class="font-bold text-sm" id="inv-id">${orderId}</h3>
+                                <p class="text-xs text-slate-400 mt-1" id="inv-date">Date: Oct 7, 2026</p>
+                            </div>
+                        </div>
+                        <div id="invoice-content-body">Loading invoice data...</div>
+                        <button onclick="window.print()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-md">Print / Download Invoice</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        db.ref('orders').on('value', snap => {
+            const val = snap.val();
+            if (activeRoute === 'invoice' && routeParam && val && val[routeParam]) {
+                const o = val[routeParam];
+                const body = document.getElementById('invoice-content-body');
+                if (body) {
+                    body.innerHTML = `
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-400 uppercase tracking-wider mb-1">Billed To</h4>
+                                <h3 class="font-bold text-base">${o.customerName}</h3>
+                                <p class="text-xs text-slate-500">${o.deliveryAddress.house}, ${o.deliveryAddress.area}, ${o.deliveryAddress.city} - ${o.deliveryAddress.pincode}</p>
+                                <p class="text-xs text-slate-500">Phone: ${o.phone}</p>
+                            </div>
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="border-b border-slate-200 dark:border-slate-700 text-left">
+                                        <th class="pb-3">Item</th>
+                                        <th class="pb-3 text-center">Qty</th>
+                                        <th class="pb-3 text-right">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${o.products.map(p => `
+                                        <tr class="border-b border-slate-100 dark:border-slate-800">
+                                            <td class="py-3 font-medium">${p.title}</td>
+                                            <td class="py-3 text-center">${p.quantity}</td>
+                                            <td class="py-3 text-right">${formatCurrency(p.price * p.quantity)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                            <div class="flex justify-end pt-4">
+                                <div class="w-64 space-y-2 text-sm">
+                                    <div class="flex justify-between font-black text-lg pt-2 border-t border-slate-200 dark:border-slate-700">
+                                        <span>Total Paid</span>
+                                        <span>${formatCurrency(o.totalAmount)}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        });
+
+        // --- SEARCH ENGINE ---
+        function executeSearch(query) {
+            if (!query.trim()) return;
+            navigateTo('search', encodeURIComponent(query));
+        }
+
+        function renderSearchPage(queryParam) {
+            const query = decodeURIComponent(queryParam || '').toLowerCase();
+            const results = productsCache.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.category?.toLowerCase().includes(query) || 
+                p.brand?.toLowerCase().includes(query) ||
+                p.sku?.toLowerCase().includes(query)
+            );
+
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-2xl font-black tracking-tight mb-2">Search Results for "${query}"</h1>
+                    <p class="text-slate-500 text-sm mb-8">Found ${results.length} matching products</p>
+                    ${results.length === 0 ? `<p class="text-slate-400">No products found matching your search query.</p>` : `
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${results.map(p => renderProductCard(p)).join('')}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
+        function renderCategoryPage(categoryName) {
+            const results = productsCache.filter(p => p.category === categoryName || (p.categories && p.categories[categoryName]));
+            return `
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                    <h1 class="text-3xl font-black tracking-tight mb-2">${categoryName}</h1>
+                    <p class="text-slate-500 text-sm mb-8">Showing ${results.length} items in ${categoryName}</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${results.map(p => renderProductCard(p)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- ADMIN PANEL DASHBOARD & MANAGEMENT ---
+        function renderAdminPage() {
+            return `
+                <div class="flex h-full min-h-screen bg-slate-100 dark:bg-slate-950">
+                    <!-- Admin Sidebar -->
+                    <aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6 hidden lg:flex flex-col justify-between">
+                        <div class="space-y-6">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-8 h-8 rounded-xl bg-indigo-600 flex items-center justify-center text-white font-bold"><i class="fa-solid fa-shield-halved"></i></div>
+                                <span class="font-extrabold text-lg">Admin Portal</span>
+                            </div>
+                            <nav class="space-y-1">
+                                <button onclick="switchAdminTab('dashboard')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab === 'dashboard' ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}"><i class="fa-solid fa-chart-pie w-5"></i><span>Dashboard</span></button>
+                                <button onclick="switchAdminTab('products')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab === 'products' ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}"><i class="fa-solid fa-box w-5"></i><span>Products</span></button>
+                                <button onclick="switchAdminTab('orders')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab === 'orders' ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}"><i class="fa-solid fa-bag-shopping w-5"></i><span>Orders</span></button>
+                                <button onclick="switchAdminTab('categories')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-bold ${activeAdminTab === 'categories' ? 'bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'}"><i class="fa-solid fa-tags w-5"></i><span>Categories</span></button>
+                            </nav>
+                        </div>
+                        <button onclick="navigateTo('index')" class="px-4 py-3 bg-slate-100 dark:bg-slate-800 text-xs font-bold rounded-xl text-center">Exit to Storefront</button>
+                    </aside>
+
+                    <!-- Admin Main Content -->
+                    <div class="flex-1 overflow-y-auto p-6 sm:p-10">
+                        <div id="admin-tab-content">
+                            <!-- Dynamic Admin Tab -->
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchAdminTab(tab) {
+            activeAdminTab = tab;
+            renderRoute();
+        }
+
+        // Render admin tab contents dynamically after renderAdminPage
+        const _origRenderRoute = renderRoute;
+        renderRoute = function() {
+            _origRenderRoute();
+            if (activeRoute === 'admin') {
+                const container = document.getElementById('admin-tab-content');
+                if (!container) return;
+
+                if (activeAdminTab === 'dashboard') {
+                    container.innerHTML = `
+                        <h1 class="text-2xl font-black tracking-tight mb-6">Dashboard Analytics</h1>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+                            <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Products</span>
+                                <h3 class="text-3xl font-black mt-2">${productsCache.length}</h3>
+                            </div>
+                            <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Categories</span>
+                                <h3 class="text-3xl font-black mt-2">${categoriesCache.length}</h3>
+                            </div>
+                            <div class="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-800">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Active Store Status</span>
+                                <h3 class="text-3xl font-black text-emerald-500 mt-2">ONLINE</h3>
+                            </div>
+                        </div>
+                    `;
+                } else if (activeAdminTab === 'products') {
+                    container.innerHTML = `
+                        <div class="flex items-center justify-between mb-6">
+                            <h1 class="text-2xl font-black tracking-tight">Product Management</h1>
+                            <button onclick="openAddProductModal()" class="px-4 py-2.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-md">+ Add Product</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            ${productsCache.map(p => `
+                                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="${p.thumbnail}" class="w-14 h-14 rounded-xl object-cover" alt="">
+                                        <div><h4 class="font-bold text-sm">${p.title}</h4><span class="text-xs text-indigo-600 font-bold">${formatCurrency(p.discountedPrice || p.price)}</span></div>
+                                    </div>
+                                    <button onclick="deleteProduct('${p.id}')" class="text-rose-500 hover:text-rose-700 p-2"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (activeAdminTab === 'orders') {
+                    container.innerHTML = `
+                        <h1 class="text-2xl font-black tracking-tight mb-6">Order Management</h1>
+                        <div id="admin-orders-table" class="space-y-4">Loading orders...</div>
+                    `;
+                    db.ref('orders').once('value', snap => {
+                        const val = snap.val();
+                        const el = document.getElementById('admin-orders-table');
+                        if (el && val) {
+                            el.innerHTML = Object.entries(val).map(([id, o]) => `
+                                <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                                    <div>
+                                        <span class="text-xs font-bold text-indigo-600">${o.orderId}</span>
+                                        <h4 class="font-bold text-sm mt-0.5">${o.customerName} (${o.phone})</h4>
+                                        <span class="text-xs text-slate-400">Total: ${formatCurrency(o.totalAmount)}</span>
+                                    </div>
+                                    <div class="flex items-center space-x-3">
+                                        <select onchange="updateOrderStatus('${id}', this.value)" class="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold">
+                                            ${['New Order', 'Confirmed', 'Packed', 'Dispatched', 'Out for Delivery', 'Delivered', 'Cancelled'].map(s => `<option ${o.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    });
+                } else if (activeAdminTab === 'categories') {
+                    container.innerHTML = `
+                        <div class="flex items-center justify-between mb-6">
+                            <h1 class="text-2xl font-black tracking-tight">Category Management</h1>
+                            <button onclick="openAddCategoryModal()" class="px-4 py-2.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-md">+ Add Category</button>
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            ${categoriesCache.map(c => `
+                                <div class="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800 text-center">
+                                    <img src="${c.image}" class="w-20 h-20 mx-auto rounded-xl object-cover mb-2" alt="">
+                                    <h4 class="font-bold text-sm">${c.name}</h4>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            }
+        };
+
+        function openAddProductModal() {
+            showModal(`
+                <div class="p-6 sm:p-8 space-y-4 max-h-[90vh] overflow-y-auto">
+                    <h3 class="font-bold text-xl">Add New Product</h3>
+                    <input type="text" id="prod-title" placeholder="Product Title" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <textarea id="prod-desc" placeholder="Product Description" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm"></textarea>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="number" id="prod-price" placeholder="Price (₹)" class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                        <input type="number" id="prod-discount" placeholder="Discounted Price (₹)" class="bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    </div>
+                    <input type="text" id="prod-category" placeholder="Category Name" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" id="prod-thumb" placeholder="Thumbnail Image URL" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <button onclick="saveNewProduct()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Save Product</button>
+                </div>
+            `);
+        }
+
+        async function saveNewProduct() {
+            const title = document.getElementById('prod-title').value;
+            const description = document.getElementById('prod-desc').value;
+            const price = Number(document.getElementById('prod-price').value);
+            const discountedPrice = Number(document.getElementById('prod-discount').value);
+            const category = document.getElementById('prod-category').value;
+            const thumbnail = document.getElementById('prod-thumb').value;
+
+            if (!title || !price || !category) {
+                showToast("Please fill required fields", "error");
+                return;
+            }
+
+            const productId = db.ref('products').push().key;
+            const prodData = {
+                id: productId,
+                title,
+                description,
+                shortDescription: description.substring(0, 80),
+                price,
+                discountedPrice,
+                category,
+                thumbnail: thumbnail || 'https://placehold.co/600x600/6366f1/ffffff?text=Product',
+                images: [thumbnail],
+                featured: true,
+                active: true,
+                createdAt: Date.now()
+            };
+
+            await db.ref(`products/${productId}`).set(prodData);
+            closeModal();
+            showToast("Product created successfully!");
+        }
+
+        async function deleteProduct(id) {
+            await db.ref(`products/${id}`).remove();
+            showToast("Product deleted successfully");
+        }
+
+        async function updateOrderStatus(orderId, newStatus) {
+            await db.ref(`orders/${orderId}/status`).set(newStatus);
+            showToast(`Order status updated to ${newStatus}`);
+        }
+
+        function openAddCategoryModal() {
+            showModal(`
+                <div class="p-6 sm:p-8 space-y-4">
+                    <h3 class="font-bold text-xl">Add Category</h3>
+                    <input type="text" id="cat-name" placeholder="Category Name" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <input type="text" id="cat-img" placeholder="Category Image URL" class="w-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-2.5 text-sm">
+                    <button onclick="saveNewCategory()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Save Category</button>
+                </div>
+            `);
+        }
+
+        async function saveNewCategory() {
+            const name = document.getElementById('cat-name').value;
+            const image = document.getElementById('cat-img').value;
+            if (!name) return;
+
+            const catId = db.ref('categories').push().key;
+            await db.ref(`categories/${catId}`).set({ name, image });
+            closeModal();
+            showToast("Category created successfully!");
+        }
+
+        function dismissAnnouncement() {
+            const bar = document.getElementById('announcement-bar');
+            if (bar) bar.style.display = 'none';
+        }
+
+        function checkAuthAndNavigateProfile() {
+            if (!currentUser) openAuthModal();
+            else navigateTo('profile');
+        }
+
+        function initHomeSliders() {}
+        function initAdminDashboardCharts() {}
+
+        // Initial render on load
+        window.onload = function() {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const parts = hash.split('/');
+                activeRoute = parts[0] || 'index';
+                routeParam = parts[1] || null;
+            }
+            renderRoute();
+        };
+    </script>
+</body>
+</html>

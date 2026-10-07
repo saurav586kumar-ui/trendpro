@@ -151,7 +151,7 @@
                     <a href="#index" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-house w-5"></i> Home</a>
                     <a href="#shop" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-store w-5"></i> All Products & Shop</a>
                     <a href="#cart" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-bag-shopping w-5"></i> Shopping Cart</a>
-                    <a href="#wallet" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-wallet w-5"></i> Wallet & Gift Cards</a>
+                    <a href="#wallet" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-wallet w-5"></i> Wallet & Vouchers</a>
                     <a href="#orders" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-box-open w-5"></i> My Orders</a>
                     <a href="#chat" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-headset w-5"></i> Support & Chat</a>
                     <a href="#profile" onclick="toggleMobileMenu()" class="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-gray-700 hover:bg-brand-50 hover:text-brand-600 transition"><i class="fa-solid fa-user-gear w-5"></i> Profile & Addresses</a>
@@ -191,7 +191,7 @@
                 <nav class="space-y-1.5 text-sm">
                     <a href="#profile" onclick="closeProfileDrawer()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-user-pen w-5 text-gray-400"></i> Personal Details & Addresses</a>
                     <a href="#orders" onclick="closeProfileDrawer()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-box-archive w-5 text-gray-400"></i> My Orders & Invoices</a>
-                    <a href="#wallet" onclick="closeProfileDrawer()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-gift w-5 text-gray-400"></i> Gift Cards & Coupons</a>
+                    <a href="#wallet" onclick="closeProfileDrawer()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-gift w-5 text-gray-400"></i> Gift Cards & Top-up</a>
                     <a href="#chat" onclick="closeProfileDrawer()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition"><i class="fa-solid fa-messages w-5 text-gray-400"></i> Messages & Support</a>
                     <div id="admin-drawer-link" class="hidden pt-3 border-t border-gray-100">
                         <a href="#admin" onclick="closeProfileDrawer()" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl font-bold text-amber-700 bg-amber-50 hover:bg-amber-100 transition"><i class="fa-solid fa-gauge-high w-5 text-amber-600"></i> Owner Admin Dashboard</a>
@@ -223,7 +223,7 @@
                         <div class="w-8 h-8 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">TP</div>
                         <span class="text-xl font-bold text-white">TrendPro</span>
                     </div>
-                    <p class="text-sm text-gray-400">The ultimate e-commerce platform offering premium products, live tracking, secure wallet, and real-time support.</p>
+                    <p class="text-sm text-gray-400">The ultimate e-commerce platform offering multi-category products, variants, live tracking, secure wallet, and real-time support.</p>
                 </div>
                 <div>
                     <h5 class="text-white font-semibold mb-4 tracking-wider text-sm uppercase">Quick Links</h5>
@@ -231,7 +231,7 @@
                         <li><a href="#index" class="hover:text-white transition">Home Storefront</a></li>
                         <li><a href="#shop" class="hover:text-white transition">All Products & Catalog</a></li>
                         <li><a href="#cart" class="hover:text-white transition">Shopping Cart</a></li>
-                        <li><a href="#wallet" class="hover:text-white transition">Wallet & Gift Cards</a></li>
+                        <li><a href="#wallet" class="hover:text-white transition">Wallet & Vouchers</a></li>
                     </ul>
                 </div>
                 <div>
@@ -302,7 +302,9 @@
             allOrders: {},
             chats: {},
             searchQuery: '',
-            selectedFilterCategory: 'all'
+            selectedFilterCategory: 'all',
+            activeBannerIndex: 0,
+            bannerInterval: null
         };
 
         window.showToast = function(message, type = 'success') {
@@ -345,7 +347,7 @@
                     <div class="text-center space-y-2">
                         <div class="w-12 h-12 bg-brand-600 text-white rounded-2xl font-bold flex items-center justify-center mx-auto text-xl shadow-lg">TP</div>
                         <h3 class="text-2xl font-extrabold text-gray-900">${isSignIn ? 'Sign In to TrendPro' : 'Create an Account'}</h3>
-                        <p class="text-xs text-gray-500">Access your orders, wishlist, wallet & direct support</p>
+                        <p class="text-xs text-gray-500">Only saurav586kumar@gmail.com has owner privileges. All others sign in as customer.</p>
                     </div>
 
                     <button onclick="window.handleGoogleSignIn()" class="w-full py-3.5 px-4 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold rounded-2xl shadow-sm transition flex items-center justify-center gap-3">
@@ -433,20 +435,22 @@
                     await signInAnonymously(auth);
                 }
             } catch (err) {
-                activateStandaloneMode('guest-user-saurav');
+                activateStandaloneCustomerMode('guest-user-123');
             }
 
             onAuthStateChanged(auth, (user) => {
                 if (user) {
                     window.TrendProState.currentUser = user;
                     window.TrendProState.userId = user.uid;
-                    const email = user.email || OWNER_EMAIL;
-                    window.TrendProState.isOwner = (email.toLowerCase() === OWNER_EMAIL.toLowerCase()) || user.isAnonymous;
+                    const email = user.email || '';
                     
-                    const name = user.displayName || (user.isAnonymous ? 'Saurav Kumar (Owner)' : email.split('@')[0]);
+                    // STRICT OWNER CHECK: Only saurav586kumar@gmail.com is owner
+                    window.TrendProState.isOwner = (email.toLowerCase() === OWNER_EMAIL.toLowerCase());
+                    
+                    const name = user.displayName || (window.TrendProState.isOwner ? 'Saurav Kumar (Owner)' : (email.split('@')[0] || 'Customer'));
                     document.getElementById('user-name-display').textContent = name.split(' ')[0];
                     document.getElementById('drawer-user-name').textContent = name;
-                    document.getElementById('drawer-user-email').textContent = email;
+                    document.getElementById('drawer-user-email').textContent = email || 'Anonymous Customer';
                     
                     const initials = name.slice(0, 2).toUpperCase();
                     document.getElementById('user-avatar-container').textContent = initials;
@@ -455,6 +459,9 @@
                     if (window.TrendProState.isOwner) {
                         document.getElementById('admin-menu-link-mobile')?.classList.remove('hidden');
                         document.getElementById('admin-drawer-link')?.classList.remove('hidden');
+                    } else {
+                        document.getElementById('admin-menu-link-mobile')?.classList.add('hidden');
+                        document.getElementById('admin-drawer-link')?.classList.add('hidden');
                     }
 
                     setupFirebaseListeners(user.uid);
@@ -462,19 +469,16 @@
             });
         }
 
-        function activateStandaloneMode(uid) {
-            window.TrendProState.currentUser = { uid, email: OWNER_EMAIL, displayName: 'Saurav Kumar' };
+        function activateStandaloneCustomerMode(uid) {
+            window.TrendProState.currentUser = { uid, email: 'customer@trendpro.com', displayName: 'Customer' };
             window.TrendProState.userId = uid;
-            window.TrendProState.isOwner = true;
+            window.TrendProState.isOwner = false;
 
-            document.getElementById('user-name-display').textContent = 'Saurav';
-            document.getElementById('drawer-user-name').textContent = 'Saurav Kumar (Owner)';
-            document.getElementById('drawer-user-email').textContent = OWNER_EMAIL;
-            document.getElementById('user-avatar-container').textContent = 'SK';
-            document.getElementById('drawer-user-avatar').textContent = 'SK';
-
-            document.getElementById('admin-menu-link-mobile')?.classList.remove('hidden');
-            document.getElementById('admin-drawer-link')?.classList.remove('hidden');
+            document.getElementById('user-name-display').textContent = 'Customer';
+            document.getElementById('drawer-user-name').textContent = 'Customer';
+            document.getElementById('drawer-user-email').textContent = 'customer@trendpro.com';
+            document.getElementById('user-avatar-container').textContent = 'CU';
+            document.getElementById('drawer-user-avatar').textContent = 'CU';
 
             setupFirebaseListeners(uid);
         }
@@ -558,7 +562,7 @@
                 const products = Object.entries(window.TrendProState.products);
                 const matches = products.filter(([id, p]) => 
                     p.title?.toLowerCase().includes(window.TrendProState.searchQuery) ||
-                    p.category?.toLowerCase().includes(window.TrendProState.searchQuery) ||
+                    (Array.isArray(p.categories) ? p.categories.some(c => c.toLowerCase().includes(window.TrendProState.searchQuery)) : p.category?.toLowerCase().includes(window.TrendProState.searchQuery)) ||
                     p.brand?.toLowerCase().includes(window.TrendProState.searchQuery)
                 ).slice(0, 6);
 
@@ -590,12 +594,18 @@
         };
 
         window.renderCurrentRoute = function() {
+            if (window.TrendProState.bannerInterval) {
+                clearInterval(window.TrendProState.bannerInterval);
+                window.TrendProState.bannerInterval = null;
+            }
+
             const hash = window.location.hash || '#index';
             const container = document.getElementById('app-container');
             window.scrollTo(0, 0);
 
             if (hash === '#index' || hash === '#') {
                 container.innerHTML = renderHomeView();
+                initBannerAutoSlider();
             } else if (hash === '#shop') {
                 container.innerHTML = renderShopView();
             } else if (hash.startsWith('#product/')) {
@@ -616,13 +626,18 @@
             } else if (hash === '#profile') {
                 container.innerHTML = renderProfileView();
             } else if (hash === '#admin') {
-                container.innerHTML = renderAdminView();
+                if (!window.TrendProState.isOwner) {
+                    container.innerHTML = `<div class="max-w-xl mx-auto py-32 px-4 text-center space-y-4"><h2 class="text-2xl font-bold text-gray-900">Access Restricted</h2><p class="text-gray-500 text-sm">Only owner (saurav586kumar@gmail.com) can access the admin panel.</p><a href="#index" class="inline-block px-6 py-3 bg-brand-600 text-white font-bold rounded-xl">Return Home</a></div>`;
+                } else {
+                    container.innerHTML = renderAdminView();
+                }
             } else if (hash.startsWith('#category/')) {
                 const catName = decodeURIComponent(hash.split('/')[1]);
                 window.TrendProState.selectedFilterCategory = catName;
                 container.innerHTML = renderShopView();
             } else {
                 container.innerHTML = renderHomeView();
+                initBannerAutoSlider();
             }
         };
 
@@ -632,13 +647,47 @@
             window.renderCurrentRoute();
         });
 
+        function initBannerAutoSlider() {
+            const banners = Object.entries(window.TrendProState.banners);
+            if (banners.length <= 1) return;
+
+            window.TrendProState.bannerInterval = setInterval(() => {
+                const count = banners.length;
+                window.TrendProState.activeBannerIndex = (window.TrendProState.activeBannerIndex + 1) % count;
+                updateBannerSlideView();
+            }, 3500);
+        }
+
+        window.setBannerSlide = function(idx) {
+            window.TrendProState.activeBannerIndex = idx;
+            updateBannerSlideView();
+        };
+
+        function updateBannerSlideView() {
+            const slider = document.getElementById('banner-slider-track');
+            const dots = document.querySelectorAll('.banner-dot');
+            if (slider) {
+                slider.style.transform = `translateX(-${window.TrendProState.activeBannerIndex * 100}%)`;
+            }
+            dots.forEach((dot, idx) => {
+                if (idx === window.TrendProState.activeBannerIndex) {
+                    dot.classList.add('bg-white', 'w-8');
+                    dot.classList.remove('bg-white/50', 'w-2');
+                } else {
+                    dot.classList.remove('bg-white', 'w-8');
+                    dot.classList.add('bg-white/50', 'w-2');
+                }
+            });
+        }
+
         function renderHomeView() {
             const banners = Object.entries(window.TrendProState.banners);
             const categories = Object.entries(window.TrendProState.categories);
             const products = Object.entries(window.TrendProState.products);
 
             const defaultBanners = [
-                ['b1', { title: 'Ultimate TrendPro Summer Collection', subtitle: 'Up to 60% OFF on Top Electronics & Fashion', image: 'https://placehold.co/1400x600/0f172a/ffffff?text=Summer+Super+Sale', btnText: 'Shop Now', targetType: 'shop', targetValue: '' }]
+                ['b1', { image: 'https://placehold.co/1400x500/0f172a/ffffff?text=TrendPro+Summer+Sale', targetType: 'shop', targetValue: '' }],
+                ['b2', { image: 'https://placehold.co/1400x500/10b981/ffffff?text=New+Electronics+Arrivals', targetType: 'shop', targetValue: '' }]
             ];
             const activeBanners = banners.length > 0 ? banners : defaultBanners;
 
@@ -652,24 +701,23 @@
 
             return `
                 <div class="space-y-16 pb-20">
+                    <!-- Clean Text-Free Auto Sliding Banners with Dots -->
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-                        ${activeBanners.map(([id, b]) => `
-                            <div onclick="window.handleBannerRedirect('${b.targetType || 'shop'}', '${b.targetValue || ''}')" class="cursor-pointer relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-r from-gray-900 to-gray-800 text-white min-h-[420px] flex items-center group">
-                                <div class="absolute inset-0 opacity-40 bg-cover bg-center group-hover:scale-105 transition duration-700" style="background-image: url('${b.image}')"></div>
-                                <div class="relative z-10 p-8 sm:p-16 max-w-2xl space-y-6">
-                                    <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-500/20 border border-brand-400/30 text-brand-300 text-xs font-bold uppercase tracking-wider">
-                                        <i class="fa-solid fa-bolt"></i> Featured Banner
-                                    </span>
-                                    <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight">${b.title || 'TrendPro Exclusive Sale'}</h1>
-                                    <p class="text-gray-300 text-base sm:text-lg">${b.subtitle || 'Tap to explore featured collections'}</p>
-                                    <div class="flex flex-wrap items-center gap-4 pt-2">
-                                        <span class="px-8 py-4 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-2xl shadow-lg shadow-brand-600/40 transition flex items-center gap-2">
-                                            <span>${b.btnText || 'Explore Now'}</span> <i class="fa-solid fa-arrow-right"></i>
-                                        </span>
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl bg-gray-900 group">
+                            <div id="banner-slider-track" class="flex transition-transform duration-700 ease-in-out">
+                                ${activeBanners.map(([id, b]) => `
+                                    <div onclick="window.handleBannerRedirect('${b.targetType || 'shop'}', '${b.targetValue || ''}')" class="min-w-full cursor-pointer relative aspect-[21/9] sm:aspect-[24/9] bg-gray-900">
+                                        <img src="${b.image}" alt="Banner" class="w-full h-full object-cover">
                                     </div>
-                                </div>
+                                `).join('')}
                             </div>
-                        `).join('')}
+                            <!-- Dots Indicator -->
+                            <div class="absolute bottom-4 left-0 right-0 flex justify-center items-center gap-2 z-20">
+                                ${activeBanners.map((_, idx) => `
+                                    <button onclick="window.setBannerSlide(${idx})" class="banner-dot h-2 rounded-full transition-all duration-300 ${idx === 0 ? 'bg-white w-8' : 'bg-white/50 w-2'}"></button>
+                                `).join('')}
+                            </div>
+                        </div>
                     </div>
 
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -696,7 +744,7 @@
                         <div class="flex items-center justify-between mb-8">
                             <div>
                                 <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Featured & Trending Products</h2>
-                                <p class="text-sm text-gray-500 mt-1">Handpicked bestsellers with special discounts</p>
+                                <p class="text-sm text-gray-500 mt-1">Handpicked bestsellers with variants, sizes & special discounts</p>
                             </div>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -722,7 +770,8 @@
         function renderProductCard(id, p) {
             const isWishlisted = window.TrendProState.wishlist[id] ? 'text-rose-500 fill-rose-500' : 'text-gray-400 hover:text-rose-500';
             const discountPercent = p.price && p.discountedPrice && p.price > p.discountedPrice ? Math.round(((p.price - p.discountedPrice) / p.price) * 100) : 0;
-            
+            const primaryCat = Array.isArray(p.categories) && p.categories.length > 0 ? p.categories[0] : (p.category || 'General');
+
             return `
                 <div class="bg-white rounded-3xl p-4 shadow-sm hover:shadow-xl border border-gray-100 transition duration-300 flex flex-col justify-between group relative">
                     ${discountPercent > 0 ? `<span class="absolute top-6 left-6 z-10 bg-rose-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">${discountPercent}% OFF</span>` : ''}
@@ -734,7 +783,7 @@
                             <img src="${p.thumbnail || 'https://placehold.co/400x400/e2e8f0/64748b?text=TrendPro'}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                         </a>
                         <div class="flex items-center justify-between text-xs text-gray-400 mb-1">
-                            <span>${p.category || 'General'}</span>
+                            <span>${primaryCat}</span>
                             <span class="flex items-center gap-1 text-amber-500 font-semibold"><i class="fa-solid fa-star"></i> ${p.rating || '4.8'}</span>
                         </div>
                         <a href="#product/${id}" class="font-bold text-gray-900 hover:text-brand-600 transition line-clamp-1 mb-1">${p.title}</a>
@@ -755,10 +804,10 @@
 
         function renderSampleProductsHTML() {
             const samples = [
-                { id: 'sample1', title: 'Ultra-HD 4K Smart TV 55"', price: 49999, discountedPrice: 34999, category: 'Electronics', thumbnail: 'https://placehold.co/400x400/10b981/ffffff?text=Smart+TV', shortDescription: 'Crystal 4K display.' },
-                { id: 'sample2', title: 'Pro Wireless Headphones', price: 12999, discountedPrice: 7999, category: 'Electronics', thumbnail: 'https://placehold.co/400x400/3b82f6/ffffff?text=Headphones', shortDescription: 'Active noise cancellation.' },
-                { id: 'sample3', title: 'Designer Cotton Hoodie', price: 2999, discountedPrice: 1499, category: 'Fashion & Apparel', thumbnail: 'https://placehold.co/400x400/f59e0b/ffffff?text=Hoodie', shortDescription: 'Super soft organic cotton.' },
-                { id: 'sample4', title: 'Ergonomic Office Chair', price: 15999, discountedPrice: 9999, category: 'Home & Kitchen', thumbnail: 'https://placehold.co/400x400/ec4899/ffffff?text=Chair', shortDescription: 'Lumbar support breathable mesh.' }
+                { id: 'sample1', title: 'Ultra-HD 4K Smart TV 55"', price: 49999, discountedPrice: 34999, categories: ['Electronics'], thumbnail: 'https://placehold.co/400x400/10b981/ffffff?text=Smart+TV', shortDescription: 'Crystal 4K display.' },
+                { id: 'sample2', title: 'Pro Wireless Headphones', price: 12999, discountedPrice: 7999, categories: ['Electronics'], thumbnail: 'https://placehold.co/400x400/3b82f6/ffffff?text=Headphones', shortDescription: 'Active noise cancellation.' },
+                { id: 'sample3', title: 'Designer Cotton Hoodie', price: 2999, discountedPrice: 1499, categories: ['Fashion & Apparel'], thumbnail: 'https://placehold.co/400x400/f59e0b/ffffff?text=Hoodie', shortDescription: 'Super soft organic cotton.' },
+                { id: 'sample4', title: 'Ergonomic Office Chair', price: 15999, discountedPrice: 9999, categories: ['Home & Kitchen'], thumbnail: 'https://placehold.co/400x400/ec4899/ffffff?text=Chair', shortDescription: 'Lumbar support breathable mesh.' }
             ];
             return samples.map(p => renderProductCard(p.id, p)).join('');
         }
@@ -767,7 +816,10 @@
             const products = Object.entries(window.TrendProState.products);
             const activeCategory = window.TrendProState.selectedFilterCategory || 'all';
             
-            const filteredProducts = activeCategory === 'all' ? products : products.filter(([id, p]) => p.category?.toLowerCase() === activeCategory.toLowerCase());
+            const filteredProducts = activeCategory === 'all' ? products : products.filter(([id, p]) => {
+                const cats = Array.isArray(p.categories) ? p.categories : [p.category];
+                return cats.some(c => c?.toLowerCase() === activeCategory.toLowerCase());
+            });
 
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
@@ -790,13 +842,20 @@
                 title: 'Pro Wireless Noise-Cancelling Headphones',
                 price: 12999,
                 discountedPrice: 7999,
-                category: 'Electronics',
+                categories: ['Electronics'],
                 description: 'Experience immersive high-resolution audio with hybrid active noise cancellation and 40 hours battery life.',
                 thumbnail: 'https://placehold.co/600x600/3b82f6/ffffff?text=Headphones',
-                extraImages: []
+                extraImages: [],
+                variants: [{name: 'Standard', price: 7999, stock: 10}],
+                specifications: { 'Brand': 'TrendPro', 'Warranty': '1 Year' },
+                reviews: {}
             };
 
             const extraImgs = p.extraImages || [];
+            const variants = p.variants || [];
+            const specs = p.specifications || {};
+            const reviews = Object.entries(p.reviews || {});
+            const primaryCat = Array.isArray(p.categories) ? p.categories.join(', ') : (p.category || 'General');
 
             return `
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
@@ -819,14 +878,28 @@
                             ` : ''}
                         </div>
                         <div class="space-y-6">
-                            <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-600 text-xs font-bold uppercase tracking-wider">${p.category || 'General'}</span>
+                            <span class="inline-block px-3 py-1 rounded-full bg-brand-50 text-brand-600 text-xs font-bold uppercase tracking-wider">${primaryCat}</span>
                             <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900">${p.title}</h1>
                             <div class="flex items-center gap-4">
-                                <div class="text-3xl font-extrabold text-gray-900">₹${p.discountedPrice || p.price}</div>
+                                <div class="text-3xl font-extrabold text-gray-900" id="displayed-price">₹${p.discountedPrice || p.price}</div>
                                 ${p.price && p.discountedPrice && p.price > p.discountedPrice ? `<div class="text-lg text-gray-400 line-through">₹${p.price}</div>` : ''}
                             </div>
                             <p class="text-gray-600 leading-relaxed">${p.description || 'No description provided.'}</p>
                             
+                            <!-- Variants / Sizes Selection (e.g., S, M, L, XL, 36, 38, 1kg) -->
+                            ${variants.length > 0 ? `
+                                <div class="space-y-2">
+                                    <label class="font-bold text-xs uppercase tracking-wider text-gray-700">Select Variant / Size / Weight</label>
+                                    <div class="flex flex-wrap gap-3">
+                                        ${variants.map((v, idx) => `
+                                            <button onclick="window.selectProductVariant('${productId}', ${idx}, ${v.price || p.discountedPrice || p.price})" class="variant-btn px-4 py-2.5 rounded-xl border text-sm font-semibold transition ${idx === 0 ? 'border-brand-600 bg-brand-50 text-brand-700 shadow-sm' : 'border-gray-200 text-gray-700 hover:bg-gray-50'}">
+                                                ${v.name} (₹${v.price})
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+
                             <!-- Both Add to Cart and Buy Now Buttons -->
                             <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
                                 <button onclick="window.quickAddToCart('${productId}')" class="w-full sm:flex-1 py-4 bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold rounded-2xl border border-brand-200 transition flex items-center justify-center gap-2 shadow-sm">
@@ -838,9 +911,110 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Dynamic Specification Table (Left: Name, Right: Value) -->
+                    ${Object.keys(specs).length > 0 ? `
+                        <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-gray-100 space-y-6">
+                            <h3 class="text-2xl font-extrabold text-gray-900">Technical Specifications</h3>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <tbody class="divide-y divide-gray-100">
+                                        ${Object.entries(specs).map(([k, v]) => `
+                                            <tr>
+                                                <th class="py-3.5 pr-6 font-semibold text-gray-500 w-1/3">${k}</th>
+                                                <td class="py-3.5 pl-6 font-medium text-gray-900 w-2/3">${v}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <!-- Customer Reviews Section (With star rating, comment, and image attachment) -->
+                    <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-gray-100 space-y-8">
+                        <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+                            <h3 class="text-2xl font-extrabold text-gray-900">Customer Reviews & Ratings (${reviews.length})</h3>
+                            <button onclick="window.openAddReviewModal('${productId}')" class="px-5 py-2.5 bg-brand-600 text-white font-bold rounded-xl text-xs shadow hover:bg-brand-700 transition">Write a Review</button>
+                        </div>
+                        <div class="space-y-6">
+                            ${reviews.length === 0 ? `<p class="text-gray-500 text-sm">No reviews yet. Be the first to write one!</p>` : reviews.map(([rid, rev]) => `
+                                <div class="p-5 rounded-2xl border border-gray-100 bg-gray-50/50 space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-2">
+                                            <div class="w-8 h-8 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-xs">${(rev.author || 'U').slice(0,2).toUpperCase()}</div>
+                                            <span class="font-bold text-gray-900 text-sm">${rev.author || 'User'}</span>
+                                        </div>
+                                        <div class="flex items-center text-amber-500 text-xs">
+                                            ${Array.from({length: rev.rating || 5}).map(() => `<i class="fa-solid fa-star"></i>`).join('')}
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-gray-700">${rev.comment}</p>
+                                    ${rev.image ? `<img src="${rev.image}" class="w-24 h-24 rounded-xl object-cover border mt-2">` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
             `;
         }
+
+        window.selectProductVariant = function(productId, idx, price) {
+            document.getElementById('displayed-price').textContent = `₹${price}`;
+            showToast(`Variant selected (₹${price})`);
+        };
+
+        window.openAddReviewModal = function(productId) {
+            openModal(`
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-gray-900">Write Product Review</h3>
+                    <div class="space-y-4 text-sm">
+                        <div>
+                            <label class="font-semibold text-xs text-gray-600">Rating (1 to 5 Stars)</label>
+                            <select id="rev-rating" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none mt-1">
+                                <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                                <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                                <option value="3">⭐⭐⭐ (3/5)</option>
+                                <option value="2">⭐⭐ (2/5)</option>
+                                <option value="1">⭐ (1/5)</option>
+                            </select>
+                        </div>
+                        <textarea id="rev-comment" placeholder="Write your review experience..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none h-24"></textarea>
+                        <div class="space-y-1">
+                            <label class="font-semibold text-xs text-gray-600">Attach Image (Optional)</label>
+                            <input type="file" id="rev-img-file" accept="image/*" class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-50 file:text-brand-700">
+                        </div>
+                        <button onclick="window.submitProductReview('${productId}')" class="w-full py-3.5 bg-brand-600 text-white font-bold rounded-xl shadow-lg">Submit Review</button>
+                    </div>
+                </div>
+            `);
+        };
+
+        window.submitProductReview = async function(productId) {
+            const rating = parseInt(document.getElementById('rev-rating').value) || 5;
+            const comment = document.getElementById('rev-comment').value.trim();
+            const imgFile = document.getElementById('rev-img-file').files[0];
+            let image = '';
+            if (imgFile) {
+                try { image = await fileToBase64(imgFile); } catch(e) {}
+            }
+
+            if (!comment) { showToast('Please write a review comment', 'error'); return; }
+
+            const revId = 'rev-' + Date.now();
+            const author = window.TrendProState.currentUser?.displayName || 'Verified Customer';
+
+            try {
+                await set(ref(db, `artifacts/${appId}/public/data/products/${productId}/reviews/${revId}`), {
+                    rating, comment, image, author, date: Date.now()
+                });
+                showToast('Review submitted successfully!');
+                closeModal();
+                window.renderCurrentRoute();
+            } catch (err) {
+                showToast('Failed to submit review: ' + err.message, 'error');
+            }
+        };
 
         window.quickAddToCart = function(productId) {
             const userId = window.TrendProState.userId || 'guest-local-user-id';
@@ -946,6 +1120,7 @@
             const deliveryCharge = subtotal > 999 || subtotal === 0 ? 0 : 99;
             const finalTotal = subtotal + deliveryCharge;
             const addresses = window.TrendProState.addresses || [];
+            const walletBalance = window.TrendProState.wallet?.balance || 5000;
 
             return `
                 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
@@ -965,6 +1140,34 @@
                                     <span class="text-xs font-bold text-brand-600 bg-brand-50 px-3 py-1 rounded-full">Selected</span>
                                 </div>
                             `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Payment Method Selection: COD, UPI, Wallet -->
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100 space-y-6">
+                        <h3 class="font-bold text-gray-900 text-lg border-b border-gray-100 pb-4">2. Select Payment Method</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+                                <input type="radio" name="payment-method" value="COD" checked class="text-brand-600 focus:ring-brand-500">
+                                <div>
+                                    <span class="font-bold text-gray-900">Cash on Delivery (COD)</span>
+                                    <p class="text-xs text-gray-500">Pay cash upon delivery at your doorstep.</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+                                <input type="radio" name="payment-method" value="UPI" class="text-brand-600 focus:ring-brand-500">
+                                <div>
+                                    <span class="font-bold text-gray-900">Demo UPI / GPay / PhonePe</span>
+                                    <p class="text-xs text-gray-500">Instant secure UPI payment simulation.</p>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-4 rounded-2xl border border-gray-200 cursor-pointer hover:bg-gray-50 transition">
+                                <input type="radio" name="payment-method" value="Wallet" class="text-brand-600 focus:ring-brand-500">
+                                <div>
+                                    <span class="font-bold text-gray-900">TrendPro Wallet (Balance: ₹${walletBalance})</span>
+                                    <p class="text-xs text-gray-500">${walletBalance >= finalTotal ? 'Sufficient balance available.' : '<span class="text-rose-500 font-semibold">Insufficient wallet balance. Top-up required.</span>'}</p>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
@@ -1022,18 +1225,31 @@
 
         window.placeOrder = function(totalAmount) {
             const userId = window.TrendProState.userId || 'guest-local-user-id';
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked')?.value || 'COD';
+            const walletBalance = window.TrendProState.wallet?.balance || 5000;
+
+            if (selectedPayment === 'Wallet' && walletBalance < totalAmount) {
+                showToast('Insufficient wallet balance for this purchase. Please top up or choose COD.', 'error');
+                return;
+            }
+
             const cartItems = window.TrendProState.cart;
             const orderId = `TP-${new Date().toISOString().slice(0,10).replace(/-/g,'')}-${Math.floor(1000 + Math.random() * 9000)}`;
             const orderData = {
-                orderId, items: cartItems, total: totalAmount, date: Date.now(), status: 'New Order', paymentMethod: 'Wallet', userId,
+                orderId, items: cartItems, total: totalAmount, date: Date.now(), status: 'New Order', paymentMethod: selectedPayment, userId,
                 customerName: window.TrendProState.currentUser?.displayName || 'Saurav Kumar'
             };
+
+            if (selectedPayment === 'Wallet') {
+                const newWalletBalance = walletBalance - totalAmount;
+                set(ref(db, `artifacts/${appId}/users/${userId}/wallet/balance`), newWalletBalance);
+            }
 
             set(ref(db, `artifacts/${appId}/users/${userId}/orders/${orderId}`), orderData);
             set(ref(db, `artifacts/${appId}/public/data/allOrders/${orderId}`), orderData);
 
             remove(ref(db, `artifacts/${appId}/users/${userId}/cart`)).then(() => {
-                showToast(`Order ${orderId} placed successfully!`);
+                showToast(`Order ${orderId} placed successfully via ${selectedPayment}!`);
                 window.location.hash = '#orders';
             });
         };
@@ -1063,10 +1279,75 @@
                             <div class="text-4xl sm:text-5xl font-extrabold">₹${(wallet.balance || 5000).toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
                             <p class="text-xs text-white/80">Instant checkout & secure refund guarantee</p>
                         </div>
+                        <div class="flex flex-col gap-3 w-full sm:w-auto">
+                            <button onclick="window.openTopupModal()" class="px-6 py-3.5 bg-white text-brand-700 font-bold rounded-2xl shadow-lg hover:bg-gray-100 transition">
+                                <i class="fa-solid fa-plus mr-2"></i> Top-up Wallet
+                            </button>
+                            <button onclick="window.openGiftVoucherModal()" class="px-6 py-3.5 bg-white/20 hover:bg-white/30 text-white font-bold rounded-2xl transition">
+                                <i class="fa-solid fa-gift mr-2"></i> Redeem Gift Voucher
+                            </button>
+                        </div>
                     </div>
                 </div>
             `;
         }
+
+        window.openTopupModal = function() {
+            openModal(`
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-gray-900">Top-up Wallet (Self or Someone Else)</h3>
+                    <div class="space-y-4 text-sm">
+                        <input type="number" id="topup-amount" placeholder="Enter Amount in ₹ (e.g., 1000)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none">
+                        <input type="email" id="topup-recipient" placeholder="Recipient Email (Leave blank for self)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none">
+                        <button onclick="window.executeWalletTopup()" class="w-full py-3.5 bg-brand-600 text-white font-bold rounded-xl shadow-lg">Proceed to Pay (UPI Demo)</button>
+                    </div>
+                </div>
+            `);
+        };
+
+        window.executeWalletTopup = function() {
+            const amount = parseFloat(document.getElementById('topup-amount').value) || 0;
+            if (amount <= 0) { showToast('Please enter a valid top-up amount', 'error'); return; }
+
+            const userId = window.TrendProState.userId || 'guest-local-user-id';
+            const currentBal = window.TrendProState.wallet?.balance || 5000;
+            const newBal = currentBal + amount;
+
+            set(ref(db, `artifacts/${appId}/users/${userId}/wallet/balance`), newBal).then(() => {
+                showToast(`Successfully added ₹${amount} to wallet!`);
+                closeModal();
+            });
+        };
+
+        window.openGiftVoucherModal = function() {
+            openModal(`
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-gray-900">Redeem Gift Voucher</h3>
+                    <div class="space-y-4 text-sm">
+                        <input type="text" id="voucher-code" placeholder="Enter Voucher Code (e.g. TP-GIFT-500)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none uppercase font-mono">
+                        <button onclick="window.redeemGiftVoucher()" class="w-full py-3.5 bg-brand-600 text-white font-bold rounded-xl shadow-lg">Redeem Code</button>
+                    </div>
+                </div>
+            `);
+        };
+
+        window.redeemGiftVoucher = function() {
+            const code = document.getElementById('voucher-code').value.trim().toUpperCase();
+            if (!code) { showToast('Please enter a gift voucher code', 'error'); return; }
+
+            let addedAmount = 500;
+            if (code.includes('1000')) addedAmount = 1000;
+            if (code.includes('2000')) addedAmount = 2000;
+
+            const userId = window.TrendProState.userId || 'guest-local-user-id';
+            const currentBal = window.TrendProState.wallet?.balance || 5000;
+            const newBal = currentBal + addedAmount;
+
+            set(ref(db, `artifacts/${appId}/users/${userId}/wallet/balance`), newBal).then(() => {
+                showToast(`Gift voucher successfully redeemed! Added ₹${addedAmount} to wallet.`);
+                closeModal();
+            });
+        };
 
         function renderOrdersView() {
             const orders = Object.entries(window.TrendProState.orders);
@@ -1135,7 +1416,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12">
                     <div class="bg-gradient-to-r from-gray-900 to-gray-800 rounded-3xl p-8 text-white shadow-xl flex flex-col sm:flex-row items-center justify-between gap-6">
                         <div>
-                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">Owner Admin Portal</span>
+                            <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider">Owner Admin Portal (saurav586kumar@gmail.com)</span>
                             <h1 class="text-3xl font-extrabold mt-2">TrendPro Command Center</h1>
                         </div>
                         <div class="flex items-center gap-3">
@@ -1148,14 +1429,14 @@
                         </div>
                     </div>
 
-                    <!-- Banners Management Section (Only Image and Redirection Link) -->
+                    <!-- Banners Management Section (Clean Image & Redirection) -->
                     <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100 space-y-6">
-                        <h3 class="text-xl font-extrabold text-gray-900">Manage Banners (Image & Redirection)</h3>
+                        <h3 class="text-xl font-extrabold text-gray-900">Manage Banners (Clean Auto Slider)</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             ${banners.length === 0 ? `<p class="text-gray-500 text-sm">No custom banners configured.</p>` : banners.map(([id, b]) => `
                                 <div class="p-4 rounded-2xl border border-gray-200 flex items-center justify-between gap-4">
                                     <div class="flex items-center gap-3">
-                                        <img src="${b.image}" class="w-16. h-12 object-cover rounded-xl border">
+                                        <img src="${b.image}" class="w-24 h-12 object-cover rounded-xl border">
                                         <div>
                                             <p class="text-xs text-gray-500">Redirects to: <span class="font-semibold text-brand-600">${b.targetType} (${b.targetValue || 'general'})</span></p>
                                         </div>
@@ -1173,7 +1454,7 @@
                             ${allOrders.length === 0 ? `<p class="text-gray-500 text-sm">No orders received yet.</p>` : allOrders.map(([id, o]) => `
                                 <div class="p-5 rounded-2xl border border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                                     <div>
-                                        <h5 class="font-extrabold text-gray-900">${id} - ${o.customerName || 'Customer'}</h5>
+                                        <h5 class="font-extrabold text-gray-900">${id} - ${o.customerName || 'Customer'} (${o.paymentMethod || 'COD'})</h5>
                                         <p class="text-xs text-gray-500">Total: ₹${o.total}</p>
                                     </div>
                                     <div class="flex items-center gap-3">
@@ -1196,7 +1477,7 @@
 
             openModal(`
                 <div class="space-y-6">
-                    <h3 class="text-xl font-bold text-gray-900">Add New Product</h3>
+                    <h3 class="text-xl font-bold text-gray-900">Add New Product (Multi-Category, Variants, Specs)</h3>
                     <div class="space-y-4 text-sm">
                         <input type="text" id="prod-title" placeholder="Product Title" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none">
                         
@@ -1205,14 +1486,34 @@
                             <input type="number" id="prod-disc" placeholder="Discounted Price (₹)" class="bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none">
                         </div>
 
-                        <!-- Category Selection: Existing or Add New -->
+                        <!-- Multi-Category Selection -->
                         <div class="space-y-2">
-                            <label class="font-semibold text-xs text-gray-600">Product Category</label>
-                            <select id="prod-cat-select" onchange="window.handleCategorySelectChange(this.value)" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none font-medium">
-                                ${allCats.map(c => `<option value="${c}">${c}</option>`).join('')}
-                                <option value="NEW">+ Add New Category</option>
-                            </select>
-                            <input type="text" id="prod-new-cat-input" placeholder="Type new category name..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none hidden mt-2">
+                            <label class="font-semibold text-xs text-gray-600">Select Categories (Multiple Allowed)</label>
+                            <div class="grid grid-cols-2 gap-2 bg-gray-50 p-3 rounded-xl border border-gray-200 max-h-40 overflow-y-auto">
+                                ${allCats.map(c => `
+                                    <label class="flex items-center gap-2 text-xs font-medium text-gray-700 cursor-pointer">
+                                        <input type="checkbox" name="prod-categories" value="${c}" class="rounded text-brand-600"> ${c}
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Variants / Sizes (e.g., S, M, L, XL, 36, 38, 1kg) -->
+                        <div class="space-y-2">
+                            <label class="font-semibold text-xs text-gray-600">Custom Variants / Sizes (Comma separated, e.g. S, M, L, 1kg)</label>
+                            <input type="text" id="prod-variants-input" placeholder="S, M, L, XL or 500g, 1kg" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 outline-none">
+                        </div>
+
+                        <!-- Dynamic Specification Table Builder -->
+                        <div class="space-y-2">
+                            <label class="font-semibold text-xs text-gray-600">Specifications (Left Name : Right Value)</label>
+                            <div id="spec-rows-container" class="space-y-2">
+                                <div class="flex gap-2">
+                                    <input type="text" placeholder="Spec Name (e.g. Material)" class="spec-name flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs outline-none">
+                                    <input type="text" placeholder="Spec Value (e.g. Cotton)" class="spec-value flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs outline-none">
+                                </div>
+                            </div>
+                            <button onclick="window.addSpecRow()" class="text-xs font-bold text-brand-600 hover:underline">+ Add Specification Row</button>
                         </div>
 
                         <!-- Thumbnail File Upload -->
@@ -1235,13 +1536,15 @@
             `);
         };
 
-        window.handleCategorySelectChange = function(val) {
-            const input = document.getElementById('prod-new-cat-input');
-            if (val === 'NEW') {
-                input.classList.remove('hidden');
-            } else {
-                input.classList.add('hidden');
-            }
+        window.addSpecRow = function() {
+            const container = document.getElementById('spec-rows-container');
+            const row = document.createElement('div');
+            row.className = 'flex gap-2';
+            row.innerHTML = `
+                <input type="text" placeholder="Spec Name" class="spec-name flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs outline-none">
+                <input type="text" placeholder="Spec Value" class="spec-value flex-1 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs outline-none">
+            `;
+            container.appendChild(row);
         };
 
         function fileToBase64(file) {
@@ -1258,9 +1561,19 @@
             const price = parseFloat(document.getElementById('prod-price').value) || 999;
             const discountedPrice = parseFloat(document.getElementById('prod-disc').value) || 799;
             
-            let category = document.getElementById('prod-cat-select').value;
-            if (category === 'NEW') {
-                category = document.getElementById('prod-new-cat-input').value.trim() || 'General';
+            const selectedCategories = Array.from(document.querySelectorAll('input[name="prod-categories"]:checked')).map(el => el.value);
+            const categories = selectedCategories.length > 0 ? selectedCategories : ['General'];
+
+            const variantsInput = document.getElementById('prod-variants-input').value.trim();
+            const variants = variantsInput ? variantsInput.split(',').map(v => ({ name: v.trim(), price: discountedPrice, stock: 20 })) : [{ name: 'Standard', price: discountedPrice, stock: 20 }];
+
+            const specNames = document.querySelectorAll('.spec-name');
+            const specValues = document.querySelectorAll('.spec-value');
+            const specifications = {};
+            for (let i = 0; i < specNames.length; i++) {
+                const k = specNames[i].value.trim();
+                const v = specValues[i].value.trim();
+                if (k && v) specifications[k] = v;
             }
 
             const description = document.getElementById('prod-desc').value.trim() || title;
@@ -1268,9 +1581,7 @@
             let thumbnail = 'https://placehold.co/400x400/10b981/ffffff?text=' + encodeURIComponent(title || 'TrendPro');
             const thumbFile = document.getElementById('prod-thumb-file').files[0];
             if (thumbFile) {
-                try {
-                    thumbnail = await fileToBase64(thumbFile);
-                } catch(e) {}
+                try { thumbnail = await fileToBase64(thumbFile); } catch(e) {}
             }
 
             const extraFiles = document.getElementById('prod-extra-files').files;
@@ -1287,18 +1598,10 @@
             const prodId = 'prod-' + Date.now();
             try {
                 await set(ref(db, `artifacts/${appId}/public/data/products/${prodId}`), {
-                    title, category, price, discountedPrice, thumbnail, extraImages, description, rating: 5.0
+                    title, categories, category: categories[0], price, discountedPrice, thumbnail, extraImages, description, variants, specifications, rating: 5.0
                 });
 
-                // Ensure category exists so it appears in category lists
-                const catKey = 'cat-' + category.toLowerCase().replace(/[^a-z0-9]/g, '-');
-                await set(ref(db, `artifacts/${appId}/public/data/categories/${catKey}`), {
-                    name: category,
-                    count: 'Active',
-                    icon: 'fa-tag'
-                });
-
-                showToast('Product added successfully and added to category!');
+                showToast('Product added successfully!');
                 closeModal();
                 window.renderCurrentRoute();
             } catch (err) {
@@ -1309,7 +1612,7 @@
         window.openAddBannerModal = function() {
             openModal(`
                 <div class="space-y-6">
-                    <h3 class="text-xl font-bold text-gray-900">Add Homepage Banner (Image & Redirection)</h3>
+                    <h3 class="text-xl font-bold text-gray-900">Add Clean Banner (Image & Redirection Link)</h3>
                     <div class="space-y-4 text-sm">
                         <!-- Banner Image File Upload -->
                         <div class="space-y-1">
@@ -1356,27 +1659,17 @@
             let image = '';
             const bannerFile = document.getElementById('banner-file').files[0];
             if (bannerFile) {
-                try {
-                    image = await fileToBase64(bannerFile);
-                } catch(e) {}
+                try { image = await fileToBase64(bannerFile); } catch(e) {}
             }
 
-            if (!image) { 
-                showToast('Please select a banner image file', 'error'); 
-                return; 
-            }
+            if (!image) { showToast('Please select a banner image file', 'error'); return; }
 
             const bannerId = 'banner-' + Date.now();
             try {
                 await set(ref(db, `artifacts/${appId}/public/data/banners/${bannerId}`), {
-                    title: 'Special Promotion',
-                    subtitle: 'Tap to view collection',
-                    image,
-                    btnText: 'Shop Now',
-                    targetType,
-                    targetValue
+                    image, targetType, targetValue
                 });
-                showToast('Banner saved successfully with redirection!');
+                showToast('Banner saved successfully!');
                 closeModal();
                 window.renderCurrentRoute();
             } catch (err) {

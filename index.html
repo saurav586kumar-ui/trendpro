@@ -72,7 +72,7 @@
         </div>
         <div class="flex-1 overflow-y-auto p-6 space-y-2">
             <button onclick="toggleProfileDrawer(false); navigateTo('profile')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-user-pen text-indigo-600 w-5"></i><span>Personal Details & Address</span></button>
-            <button onclick="toggleProfileDrawer(false); navigateTo('wallet')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-wallet text-indigo-600 w-5"></i><span>My Wallet & Vouchers</span></button>
+            <button onclick="toggleProfileDrawer(false); navigateTo('wallet')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-wallet text-indigo-600 w-5"></i><span>My Wallet & Gift Cards</span></button>
             <button onclick="toggleProfileDrawer(false); navigateTo('orders')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-box-archive text-indigo-600 w-5"></i><span>My Orders</span></button>
             <button onclick="toggleProfileDrawer(false); navigateTo('chat')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-comments text-indigo-600 w-5"></i><span>Messages & Support</span></button>
             <button onclick="toggleProfileDrawer(false); navigateTo('notifications')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 font-semibold text-sm transition-colors"><i class="fa-solid fa-bell text-indigo-600 w-5"></i><span>Notifications</span></button>
@@ -146,7 +146,7 @@
     <!-- MAIN VIEW AREA -->
     <main id="app-main" class="flex-1"></main>
 
-    <!-- FOOTER (PROPERLY POSITIONED AT BOTTOM WITH POLICIES & LINKS) -->
+    <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
@@ -157,7 +157,7 @@
                 <h4 class="text-white font-bold text-sm mb-3">Quick Links</h4>
                 <ul class="space-y-2 text-xs">
                     <li><button onclick="navigateTo('products')" class="hover:text-white transition-colors">All Products</button></li>
-                    <li><button onclick="navigateTo('wallet')" class="hover:text-white transition-colors">Wallet & Perks</button></li>
+                    <li><button onclick="navigateTo('wallet')" class="hover:text-white transition-colors">Wallet & Vouchers</button></li>
                     <li><button onclick="navigateTo('chat')" class="hover:text-white transition-colors">Support Chat</button></li>
                 </ul>
             </div>
@@ -313,7 +313,6 @@
                         </button>
                     </div>
                 `;
-                // Update Drawer Info
                 const drawerImg = document.getElementById('drawer-user-img');
                 const drawerName = document.getElementById('drawer-user-name');
                 const drawerEmail = document.getElementById('drawer-user-email');
@@ -464,7 +463,7 @@
             db.ref('banners').set(demoBanners);
         }
 
-        // --- ENHANCED INSTANT SEARCH SYSTEM ---
+        // --- INSTANT SEARCH SYSTEM ---
         function handleInstantSearch(query) {
             const dropdown = document.getElementById('search-suggestions-dropdown');
             if (!dropdown) return;
@@ -752,15 +751,6 @@
                                     ${p.discountedPrice ? `<span class="text-lg text-slate-400 line-through">${formatCurrency(p.price)}</span>` : ''}
                                 </div>
 
-                                ${p.sizes ? `
-                                    <div class="mt-6">
-                                        <h3 class="font-bold text-sm mb-2">Available Size / Variant</h3>
-                                        <div class="flex gap-2">
-                                            <span class="px-4 py-2 bg-indigo-50 dark:bg-slate-800 text-indigo-600 font-bold rounded-xl border border-indigo-500">${p.sizes}</span>
-                                        </div>
-                                    </div>
-                                ` : ''}
-
                                 <div class="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800">
                                     <h3 class="font-bold text-sm mb-3">Specifications</h3>
                                     <table class="w-full text-sm">
@@ -777,8 +767,8 @@
                             </div>
 
                             <div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex items-center space-x-4">
-                                <button onclick="addToCart('${p.id}')" ${stock === 0 ? 'disabled' : ''} class="flex-1 py-4 ${stock === 0 ? 'bg-slate-300 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'} font-bold rounded-2xl shadow-xl">
-                                    <i class="fa-solid fa-bag-shopping"></i> ${stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                                <button onclick="addToCart('${p.id}')" ${stock === 0 ? 'disabled' : ''} class="flex-1 py-4 ${stock === 0 ? 'bg-slate-300 text-slate-500 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700 text-white'} font-bold rounded-2xl shadow-xl flex items-center justify-center space-x-2">
+                                    <i class="fa-solid fa-bag-shopping"></i><span>${stock === 0 ? 'Out of Stock' : 'Add to Cart'}</span>
                                 </button>
                                 <button onclick="buyNow('${p.id}')" ${stock === 0 ? 'disabled' : ''} class="flex-1 py-4 ${stock === 0 ? 'bg-slate-300 text-slate-500 cursor-not-allowed' : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900'} font-bold rounded-2xl shadow-xl">
                                     Buy Now
@@ -790,7 +780,7 @@
             `;
         }
 
-        // --- CART & CHECKOUT ---
+        // --- CART & CHECKOUT WITH CELEBRATORY POPUP ---
         async function addToCart(productId) {
             if (!currentUser) { openAuthModal(); return; }
             const p = productsCache.find(x => x.id === productId);
@@ -810,7 +800,21 @@
             if (existing) { existing.quantity += 1; }
             else { cartCache.push({ productId: p.id, title: p.title, price: p.discountedPrice || p.price, thumbnail: p.thumbnail, quantity: 1, stock }); }
             await db.ref(`users/${currentUser.uid}/cart`).set(cartCache);
-            showToast("Added to cart!");
+            
+            // Show added to cart popup
+            showModal(`
+                <div class="p-8 text-center space-y-4">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner animate-bounce">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <h3 class="text-xl font-black">Added to Cart!</h3>
+                    <p class="text-sm text-slate-500">${p.title} has been successfully added to your cart.</p>
+                    <div class="flex gap-3 pt-4">
+                        <button onclick="closeModal()" class="flex-1 py-3 bg-slate-100 dark:bg-slate-700 font-bold text-xs rounded-xl">Continue Shopping</button>
+                        <button onclick="closeModal(); navigateTo('cart');" class="flex-1 py-3 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-lg">View Cart</button>
+                    </div>
+                </div>
+            `);
         }
 
         async function buyNow(productId) {
@@ -857,27 +861,59 @@
                 return '';
             }
             const subtotal = cartCache.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const walletBal = Number(userProfile.walletBalance || 0);
 
             return `
                 <div class="max-w-4xl mx-auto px-4 py-10 space-y-6 mb-12">
                     <h1 class="text-3xl font-black tracking-tight">Checkout</h1>
                     <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700">
-                        <h3 class="font-bold mb-4">Select Address</h3>
+                        <h3 class="font-bold mb-4">Select Delivery Address</h3>
                         ${Object.entries(addresses).map(([k, a]) => `
                             <label class="block p-4 border rounded-xl cursor-pointer mb-2">
                                 <input type="radio" name="addr" value="${k}" checked> <strong>${a.name}</strong> - ${a.house}, ${a.city} (${a.phone})
                             </label>
                         `).join('')}
                     </div>
-                    <button onclick="placeOrder(${subtotal})" class="w-full py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl">Place Order (COD)</button>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 space-y-4">
+                        <h3 class="font-bold text-lg">Payment Method</h3>
+                        <p class="text-xs text-slate-500">Your Wallet Balance: <strong class="text-indigo-600">${formatCurrency(walletBal)}</strong></p>
+                        ${walletBal >= subtotal ? `
+                            <label class="block p-4 border rounded-xl cursor-pointer bg-indigo-50/50">
+                                <input type="radio" name="pay-method" value="wallet" checked> Pay using Wallet (${formatCurrency(subtotal)})
+                            </label>
+                        ` : `<p class="text-xs text-rose-500 font-semibold">Wallet balance insufficient. Please top up via Gift Voucher or use UPI Demo.</p>`}
+                        <label class="block p-4 border rounded-xl cursor-pointer">
+                            <input type="radio" name="pay-method" value="upi" ${walletBal < subtotal ? 'checked' : ''}> Simulated UPI Payment (Demo Gateway)
+                        </label>
+                        <label class="block p-4 border rounded-xl cursor-pointer">
+                            <input type="radio" name="pay-method" value="cod"> Cash on Delivery (COD)
+                        </label>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                        <div><span class="text-sm text-slate-400">Total Amount:</span><h2 class="text-2xl font-black">${formatCurrency(subtotal)}</h2></div>
+                        <button onclick="placeOrder(${subtotal})" class="px-8 py-4 bg-indigo-600 text-white font-bold rounded-2xl shadow-xl">Complete Order</button>
+                    </div>
                 </div>
             `;
         }
 
         async function placeOrder(total) {
+            const payMethodEl = document.querySelector('input[name="pay-method"]:checked');
+            const payMethod = payMethodEl ? payMethodEl.value : 'cod';
+
+            if (payMethod === 'wallet') {
+                const currentWallet = Number(userProfile.walletBalance || 0);
+                if (currentWallet < total) {
+                    showToast("Insufficient wallet balance", "error");
+                    return;
+                }
+                await db.ref(`users/${currentUser.uid}/walletBalance`).set(currentWallet - total);
+            }
+
             const orderId = 'TP-' + Date.now();
             
-            // Deduct stock atomically
             for (const item of cartCache) {
                 const prodRef = db.ref(`products/${item.productId}`);
                 const snap = await prodRef.get();
@@ -889,14 +925,26 @@
                 }
             }
 
-            const orderData = { orderId, uid: currentUser.uid, customerName: userProfile.name, products: cartCache, totalAmount: total, status: 'New Order', timestamp: Date.now() };
+            const orderData = { orderId, uid: currentUser.uid, customerName: userProfile.name, products: cartCache, totalAmount: total, paymentMethod: payMethod, status: 'New Order', timestamp: Date.now() };
             await db.ref(`orders/${orderId}`).set(orderData);
             await db.ref(`users/${currentUser.uid}/cart`).set(null);
             navigateTo('order-success', orderId);
         }
 
         function renderOrderSuccessPage(orderId) {
-            return `<div class="max-w-xl mx-auto px-4 py-16 text-center space-y-6 mb-12"><h1 class="text-3xl font-black">Order Placed Successfully!</h1><p class="text-slate-500">Order ID: ${orderId}</p><button onclick="navigateTo('index')" class="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold">Return Home</button></div>`;
+            return `
+                <div class="max-w-xl mx-auto px-4 py-16 text-center space-y-6 mb-12">
+                    <div class="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-3xl shadow-xl animate-bounce">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h1 class="text-3xl font-black">Order Placed Successfully!</h1>
+                    <p class="text-slate-500 text-sm">Your order ID is <span class="font-bold text-indigo-600">${orderId}</span>. You can track live updates in your orders list.</p>
+                    <div class="flex gap-4 justify-center pt-4">
+                        <button onclick="navigateTo('orders')" class="px-6 py-3.5 bg-slate-100 dark:bg-slate-800 font-bold text-xs rounded-xl">View Orders</button>
+                        <button onclick="navigateTo('index')" class="px-6 py-3.5 bg-indigo-600 text-white font-bold text-xs rounded-xl shadow-lg">Continue Shopping</button>
+                    </div>
+                </div>
+            `;
         }
 
         function renderWishlistPage() {
@@ -937,7 +985,7 @@
             return `<div class="max-w-7xl mx-auto px-4 py-10 mb-12"><h1 class="text-3xl font-black mb-4">Notifications</h1><p class="text-slate-500">No new notifications.</p></div>`;
         }
 
-        // --- PROFILE & WALLET & UPLOADS ---
+        // --- PROFILE & WALLET & GIFT VOUCHERS ---
         function renderProfilePage() {
             if (!currentUser || !userProfile) return '';
             return `
@@ -1017,43 +1065,190 @@
         function renderWalletPage() {
             if (!currentUser || !userProfile) return '<div class="p-12 text-center">Please Sign In</div>';
             return `
-                <div class="max-w-7xl mx-auto px-4 py-10 mb-12">
-                    <div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-8 rounded-3xl shadow-xl max-w-md">
-                        <span class="text-xs uppercase font-bold tracking-wider opacity-80">Wallet Balance</span>
-                        <h2 class="text-4xl font-black mt-2">${formatCurrency(userProfile.walletBalance || 0)}</h2>
+                <div class="max-w-4xl mx-auto px-4 py-10 space-y-8 mb-12">
+                    <div class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white p-8 rounded-3xl shadow-xl flex items-center justify-between">
+                        <div>
+                            <span class="text-xs uppercase font-bold tracking-wider opacity-80">Wallet Balance</span>
+                            <h2 class="text-4xl font-black mt-2">${formatCurrency(userProfile.walletBalance || 0)}</h2>
+                        </div>
+                        <button onclick="openBuyGiftCardModal()" class="px-6 py-3.5 bg-white text-indigo-900 font-extrabold text-xs rounded-2xl shadow-lg hover:bg-slate-100 transition-all">
+                            + Buy Gift Voucher
+                        </button>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-3xl border shadow-sm space-y-4">
+                        <h3 class="font-bold text-lg">Redeem Gift Voucher Code</h3>
+                        <div class="flex gap-3">
+                            <input type="text" id="redeem-code-input" placeholder="Enter code (e.g. TP-GIFT-1234-5678)" class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-4 py-3 text-sm">
+                            <button onclick="redeemGiftCardCode()" class="px-6 py-3 bg-indigo-600 text-white font-bold text-sm rounded-xl shadow-md">Redeem</button>
+                        </div>
                     </div>
                 </div>
             `;
         }
 
-        // --- CHAT SUPPORT SYSTEM ---
+        function openBuyGiftCardModal() {
+            showModal(`
+                <div class="p-6 space-y-4">
+                    <h3 class="font-bold text-xl">Purchase Gift Voucher</h3>
+                    <input type="number" id="gc-amount" placeholder="Amount (₹)" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    <div class="space-y-2">
+                        <label class="block text-xs font-bold text-slate-500">Recipient Option</label>
+                        <select id="gc-recipient-type" onchange="document.getElementById('recipient-name-box').style.display = this.value === 'other' ? 'block' : 'none'" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                            <option value="self">Buying for Myself (Add directly to wallet)</option>
+                            <option value="other">Buying for Someone Else (Generate Shareable Code Card)</option>
+                        </select>
+                    </div>
+                    <div id="recipient-name-box" style="display:none;" class="space-y-2">
+                        <input type="text" id="gc-recipient" placeholder="Recipient Name" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    </div>
+                    <button onclick="purchaseGiftCard()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Proceed to Pay via UPI Demo</button>
+                </div>
+            `);
+        }
+
+        async function purchaseGiftCard() {
+            const amount = Number(document.getElementById('gc-amount')?.value);
+            const type = document.getElementById('gc-recipient-type')?.value;
+            const recipient = document.getElementById('gc-recipient')?.value || 'Friend';
+
+            if (!amount || amount <= 0) {
+                showToast("Enter a valid amount", "error");
+                return;
+            }
+
+            const code = 'TP-GIFT-' + Math.floor(1000 + Math.random() * 9000) + '-' + Math.floor(1000 + Math.random() * 9000);
+            await db.ref(`giftCards/${code}`).set({ code, amount, recipient, redeemed: false, createdBy: currentUser.uid });
+
+            if (type === 'self') {
+                const current = Number(userProfile.walletBalance || 0);
+                await db.ref(`users/${currentUser.uid}/walletBalance`).set(current + amount);
+                await db.ref(`giftCards/${code}`).update({ redeemed: true });
+                closeModal();
+                showToast(`Successfully added ₹${amount} to your wallet!`);
+            } else {
+                closeModal();
+                showModal(`
+                    <div class="p-8 text-center space-y-4">
+                        <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto text-2xl shadow-inner">
+                            <i class="fa-solid fa-gift"></i>
+                        </div>
+                        <h3 class="text-xl font-black">Gift Voucher Generated!</h3>
+                        <p class="text-sm text-slate-500">Share this digital card code with <strong>${recipient}</strong>:</p>
+                        <div class="p-4 bg-slate-100 dark:bg-slate-900 border rounded-2xl font-mono font-bold text-lg text-indigo-600 tracking-wider">
+                            ${code}
+                        </div>
+                        <p class="text-xs text-slate-400">Value: ${formatCurrency(amount)}</p>
+                        <button onclick="closeModal()" class="w-full py-3 bg-indigo-600 text-white font-bold rounded-xl">Done</button>
+                    </div>
+                `);
+            }
+        }
+
+        async function redeemGiftCardCode() {
+            const codeInput = document.getElementById('redeem-code-input');
+            if (!codeInput) return;
+            const code = codeInput.value.trim();
+            if (!code) { showToast("Enter a code", "error"); return; }
+
+            const ref = db.ref(`giftCards/${code}`);
+            const snap = await ref.get();
+            if (!snap.exists()) {
+                showToast("Invalid gift card code!", "error");
+                return;
+            }
+
+            const data = snap.val();
+            if (data.redeemed) {
+                showToast("Gift card already redeemed!", "error");
+                return;
+            }
+
+            const currentWallet = Number(userProfile.walletBalance || 0);
+            await db.ref(`users/${currentUser.uid}/walletBalance`).set(currentWallet + data.amount);
+            await ref.update({ redeemed: true });
+            codeInput.value = '';
+            showToast(`Successfully redeemed ${formatCurrency(data.amount)} into your wallet!`);
+        }
+
+        // --- REAL-TIME CHAT SUPPORT SYSTEM ---
         function renderChatPage() {
             if (!currentUser) return `<div class="p-12 text-center"><h2 class="text-2xl font-bold">Please Sign In</h2></div>`;
+            const isAdmin = currentUser.email === SPECIAL_ADMIN_EMAIL;
+
+            if (isAdmin) {
+                return `
+                    <div class="max-w-5xl mx-auto px-4 py-10 mb-12">
+                        <h1 class="text-3xl font-black mb-6">Owner Customer Chats</h1>
+                        <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border p-6 min-h-[500px]">
+                            <p class="text-xs text-slate-400 mb-4">Select a customer conversation from Firebase chats.</p>
+                            <div id="admin-chat-list" class="space-y-2"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
             return `
                 <div class="max-w-4xl mx-auto px-4 py-10 mb-12">
                     <h1 class="text-3xl font-black mb-6">Customer Support Chat</h1>
-                    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border p-6 h-[400px] flex flex-col justify-between">
-                        <div id="chat-messages" class="flex-1 overflow-y-auto space-y-3 pr-2">
-                            <p class="text-center text-xs text-slate-400">Connected with TrendPro Support Agent</p>
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border p-6 h-[500px] flex flex-col justify-between">
+                        <div id="customer-chat-messages" class="flex-1 overflow-y-auto space-y-3 pr-2">
+                            <p class="text-center text-xs text-slate-400">Loading live chat support...</p>
                         </div>
-                        <div class="flex gap-2 pt-4 border-t">
+                        <div class="pt-4 border-t flex items-center gap-2">
+                            <label class="p-3 bg-slate-100 dark:bg-slate-700 rounded-xl cursor-pointer hover:bg-slate-200"><i class="fa-solid fa-image text-indigo-600"></i><input type="file" class="hidden" onchange="sendChatImage(this, '${currentUser.uid}')"></label>
                             <input type="text" id="chat-input" placeholder="Type your message..." class="flex-1 bg-slate-100 dark:bg-slate-900 border rounded-xl px-4 py-3 text-sm">
-                            <button onclick="sendChatMessage()" class="px-6 bg-indigo-600 text-white font-bold rounded-xl shadow-md"><i class="fa-solid fa-paper-plane"></i></button>
+                            <button onclick="sendChatMessage('${currentUser.uid}')" class="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        async function sendChatMessage() {
+        // Setup real-time listener for customer chat
+        setTimeout(() => {
+            if (currentUser && currentUser.email !== SPECIAL_ADMIN_EMAIL) {
+                db.ref(`chats/${currentUser.uid}`).on('value', (snap) => {
+                    const box = document.getElementById('customer-chat-messages');
+                    if (!box) return;
+                    const msgs = snap.val();
+                    if (!msgs) {
+                        box.innerHTML = `<p class="text-center text-xs text-slate-400">Start a conversation with TrendPro Support.</p>`;
+                        return;
+                    }
+                    box.innerHTML = Object.values(msgs).map(m => `
+                        <div class="flex flex-col ${m.sender === currentUser.uid ? 'items-end' : 'items-start'}">
+                            <div class="max-w-md p-3.5 rounded-2xl text-xs ${m.sender === currentUser.uid ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-700'}">
+                                ${m.image ? `<img src="${m.image}" class="w-48 h-48 rounded-xl object-cover mb-2">` : ''}
+                                <p>${m.text || ''}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                    box.scrollTop = box.scrollHeight;
+                });
+            }
+        }, 1000);
+
+        async function sendChatMessage(chatId) {
             const input = document.getElementById('chat-input');
             if (!input) return;
             const text = input.value.trim();
             if (!text) return;
-            const chatId = currentUser.uid;
             const msgId = db.ref(`chats/${chatId}`).push().key;
             await db.ref(`chats/${chatId}/${msgId}`).set({ sender: currentUser.uid, text, timestamp: Date.now() });
             input.value = '';
+        }
+
+        async function sendChatImage(input, chatId) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(e) {
+                const image = e.target.result;
+                const msgId = db.ref(`chats/${chatId}`).push().key;
+                await db.ref(`chats/${chatId}/${msgId}`).set({ sender: currentUser.uid, image, timestamp: Date.now() });
+            };
+            reader.readAsDataURL(file);
         }
 
         // --- STATIC PAGES ---
@@ -1197,21 +1392,19 @@
                         <input type="number" id="p-discount" placeholder="Discounted Price" class="bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                         <input type="number" id="p-stock" placeholder="Stock Qty" class="bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm" value="10">
                     </div>
-                    <input type="text" id="p-cat" placeholder="Category (e.g. Electronics)" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
-                    <input type="text" id="p-sizes" placeholder="Size / Variant (e.g. S, M, L or 32)" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
-                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 mb-1">Select Existing Category or Type New</label>
+                        <select id="p-cat-select" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm mb-2" onchange="if(this.value==='__new__') { document.getElementById('p-cat-custom').style.display='block'; } else { document.getElementById('p-cat-custom').style.display='none'; }">
+                            ${categoriesCache.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}
+                            <option value="__new__">+ Create New Category</option>
+                        </select>
+                        <input type="text" id="p-cat-custom" placeholder="New Category Name" style="display:none;" class="w-full bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
+                    </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-500 mb-1">Main Thumbnail Image File</label>
                         <input type="file" id="p-thumb-file" class="w-full text-xs" onchange="previewThumb(this)">
                         <input type="text" id="p-thumb" placeholder="Or Image URL" class="w-full mt-2 bg-slate-100 dark:bg-slate-900 border rounded-xl p-3 text-sm">
                     </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 mb-1">Extra Gallery Images Files</label>
-                        <input type="file" id="p-extra-files" multiple class="w-full text-xs" onchange="previewExtras(this)">
-                        <div id="extra-previews" class="flex gap-2 mt-2 flex-wrap"></div>
-                    </div>
-
                     <div>
                         <h4 class="font-bold text-sm mb-2">Specifications</h4>
                         <div id="spec-rows" class="space-y-2">
@@ -1222,7 +1415,6 @@
                         </div>
                         <button onclick="addSpecRow()" class="mt-2 px-3 py-1 bg-slate-200 dark:bg-slate-700 text-xs font-bold rounded-lg">+ Add Spec Row</button>
                     </div>
-
                     <button onclick="saveNewProductComplete()" class="w-full py-3.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg">Save Product</button>
                 </div>
             `);
@@ -1279,29 +1471,20 @@
             }
         }
 
-        function previewExtras(input) {
-            tempExtraImages = [];
-            const container = document.getElementById('extra-previews');
-            if (!container) return;
-            container.innerHTML = '';
-            Array.from(input.files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    tempExtraImages.push(e.target.result);
-                    container.innerHTML += `<img src="${e.target.result}" class="w-12 h-12 rounded-lg object-cover border">`;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
         async function saveNewProductComplete() {
             const title = document.getElementById('p-title')?.value;
             const description = document.getElementById('p-desc')?.value;
             const price = Number(document.getElementById('p-price')?.value);
             const discountedPrice = Number(document.getElementById('p-discount')?.value);
             const stock = Number(document.getElementById('p-stock')?.value || 10);
-            const category = document.getElementById('p-cat')?.value;
-            const sizes = document.getElementById('p-sizes')?.value;
+            
+            let category = document.getElementById('p-cat-select')?.value;
+            if (category === '__new__') {
+                category = document.getElementById('p-cat-custom')?.value || 'General';
+                const catKey = db.ref('categories').push().key;
+                await db.ref(`categories/${catKey}`).set({ name: category, image: 'https://placehold.co/400x300/6366f1/ffffff?text=' + encodeURIComponent(category) });
+            }
+
             const thumbnail = document.getElementById('p-thumb')?.value || 'https://placehold.co/600x600/6366f1/ffffff?text=Product';
 
             const specNames = document.querySelectorAll('.spec-name');
@@ -1313,7 +1496,7 @@
                 }
             }
 
-            if (!title || !price || !category) {
+            if (!title || !price) {
                 showToast("Please fill required fields", "error");
                 return;
             }
@@ -1328,9 +1511,8 @@
                 discountedPrice,
                 stock,
                 category,
-                sizes,
                 thumbnail,
-                images: tempExtraImages,
+                images: [],
                 specifications,
                 createdAt: Date.now()
             };

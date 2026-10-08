@@ -1,1052 +1,1970 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TrendPro - Premium Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            /* TrendPro Premium Color System */
-            --primary: #4F46E5;
-            --primary-hover: #4338CA;
-            --primary-glow: rgba(79, 70, 229, 0.25);
-            --accent: #0ea5e9;
-            --bg-main: #f8fafc;
-            --surface: #ffffff;
-            --surface-elevated: rgba(255, 255, 255, 0.85);
-            --text-main: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --border: #e2e8f0;
-            --border-light: rgba(226, 232, 240, 0.5);
-            
-            /* Status Colors */
-            --success: #10b981;
-            --success-light: #d1fae5;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --danger-light: #fee2e2;
-            --info: #3b82f6;
-            
-            /* Admin Theme */
-            --admin-bg: #0f172a;
-            --admin-surface: #1e293b;
-            --admin-text: #f8fafc;
-            --admin-border: #334155;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>TrendPro — High-Tech E-Commerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-light: rgba(99, 102, 241, 0.1);
+      --secondary: #0ea5e9;
+      --accent: #f43f5e;
+      --bg: #090a0f;
+      --surface: #12141c;
+      --surface-elevated: #1a1d28;
+      --surface-hover: #222634;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #2a2f42;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+      --discount: #10b981;
+      
+      --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      --gradient-surface: linear-gradient(145deg, #12141c 0%, #181b26 100%);
+      --gradient-card: linear-gradient(135deg, rgba(26, 29, 40, 0.7) 0%, rgba(18, 20, 28, 0.9) 100%);
+      
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
+      --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.25);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
+      
+      --header-height: 72px;
+      --nav-height: 64px;
+    }
 
-            /* Shadows & Depth */
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
-            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            
-            /* Transitions */
-            --trans-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-            --trans-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --trans-spring: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            
-            /* Layout */
-            --header-h: 72px;
-            --bottom-nav-h: 64px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-xl: 28px;
-            --max-w: 1400px;
-        }
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-elevated: #f1f5f9;
+      --surface-hover: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #cbd5e1;
+      --gradient-surface: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.9) 100%);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
+    }
 
-        /* Reset & Base */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Inter', sans-serif; background-color: var(--bg-main);
-            color: var(--text-main); line-height: 1.5; overflow-x: hidden;
-            background-image: radial-gradient(var(--border) 1px, transparent 1px);
-            background-size: 24px 24px; background-attachment: fixed;
-        }
-        a { text-decoration: none; color: inherit; }
-        button, input, select, textarea { font-family: inherit; outline: none; border: none; background: none; }
-        button { cursor: pointer; transition: transform var(--trans-fast), opacity var(--trans-fast); }
-        button:active { transform: scale(0.96); }
-        
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
-        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 var(--primary-glow); } 70% { box-shadow: 0 0 0 10px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        .fade-in { animation: fadeIn var(--trans-smooth) forwards; }
-        .slide-up { animation: slideUp var(--trans-smooth) forwards; }
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
 
-        /* Typography */
-        h1, h2, h3, h4 { color: var(--text-main); font-weight: 700; letter-spacing: -0.02em; }
-        .text-muted { color: var(--text-muted); font-size: 0.9rem; }
-        .price-tag { font-size: 1.25rem; font-weight: 700; color: var(--text-main); }
-        .mrp-tag { font-size: 0.9rem; text-decoration: line-through; color: var(--text-muted); margin-left: 8px; }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        /* Structural Layout */
-        #app { min-height: 100vh; display: flex; flex-direction: column; }
-        .container { width: 100%; max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
-        main { flex: 1; padding-top: var(--header-h); padding-bottom: calc(var(--bottom-nav-h) + 24px); }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--muted);
+    }
 
-        /* Premium Header */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%; height: var(--header-h);
-            background: var(--surface-elevated); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border-light); z-index: 1000;
-            transition: all var(--trans-smooth);
-        }
-        header.scrolled { box-shadow: var(--shadow-sm); background: rgba(255, 255, 255, 0.95); }
-        .header-content { display: flex; align-items: center; justify-content: space-between; height: 100%; gap: 32px; }
-        .logo { font-size: 1.5rem; font-weight: 800; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .search-bar {
-            flex: 1; max-width: 600px; position: relative;
-            background: var(--bg-main); border-radius: var(--radius-xl);
-            border: 1px solid var(--border); transition: var(--trans-smooth);
-            display: flex; align-items: center; padding: 0 16px; height: 48px;
-        }
-        .search-bar:focus-within { background: var(--surface); border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
-        .search-bar input { flex: 1; height: 100%; padding: 0 12px; font-size: 0.95rem; }
-        .search-bar i { color: var(--text-muted); }
+    /* Utilities */
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-1 { gap: 0.25rem; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    .grid { display: grid; }
+    .w-full { width: 100%; }
+    .h-full { height: 100%; }
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .fixed { position: fixed; }
+    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+    .z-50 { z-index: 50; }
+    .overflow-hidden { overflow: hidden; }
+    .cursor-pointer { cursor: pointer; }
+    .text-center { text-align: center; }
+    .font-bold { font-weight: 700; }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .text-muted { color: var(--muted); }
 
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .action-btn { position: relative; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text-secondary); background: transparent; transition: var(--trans-fast); }
-        .action-btn:hover { background: var(--bg-main); color: var(--primary); }
-        .badge { position: absolute; top: 4px; right: 4px; background: var(--danger); color: white; font-size: 0.7rem; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid var(--surface); }
+    /* Buttons & Interactive */
+    button, input, select, textarea {
+      font-family: var(--font-sans);
+      color: inherit;
+      border: none;
+      outline: none;
+      background: none;
+    }
 
-        /* UI Components */
-        .btn {
-            padding: 12px 24px; border-radius: var(--radius-md); font-weight: 600; font-size: 0.95rem;
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            transition: all var(--trans-fast); border: 1px solid transparent;
-        }
-        .btn-primary { background: var(--primary); color: white; box-shadow: 0 4px 12px var(--primary-glow); }
-        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 6px 16px var(--primary-glow); }
-        .btn-outline { background: transparent; border-color: var(--border); color: var(--text-main); }
-        .btn-outline:hover { border-color: var(--primary); color: var(--primary); background: var(--bg-main); }
-        
-        .card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-sm); overflow: hidden; transition: var(--trans-smooth); }
-        
-        /* Banner Carousel */
-        .banner-carousel { position: relative; border-radius: var(--radius-lg); overflow: hidden; height: 400px; margin: 24px 0; box-shadow: var(--shadow-md); }
-        .banner-track { display: flex; height: 100%; transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-        .banner-slide { min-width: 100%; height: 100%; position: relative; }
-        .banner-slide img { width: 100%; height: 100%; object-fit: cover; }
-        .banner-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.6), transparent); padding: 48px; display: flex; flex-direction: column; justify-content: center; }
-        .banner-overlay h2 { color: white; font-size: 3rem; margin-bottom: 16px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
-        
-        /* Categories Grid */
-        .section-title { font-size: 1.5rem; margin: 40px 0 20px; display: flex; align-items: center; justify-content: space-between; }
-        .category-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 16px; scrollbar-width: none; }
-        .category-scroll::-webkit-scrollbar { display: none; }
-        .category-item { min-width: 120px; display: flex; flex-direction: column; align-items: center; gap: 12px; cursor: pointer; transition: var(--trans-spring); }
-        .category-item:hover { transform: translateY(-4px); }
-        .cat-icon-wrap { width: 80px; height: 80px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--primary); box-shadow: var(--shadow-sm); border: 1px solid var(--border-light); transition: var(--trans-fast); }
-        .category-item:hover .cat-icon-wrap { box-shadow: var(--shadow-md); color: white; background: var(--primary); }
-        .cat-name { font-weight: 600; font-size: 0.9rem; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
 
-        /* Product Grid & Cards */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 24px; }
-        .product-card { background: var(--surface); border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-light); transition: var(--trans-smooth); position: relative; display: flex; flex-direction: column; cursor: pointer; }
-        .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-float); border-color: var(--border); }
-        .img-container { position: relative; aspect-ratio: 4/5; overflow: hidden; background: #f1f5f9; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .product-card:hover .img-container img { transform: scale(1.05); }
-        .discount-badge { position: absolute; top: 12px; left: 12px; background: var(--danger); color: white; font-size: 0.75rem; font-weight: 700; padding: 4px 8px; border-radius: 4px; box-shadow: var(--shadow-sm); }
-        .wishlist-float { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; background: var(--surface-elevated); backdrop-filter: blur(4px); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-muted); border: none; box-shadow: var(--shadow-sm); z-index: 2; transition: var(--trans-spring); }
-        .wishlist-float:hover { transform: scale(1.1); color: var(--danger); }
-        .wishlist-float.active { color: var(--danger); animation: pulseGlow 1s; }
-        .product-info { padding: 16px; display: flex; flex-direction: column; flex: 1; }
-        .p-brand { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-        .p-name { font-size: 1rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
-        .p-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; }
-        .add-to-cart-btn { width: 100%; padding: 10px; background: var(--bg-main); color: var(--primary); font-weight: 600; border-radius: 8px; transition: var(--trans-fast); }
-        .product-card:hover .add-to-cart-btn { background: var(--primary); color: white; }
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+      box-shadow: var(--shadow-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+    }
+    .btn-secondary {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-hover);
+      border-color: var(--muted);
+    }
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-icon:hover {
+      background: var(--surface-hover);
+      transform: scale(1.05);
+    }
 
-        /* Loader & Toast */
-        .overlay-loader { position: fixed; inset: 0; background: rgba(255,255,255,0.8); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
-        .overlay-loader.active { opacity: 1; pointer-events: all; }
-        .spinner { width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+    /* Splash Screen */
+    #splash-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+      transition: opacity 0.4s ease;
+    }
+    .splash-logo {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+      animation: pulseGlow 2s infinite alternate;
+    }
+    .loader-bar {
+      width: 200px;
+      height: 4px;
+      background: var(--border);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+    .loader-bar::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 40%;
+      background: var(--gradient-primary);
+      border-radius: var(--radius-full);
+      animation: loadSlide 1.2s infinite ease-in-out;
+    }
+    @keyframes loadSlide {
+      0% { left: -40%; }
+      100% { left: 100%; }
+    }
+    @keyframes pulseGlow {
+      0% { opacity: 0.8; filter: drop-shadow(0 0 10px rgba(99,102,241,0.3)); }
+      100% { opacity: 1; filter: drop-shadow(0 0 25px rgba(99,102,241,0.6)); }
+    }
 
-        #toast-container { position: fixed; bottom: 84px; left: 50%; transform: translateX(-50%); z-index: 10000; display: flex; flex-direction: column; gap: 8px; }
-        .toast { background: var(--surface); color: var(--text-main); padding: 12px 24px; border-radius: 30px; box-shadow: var(--shadow-float); display: flex; align-items: center; gap: 12px; font-weight: 500; animation: slideUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; border: 1px solid var(--border-light); }
-        .toast i.success { color: var(--success); }
-        .toast i.error { color: var(--danger); }
+    /* Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-height);
+      background: rgba(9, 10, 15, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      transition: all 0.3s;
+    }
+    [data-theme="light"] header {
+      background: rgba(248, 250, 252, 0.85);
+    }
+    .header-left, .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .search-bar {
+      position: relative;
+      width: 380px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem 0.75rem 2.75rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+    .search-bar i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+    }
 
-        /* Bottom Nav (Mobile) */
-        .bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; height: var(--bottom-nav-h); background: var(--surface-elevated); backdrop-filter: blur(16px); border-top: 1px solid var(--border-light); z-index: 1000; padding-bottom: env(safe-area-inset-bottom); }
-        .nav-items { display: flex; justify-content: space-around; align-items: center; height: 100%; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-muted); font-size: 0.75rem; font-weight: 500; gap: 4px; transition: var(--trans-fast); width: 60px; }
-        .nav-item i { font-size: 1.25rem; transition: transform var(--trans-spring); }
-        .nav-item.active { color: var(--primary); }
-        .nav-item.active i { transform: translateY(-2px) scale(1.1); }
+    /* Mobile Bottom Navigation */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: var(--nav-height);
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      z-index: 1000;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 0.5rem;
+      backdrop-filter: blur(16px);
+    }
+    .mobile-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2rem;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      flex: 1;
+      height: 100%;
+      transition: color 0.2s;
+    }
+    .mobile-nav-item.active, .mobile-nav-item:hover {
+      color: var(--primary);
+    }
+    .mobile-nav-item i {
+      font-size: 1.25rem;
+    }
 
-        /* Owner Admin Dashboard Layout */
-        .admin-layout { display: flex; min-height: 100vh; background: var(--bg-main); }
-        .admin-sidebar { width: 260px; background: var(--admin-bg); color: var(--admin-text); display: flex; flex-direction: column; position: fixed; height: 100vh; z-index: 100; transition: transform 0.3s; }
-        .admin-main { flex: 1; margin-left: 260px; padding: 32px; padding-top: calc(var(--header-h) + 32px); }
-        .admin-nav { flex: 1; overflow-y: auto; padding: 24px 16px; display: flex; flex-direction: column; gap: 8px; }
-        .admin-nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; color: var(--text-muted); border-radius: var(--radius-md); transition: var(--trans-fast); font-weight: 500; cursor: pointer; }
-        .admin-nav-item:hover, .admin-nav-item.active { background: rgba(255,255,255,0.05); color: white; }
-        .admin-nav-item.active { background: var(--primary); box-shadow: 0 4px 12px var(--primary-glow); }
-        
-        /* Form & Admin UI */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: var(--text-secondary); }
-        .form-input { width: 100%; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 1rem; background: var(--bg-main); transition: var(--trans-fast); }
-        .form-input:focus { border-color: var(--primary); background: var(--surface); box-shadow: 0 0 0 3px var(--primary-glow); }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    /* Main Content Wrapper */
+    main {
+      padding-top: calc(var(--header-height) + 1.5rem);
+      padding-bottom: 4rem;
+      min-height: 100vh;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
 
-        .data-table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); }
-        .data-table th, .data-table td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-light); }
-        .data-table th { background: var(--bg-main); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
-        .data-table tr:hover td { background: var(--bg-main); }
-        .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
-        .status-Pending { background: var(--warning); color: white; }
-        .status-Delivered { background: var(--success); color: white; }
-        .status-Canceled { background: var(--danger); color: white; }
-        .status-Active { background: var(--success-light); color: var(--success); }
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 0 1rem;
+        height: 64px;
+      }
+      .search-bar { display: none; }
+      main {
+        padding-top: 76px;
+        padding-bottom: calc(var(--nav-height) + 2rem);
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .mobile-nav { display: flex; }
+    }
 
-        /* Product Detail Page */
-        .pdp-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 24px; }
-        .pdp-gallery { position: relative; border-radius: var(--radius-xl); overflow: hidden; background: #f1f5f9; aspect-ratio: 4/5; box-shadow: var(--shadow-md); }
-        .pdp-gallery img { width: 100%; height: 100%; object-fit: cover; }
-        .pdp-info { display: flex; flex-direction: column; gap: 20px; }
-        .pdp-brand { color: var(--primary); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-        .pdp-title { font-size: 2.5rem; line-height: 1.2; }
-        .pdp-price { font-size: 2rem; font-weight: 800; display: flex; align-items: center; gap: 16px; }
-        .pdp-desc { color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; }
-        .action-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 24px; }
-        .btn-huge { padding: 18px; font-size: 1.1rem; border-radius: var(--radius-lg); }
+    /* Notifications Badge */
+    .badge-count {
+      position: absolute;
+      top: -5px; right: -5px;
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.15rem 0.4rem;
+      border-radius: var(--radius-full);
+      box-shadow: 0 2px 6px rgba(244, 63, 94, 0.4);
+    }
 
-        /* Cart Page */
-        .cart-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 32px; margin-top: 24px; }
-        .cart-item { display: flex; gap: 20px; padding: 20px; background: var(--surface); border-radius: var(--radius-md); border: 1px solid var(--border-light); margin-bottom: 16px; align-items: center; }
-        .cart-item img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; }
-        .cart-item-info { flex: 1; }
-        .qty-controls { display: flex; align-items: center; gap: 16px; background: var(--bg-main); padding: 4px 8px; border-radius: 8px; width: fit-content; border: 1px solid var(--border); }
-        .qty-controls button { width: 28px; height: 28px; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: var(--surface); box-shadow: var(--shadow-sm); }
-        .summary-card { background: var(--surface); padding: 24px; border-radius: var(--radius-lg); border: 1px solid var(--border-light); box-shadow: var(--shadow-md); position: sticky; top: 100px; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 16px; color: var(--text-secondary); }
-        .summary-total { font-size: 1.5rem; font-weight: 800; color: var(--text-main); margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); }
+    /* Toast Notification System */
+    #toast-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 400px;
+    }
+    .toast {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+      backdrop-filter: blur(12px);
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    .toast.warning { border-left-color: var(--warning); }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(20px) scale(0.95); }
+    }
 
-        /* Order Timeline */
-        .timeline { display: flex; flex-direction: column; gap: 0; margin-top: 24px; }
-        .timeline-step { display: flex; gap: 20px; position: relative; padding-bottom: 24px; }
-        .timeline-step::before { content: ''; position: absolute; left: 11px; top: 24px; bottom: 0; width: 2px; background: var(--border); z-index: 1; }
-        .timeline-step:last-child::before { display: none; }
-        .timeline-step.completed::before { background: var(--primary); }
-        .t-dot { width: 24px; height: 24px; border-radius: 50%; background: var(--surface); border: 2px solid var(--border); z-index: 2; position: relative; display: flex; align-items: center; justify-content: center; }
-        .timeline-step.completed .t-dot { background: var(--primary); border-color: var(--primary); color: white; }
-        .t-content { flex: 1; padding-top: 2px; }
-        .t-content h4 { font-size: 1rem; }
-        
-        /* Modals & Overlays */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: var(--trans-smooth); }
-        .modal-overlay.active { opacity: 1; pointer-events: all; }
-        .modal-content { background: var(--surface); width: 90%; max-width: 500px; border-radius: var(--radius-xl); box-shadow: var(--shadow-float); transform: scale(0.95); transition: var(--trans-spring); overflow: hidden; }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
-        .modal-body { padding: 24px; max-height: 70vh; overflow-y: auto; }
+    /* Modal Framework */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      animation: fadeIn 0.2s ease;
+    }
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .search-bar { display: none; } /* Show custom mobile search if needed */
-            .bottom-nav { display: block; }
-            .admin-sidebar { transform: translateX(-100%); }
-            .admin-sidebar.open { transform: translateX(0); }
-            .admin-main { margin-left: 0; padding: 16px; }
-            .pdp-layout, .cart-layout, .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .header-actions .hide-mobile { display: none; }
-            .banner-carousel { height: 250px; }
-            .banner-overlay h2 { font-size: 1.8rem; }
-        }
-    </style>
+    /* Cards & Grids */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--primary);
+    }
+    .product-image-container {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      background: var(--surface-elevated);
+    }
+    .product-image-container img {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .product-card:hover .product-image-container img {
+      transform: scale(1.08);
+    }
+    .product-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: var(--accent);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.5rem;
+      border-radius: var(--radius-sm);
+      z-index: 2;
+    }
+    .product-actions-overlay {
+      position: absolute;
+      top: 12px; right: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      z-index: 2;
+    }
+    .product-content {
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      flex: 1;
+    }
+    .product-category {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .product-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .product-title:hover { color: var(--primary); }
+    .product-pricing {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
+    }
+    .price-current {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .price-mrp {
+      font-size: 0.9rem;
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+    .price-discount {
+      font-size: 0.75rem;
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    /* Banners Carousel */
+    .banner-carousel {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-md);
+      background: var(--surface-elevated);
+      height: 360px;
+    }
+    .banner-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.8s ease-in-out;
+      display: flex;
+      align-items: center;
+      padding: 3rem;
+      background-size: cover;
+      background-position: center;
+    }
+    .banner-slide.active { opacity: 1; }
+    .banner-slide::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(9,10,15,0.95) 0%, rgba(9,10,15,0.6) 60%, transparent 100%);
+    }
+    .banner-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .banner-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .banner-subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    /* Categories Horizontal Scroll */
+    .categories-scroll {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      margin-bottom: 2.5rem;
+      scrollbar-width: none;
+    }
+    .categories-scroll::-webkit-scrollbar { display: none; }
+    .category-card {
+      min-width: 130px;
+      height: 140px;
+      background: var(--gradient-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: var(--text);
+      padding: 1rem;
+      text-align: center;
+    }
+    .category-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .category-card i {
+      font-size: 2rem;
+      color: var(--primary);
+    }
+    .category-card span {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    /* Section Headers */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .section-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: gap 0.2s;
+    }
+    .section-link:hover { gap: 0.75rem; }
+
+    /* Footer */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 4rem 2rem 2rem;
+      margin-top: 5rem;
+    }
+    .footer-grid {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+    .footer-col h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--text);
+    }
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      list-style: none;
+    }
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--primary); }
+    .footer-bottom {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* Admin / Owner Dashboard */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .metric-card {
+      background: var(--gradient-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .metric-title {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Table */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th, td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+    th {
+      background: var(--surface-elevated);
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface-elevated); }
+
+    /* Forms */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .form-control {
+      padding: 0.75rem 1rem;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: all 0.2s;
+    }
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Timeline */
+    .order-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: relative;
+      padding-left: 2rem;
+      margin: 2rem 0;
+    }
+    .order-timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-item {
+      position: relative;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2rem;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 3px solid var(--border);
+      transition: all 0.2s;
+    }
+    .timeline-item.completed .timeline-dot {
+      background: var(--success);
+      border-color: var(--success);
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+    .timeline-item.active .timeline-dot {
+      background: var(--primary);
+      border-color: var(--primary);
+      box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
+      transform: scale(1.2);
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Main Application Container -->
-    <div id="app">
-        <!-- Customer Header -->
-        <header id="main-header">
-            <div class="container header-content">
-                <a href="#home" class="logo">TrendPro.</a>
-                <div class="search-bar">
-                    <i class="fa fa-search"></i>
-                    <input type="text" id="searchInput" placeholder="Search for products, brands and more...">
-                </div>
-                <div class="header-actions">
-                    <button class="action-btn hide-mobile" onclick="location.hash='#wishlist'"><i class="fa-regular fa-heart"></i></button>
-                    <button class="action-btn" onclick="location.hash='#cart'">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="badge" id="cart-badge">0</span>
-                    </button>
-                    <button class="action-btn" id="profileBtn" onclick="app.auth.handleProfileClick()">
-                        <i class="fa-regular fa-user"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
+  <!-- Short Technical Splash Loader -->
+  <div id="splash-screen">
+    <div class="splash-logo"><i class="fa-solid fa-bolt-lightning"></i> TRENDPRO</div>
+    <div class="loader-bar"></div>
+    <p style="color: var(--muted); font-size: 0.9rem;">Initializing High-Tech E-Commerce Suite...</p>
+  </div>
 
-        <!-- Dynamic Content Router Target -->
-        <main id="main-content" class="fade-in"></main>
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
 
-        <!-- Customer Mobile Bottom Navigation -->
-        <nav class="bottom-nav" id="bottom-nav">
-            <div class="nav-items">
-                <a href="#home" class="nav-item active"><i class="fa-solid fa-house"></i><span>Home</span></a>
-                <a href="#search" class="nav-item"><i class="fa-solid fa-magnifying-glass"></i><span>Search</span></a>
-                <a href="#cart" class="nav-item"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
-                <a href="#profile" class="nav-item"><i class="fa-regular fa-user"></i><span>Profile</span></a>
-            </div>
-        </nav>
-
-        <!-- Footer -->
-        <footer id="main-footer" style="background: var(--surface); border-top: 1px solid var(--border); padding: 48px 0 24px; margin-top: auto;">
-            <div class="container grid-3" style="margin-bottom: 32px;">
-                <div>
-                    <h2 class="logo" style="margin-bottom: 16px;">TrendPro.</h2>
-                    <p class="text-muted">The premium destination for all your modern lifestyle needs. High-quality products delivered fast.</p>
-                </div>
-                <div>
-                    <h3 style="margin-bottom: 16px;">Quick Links</h3>
-                    <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#profile">My Orders</a></li>
-                        <li><a href="#wishlist">Wishlist</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 style="margin-bottom: 16px;">Support</h3>
-                    <ul style="list-style: none; color: var(--text-secondary); line-height: 2;">
-                        <li>Contact Us</li>
-                        <li>Return Policy</li>
-                        <li>Terms of Service</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="container" style="border-top: 1px solid var(--border-light); padding-top: 24px; text-align: center; color: var(--text-muted);">
-                &copy; 2026 TrendPro by Saurav Kumar. All rights reserved.
-            </div>
-        </footer>
+  <!-- Global Header -->
+  <header>
+    <div class="header-left">
+      <a href="#home" class="logo">
+        <i class="fa-solid fa-bolt-lightning"></i> TRENDPRO
+      </a>
+      <div class="search-bar">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" class="search-input" id="global-search" placeholder="Search products, brands, categories...">
+      </div>
     </div>
-
-    <!-- Global Overlays -->
-    <div id="loader" class="overlay-loader"><div class="spinner"></div></div>
-    <div id="toast-container"></div>
-    <div id="modal-root" class="modal-overlay">
-        <div class="modal-content" id="modal-content"></div>
+    <div class="header-right">
+      <button class="btn-icon" id="theme-toggle" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
+      <a href="#wishlist" class="btn-icon relative" title="Wishlist">
+        <i class="fa-regular fa-heart"></i>
+        <span class="badge-count" id="wishlist-badge" style="display:none;">0</span>
+      </a>
+      <a href="#compare" class="btn-icon relative" title="Compare">
+        <i class="fa-solid fa-scale-balanced"></i>
+        <span class="badge-count" id="compare-badge" style="display:none;">0</span>
+      </a>
+      <a href="#cart" class="btn-icon relative" title="Cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge-count" id="cart-badge" style="display:none;">0</span>
+      </a>
+      <a href="#profile" class="btn-icon" title="Profile"><i class="fa-regular fa-user"></i></a>
     </div>
+  </header>
 
-    <!-- Firebase SDK (V9 Modular) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, get, onValue, push, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-nav">
+    <a href="#home" class="mobile-nav-item active" data-route="home"><i class="fa-solid fa-house"></i><span>Home</span></a>
+    <a href="#search" class="mobile-nav-item" data-route="search"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></a>
+    <a href="#wishlist" class="mobile-nav-item" data-route="wishlist"><i class="fa-regular fa-heart"></i><span>Wishlist</span></a>
+    <a href="#cart" class="mobile-nav-item" data-route="cart"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
+    <a href="#profile" class="mobile-nav-item" data-route="profile"><i class="fa-regular fa-user"></i><span>Profile</span></a>
+  </nav>
+
+  <!-- Dynamic Application Main Container -->
+  <main id="app-main">
+    <!-- Rendered dynamically via JS router -->
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="#home" class="logo" style="margin-bottom: 1rem; display:inline-flex;"><i class="fa-solid fa-bolt-lightning"></i> TRENDPRO</a>
+        <p style="color: var(--muted); font-size: 0.9rem;">The ultimate high-tech Gen-Z ecommerce platform delivering elite products, real-time tracking, and instant support.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="#home">New Arrivals</a></li>
+          <li><a href="#home">Best Sellers</a></li>
+          <li><a href="#home">Trending Now</a></li>
+          <li><a href="#search">Deals & Discounts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Hub</h4>
+        <ul class="footer-links">
+          <li><a href="#profile/orders">Track Orders</a></li>
+          <li><a href="#profile/wallet">My Wallet</a></li>
+          <li><a href="#profile/gift-cards">Gift Vouchers</a></li>
+          <li><a href="#profile/chat">Live Support Chat</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Security & Access</h4>
+        <ul class="footer-links">
+          <li><a href="#profile">Google Authentication</a></li>
+          <li><a href="#owner" id="owner-footer-link" style="display:none;">Owner Dashboard</a></li>
+          <li><a href="#home">Privacy & Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 TrendPro High-Tech Ecommerce Inc. All rights reserved.</p>
+      <p>Secure Firebase Realtime Engine Active</p>
+    </div>
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <!-- Application Logic -->
+  <script>
+    // Firebase Config & Initialization (Demo / Cloud Integration)
+    const firebaseConfig = {
+      apiKey: "AIzaSyDummyKeyForTrendPro2026SecureBuildX",
+      authDomain: "trendpro-ecommerce.firebaseapp.com",
+      databaseURL: "https://trendpro-ecommerce-default-rtdb.firebaseio.com",
+      projectId: "trendpro-ecommerce",
+      storageBucket: "trendpro-ecommerce.appspot.com",
+      messagingSenderId: "123456789098",
+      appId: "1:123456789098:web:abcdef123456789"
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.database();
+    const storage = firebase.storage();
+
+    const OWNER_EMAIL = "saurav586kumar@gmail.com";
+
+    // Application State
+    let currentUser = null;
+    let isOwner = false;
+    let productsDB = [];
+    let categoriesDB = [];
+    let bannersDB = [];
+    let cart = JSON.parse(localStorage.getItem('trendpro_cart')) || [];
+    let wishlist = JSON.parse(localStorage.getItem('trendpro_wishlist')) || [];
+    let compareList = JSON.parse(localStorage.getItem('trendpro_compare')) || [];
+    let ordersDB = [];
+    let activeChatMessages = [];
+
+    // Dummy Initial Data Seeds for Instant High-Tech Experience
+    const INITIAL_CATEGORIES = [
+      { id: 'cat-1', name: 'Men', icon: 'fa-shirt', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-2', name: 'Women', icon: 'fa-person-dress', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-3', name: 'Electronics', icon: 'fa-laptop', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-4', name: 'Footwear', icon: 'fa-shoe-prints', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-5', name: 'Accessories', icon: 'fa-glasses', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-6', name: 'Beauty', icon: 'fa-wand-magic-sparkles', image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-7', name: 'Home', icon: 'fa-house-chimney', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80' },
+      { id: 'cat-8', name: 'Trending', icon: 'fa-fire', image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80' }
+    ];
+
+    const INITIAL_BANNERS = [
+      { id: 'b-1', title: 'FUTURE TECH & APPAREL 2026', subtitle: 'Experience next-gen streetwear & smart wearables with instant lightning delivery.', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=80', link: '#home' },
+      { id: 'b-2', title: 'CYBERPUNK HOODIES & JACKETS', subtitle: 'Engineered for maximum comfort and extreme urban style.', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80', link: '#home' },
+      { id: 'b-3', title: 'ELITE WIRELESS AUDIO GEAR', subtitle: 'Immersive soundscapes with ultra-low latency and active noise cancellation.', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1600&q=80', link: '#home' },
+      { id: 'b-4', title: 'MINIMALIST SMARTWATCH SERIES', subtitle: 'Track your bio-metrics in high-definition style.', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&q=80', link: '#home' },
+      { id: 'b-5', title: 'PREMIUM STREETWEAR DROP', subtitle: 'Limited edition oversized tees and cargos.', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80', link: '#home' }
+    ];
+
+    const INITIAL_PRODUCTS = [
+      { id: 'p-1', name: 'Oversized Cyberpunk Black T-Shirt', brand: 'TrendPro Studio', category: 'Men', price: 29.99, mrp: 59.99, discount: 50, stock: 120, status: 'Active', sku: 'TP-M-001', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80', desc: 'Heavyweight cotton oversized tee with futuristic minimal chest print.' },
+      { id: 'p-2', name: 'Neural-Sync Wireless Earbuds', brand: 'SonicTech', category: 'Electronics', price: 89.99, mrp: 149.99, discount: 40, stock: 45, status: 'Active', sku: 'TP-E-002', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80', desc: 'Ultra-low latency wireless earbuds with spatial audio and 40h battery.' },
+      { id: 'p-3', name: 'Titanium Edge Smartwatch X', brand: 'Chronos', category: 'Electronics', price: 199.99, mrp: 299.99, discount: 33, stock: 20, status: 'Active', sku: 'TP-E-003', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80', desc: 'Aerospace-grade titanium smartwatch with AMOLED display and health suite.' },
+      { id: 'p-4', name: 'Urban Techwear Cargo Pants', brand: 'Vanguard', category: 'Men', price: 79.99, mrp: 119.99, discount: 33, stock: 60, status: 'Active', sku: 'TP-M-004', image: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=800&q=80', desc: 'Multi-pocket tactical cargo pants designed for peak urban mobility.' },
+      { id: 'p-5', name: 'Holographic Streetwear Hoodie', brand: 'TrendPro Studio', category: 'Men', price: 69.99, mrp: 99.99, discount: 30, stock: 35, status: 'Active', sku: 'TP-M-005', image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80', desc: 'Plush fleece hoodie featuring reflective holographic graphics.' },
+      { id: 'p-6', name: 'Apex Runner Sneakers', brand: 'KicksLab', category: 'Footwear', price: 129.99, mrp: 180.00, discount: 28, stock: 15, status: 'Active', sku: 'TP-F-006', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80', desc: 'Aerodynamic running shoes with responsive nitrogen-infused foam sole.' },
+      { id: 'p-7', name: 'Minimalist Leather Crossbody Bag', brand: 'Artisan', category: 'Accessories', price: 49.99, mrp: 79.99, discount: 37, stock: 50, status: 'Active', sku: 'TP-A-007', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80', desc: 'Full-grain leather crossbody bag with water-resistant zippers.' },
+      { id: 'p-8', name: 'Quantum Bluetooth Speaker', brand: 'SonicTech', category: 'Electronics', price: 119.99, mrp: 159.99, discount: 25, stock: 25, status: 'Active', sku: 'TP-E-008', image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80', desc: '360-degree room-filling sound with RGB reactive lighting.' },
+      { id: 'p-9', name: 'Silk Blend Evening Dress', brand: 'Vogue', category: 'Women', price: 149.99, mrp: 220.00, discount: 31, stock: 18, status: 'Active', sku: 'TP-W-009', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80', desc: 'Elegant fluid silk dress for high-end galas and urban nights.' },
+      { id: 'p-10', name: 'Hydra-Glow Facial Serum Kit', brand: 'Aura', category: 'Beauty', price: 39.99, mrp: 60.00, discount: 33, stock: 80, status: 'Active', sku: 'TP-B-010', image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80', desc: 'Organic botanical serum infused with hyaluronic acid and Vitamin C.' },
+      { id: 'p-11', name: 'Neon LED Desk Lamp & Charger', brand: 'Lumina', category: 'Home', price: 45.99, mrp: 70.00, discount: 34, stock: 40, status: 'Active', sku: 'TP-H-011', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80', desc: 'Smart desk lamp with wireless charging pad and adjustable color temperature.' },
+      { id: 'p-12', name: 'High-Top Cyber Sneakers', brand: 'KicksLab', category: 'Footwear', price: 159.99, mrp: 210.00, discount: 24, stock: 22, status: 'Active', sku: 'TP-F-012', image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80', desc: 'Futuristic high-top silhouette with metallic buckles and cushioned collar.' },
+      { id: 'p-13', name: 'Classic White Essential Tee', brand: 'TrendPro Studio', category: 'Men', price: 24.99, mrp: 40.00, discount: 37, stock: 150, status: 'Active', sku: 'TP-M-013', image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80', desc: 'Pima cotton heavyweight white t-shirt. Zero shrinkage guarantee.' },
+      { id: 'p-14', name: 'Aero-Lite Carbon Backpack', brand: 'Vanguard', category: 'Accessories', price: 99.99, mrp: 150.00, discount: 33, stock: 30, status: 'Active', sku: 'TP-A-014', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80', desc: 'Carbon-fiber reinforced water-repellent laptop backpack.' },
+      { id: 'p-15', name: 'Wireless Mechanical Keyboard', brand: 'SonicTech', category: 'Electronics', price: 139.99, mrp: 189.99, discount: 26, stock: 25, status: 'Active', sku: 'TP-E-015', image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80', desc: 'Hot-swappable mechanical keyboard with custom linear switches and RGB.' },
+      { id: 'p-16', name: 'Gradient Polarized Sunglasses', brand: 'Artisan', category: 'Accessories', price: 35.99, mrp: 60.00, discount: 40, stock: 65, status: 'Active', sku: 'TP-A-016', image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80', desc: 'UV400 polarized lenses in a sleek titanium frame.' },
+      { id: 'p-17', name: 'ActivePro Sports Shoes', brand: 'KicksLab', category: 'Footwear', price: 89.99, mrp: 130.00, discount: 30, stock: 40, status: 'Active', sku: 'TP-F-017', image: 'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80', desc: 'Breathable knit upper with maximum impact absorption.' },
+      { id: 'p-18', name: 'Matte Black Water Bottle', brand: 'Vanguard', category: 'Home', price: 22.99, mrp: 35.00, discount: 34, stock: 90, status: 'Active', sku: 'TP-H-018', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80', desc: 'Double-wall vacuum insulated stainless steel bottle keeping drinks icy for 24h.' },
+      { id: 'p-19', name: 'Minimalist Analog Watch', brand: 'Chronos', category: 'Accessories', price: 110.00, mrp: 160.00, discount: 31, stock: 20, status: 'Active', sku: 'TP-A-019', image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80', desc: 'Swiss quartz movement with genuine leather strap and sapphire glass.' },
+      { id: 'p-20', name: 'Graphic Streetwear Hoodie', brand: 'TrendPro Studio', category: 'Men', price: 74.99, mrp: 110.00, discount: 31, stock: 45, status: 'Active', sku: 'TP-M-020', image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80', desc: 'Artistic cyberpunk typography print on heavyweight French terry cotton.' }
+    ];
+
+    // Helper Functions
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info'}" style="font-size: 1.25rem; color: var(--${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary'});"></i>
+        <div style="flex:1; font-size: 0.95rem; font-weight: 500;">${message}</div>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.animation = 'toastOut 0.3s forwards';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    function formatCurrency(amount) {
+      return '$' + parseFloat(amount).toFixed(2);
+    }
+
+    function updateBadges() {
+      const cartBadge = document.getElementById('cart-badge');
+      const wishlistBadge = document.getElementById('wishlist-badge');
+      const compareBadge = document.getElementById('compare-badge');
+
+      const totalCart = cart.reduce((sum, item) => sum + item.qty, 0);
+      if (totalCart > 0) {
+        cartBadge.innerText = totalCart;
+        cartBadge.style.display = 'block';
+      } else {
+        cartBadge.style.display = 'none';
+      }
+
+      if (wishlist.length > 0) {
+        wishlistBadge.innerText = wishlist.length;
+        wishlistBadge.style.display = 'block';
+      } else {
+        wishlistBadge.style.display = 'none';
+      }
+
+      if (compareList.length > 0) {
+        compareBadge.innerText = compareList.length;
+        compareBadge.style.display = 'block';
+      } else {
+        compareBadge.style.display = 'none';
+      }
+
+      localStorage.setItem('trendpro_cart', JSON.stringify(cart));
+      localStorage.setItem('trendpro_wishlist', JSON.stringify(wishlist));
+      localStorage.setItem('trendpro_compare', JSON.stringify(compareList));
+    }
+
+    // Firebase Data Synchronization
+    async function initDatabase() {
+      try {
+        const prodRef = db.ref('products');
+        const catRef = db.ref('categories');
+        const banRef = db.ref('banners');
+        const ordRef = db.ref('orders');
+
+        const prodSnap = await prodRef.once('value');
+        if (!prodSnap.exists()) {
+          const pObj = {};
+          INITIAL_PRODUCTS.forEach(p => pObj[p.id] = p);
+          await prodRef.set(pObj);
+          productsDB = INITIAL_PRODUCTS;
+        } else {
+          const val = prodSnap.val();
+          productsDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
+        }
+
+        const catSnap = await catRef.once('value');
+        if (!catSnap.exists()) {
+          const cObj = {};
+          INITIAL_CATEGORIES.forEach(c => cObj[c.id] = c);
+          await catRef.set(cObj);
+          categoriesDB = INITIAL_CATEGORIES;
+        } else {
+          const val = catSnap.val();
+          categoriesDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
+        }
+
+        const banSnap = await banRef.once('value');
+        if (!banSnap.exists()) {
+          const bObj = {};
+          INITIAL_BANNERS.forEach(b => bObj[b.id] = b);
+          await banRef.set(bObj);
+          bannersDB = INITIAL_BANNERS;
+        } else {
+          const val = banSnap.val();
+          bannersDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
+        }
+
+        ordRef.on('value', (snap) => {
+          const val = snap.val();
+          ordersDB = val ? (Array.isArray(val) ? val.filter(Boolean) : Object.values(val)) : [];
+          if (window.location.hash.includes('owner') || window.location.hash.includes('orders')) {
+            renderRouter();
+          }
+        });
+
+      } catch (err) {
+        console.error("DB Init Fallback to Local Seeds:", err);
+        productsDB = INITIAL_PRODUCTS;
+        categoriesDB = INITIAL_CATEGORIES;
+        bannersDB = INITIAL_BANNERS;
+      }
+    }
+
+    // Authentication State Observer
+    auth.onAuthStateChanged((user) => {
+      currentUser = user;
+      if (user) {
+        isOwner = (user.email === OWNER_EMAIL);
+        const ownerFooter = document.getElementById('owner-footer-link');
+        if (ownerFooter) ownerFooter.style.display = 'block';
+      } else {
+        isOwner = false;
+        const ownerFooter = document.getElementById('owner-footer-link');
+        if (ownerFooter) ownerFooter.style.display = 'none';
+      }
+      updateBadges();
+    });
+
+    // Router & Page Renderers
+    function renderRouter() {
+      const hash = window.location.hash || '#home';
+      const main = document.getElementById('app-main');
+      window.scrollTo(0, 0);
+
+      // Highlight Mobile Nav
+      document.querySelectorAll('.mobile-nav-item').forEach(el => {
+        el.classList.remove('active');
+        if (hash.includes(el.getAttribute('data-route'))) {
+          el.classList.add('active');
+        }
+      });
+
+      if (hash === '#home') {
+        renderHome(main);
+      } else if (hash === '#search') {
+        renderSearch(main);
+      } else if (hash.startsWith('#category/')) {
+        const catId = hash.split('/')[1];
+        renderCategory(main, catId);
+      } else if (hash.startsWith('#product/')) {
+        const prodId = hash.split('/')[1];
+        renderProductDetail(main, prodId);
+      } else if (hash === '#wishlist') {
+        renderWishlist(main);
+      } else if (hash === '#compare') {
+        renderCompare(main);
+      } else if (hash === '#cart') {
+        renderCart(main);
+      } else if (hash === '#checkout') {
+        renderCheckout(main);
+      } else if (hash === '#orders' || hash.startsWith('#order/')) {
+        renderOrders(main, hash);
+      } else if (hash.startsWith('#profile')) {
+        renderProfile(main, hash);
+      } else if (hash.startsWith('#owner')) {
+        renderOwnerDashboard(main, hash);
+      } else {
+        renderHome(main);
+      }
+    }
+
+    window.addEventListener('hashchange', renderRouter);
+
+    // 1. Home Page Renderer
+    function renderHome(container) {
+      // Banner Carousel HTML
+      let bannerHtml = `
+        <div class="banner-carousel" id="main-banner-carousel">
+          ${bannersDB.map((b, idx) => `
+            <div class="banner-slide ${idx === 0 ? 'active' : ''}" style="background-image: url('${b.image}')">
+              <div class="banner-content">
+                <h1 class="banner-title">${b.title}</h1>
+                <p class="banner-subtitle">${b.subtitle}</p>
+                <a href="${b.link}" class="btn btn-primary" style="width: max-content;">Explore Collection <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      // Categories Horizontal Scroll
+      let categoriesHtml = `
+        <div class="section-header">
+          <h2 class="section-title">Shop by Category</h2>
+          <a href="#search" class="section-link">View All <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="categories-scroll">
+          ${categoriesDB.map(c => `
+            <a href="#category/${c.name}" class="category-card">
+              <i class="fa-solid ${c.icon || 'fa-tag'}"></i>
+              <span>${c.name}</span>
+            </a>
+          `).join('')}
+        </div>
+      `;
+
+      // Products Sections (Trending, New Arrivals, Best Sellers)
+      const renderProductCard = (p) => `
+        <div class="product-card">
+          <div class="product-image-container">
+            <span class="product-badge">-${p.discount}%</span>
+            <div class="product-actions-overlay">
+              <button class="btn-icon" onclick="toggleWishlist('${p.id}')" title="Wishlist"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
+              <button class="btn-icon" onclick="toggleCompare('${p.id}')" title="Compare"><i class="fa-solid fa-scale-balanced"></i></button>
+            </div>
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+          </div>
+          <div class="product-content">
+            <span class="product-category">${p.category}</span>
+            <a href="#product/${p.id}" class="product-title">${p.name}</a>
+            <div class="product-pricing">
+              <span class="price-current">${formatCurrency(p.price)}</span>
+              <span class="price-mrp">${formatCurrency(p.mrp)}</span>
+              <span class="price-discount">Save ${p.discount}%</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
+            </button>
+          </div>
+        </div>
+      `;
+
+      const trendingProducts = productsDB.slice(0, 8);
+      const newProducts = productsDB.slice(8, 16);
+
+      container.innerHTML = `
+        ${bannerHtml}
+        ${categoriesHtml}
         
-        // 45. Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyCjr6addRfZbk7Ce4Lzku9HnBqzqHN5LtY",
-            authDomain: "store-1a8c3.firebaseapp.com",
-            databaseURL: "https://store-1a8c3-default-rtdb.firebaseio.com",
-            projectId: "store-1a8c3",
-            storageBucket: "store-1a8c3.firebasestorage.app",
-            messagingSenderId: "1046602403433",
-            appId: "1:1046602403433:web:ee005a4ddaa07ada5d1cf8",
-            measurementId: "G-XNJYEPKDY0"
-        };
+        <div class="section-header" style="margin-top: 3rem;">
+          <h2 class="section-title"><i class="fa-solid fa-fire" style="color:var(--accent);"></i> Trending Now</h2>
+          <a href="#search" class="section-link">Explore More <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="product-grid">
+          ${trendingProducts.map(renderProductCard).join('')}
+        </div>
 
-        const appFirebase = initializeApp(firebaseConfig);
-        const auth = getAuth(appFirebase);
-        const db = getDatabase(appFirebase);
-        const provider = new GoogleAuthProvider();
+        <div class="section-header" style="margin-top: 4rem;">
+          <h2 class="section-title"><i class="fa-solid fa-bolt" style="color:var(--primary);"></i> New Tech Arrivals</h2>
+          <a href="#search" class="section-link">Explore More <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="product-grid">
+          ${newProducts.map(renderProductCard).join('')}
+        </div>
+      `;
 
-        const OWNER_EMAIL = 'saurav586kumar@gmail.com';
+      // Start Banner Auto Slide
+      startBannerCarousel();
+    }
 
-        // --- Core Application Logic ---
-        window.app = {
-            state: { user: null, isAdmin: false, products: [], cart: JSON.parse(localStorage.getItem('cart')||'[]'), wishlist: [] },
-            db: {
-                async get(path) { const s = await get(ref(db, path)); return s.exists() ? s.val() : null; },
-                async set(path, data) { await set(ref(db, path), data); },
-                async push(path, data) { const r = push(ref(db, path)); await set(r, data); return r.key; },
-                async update(path, data) { await update(ref(db, path), data); },
-                async remove(path) { await remove(ref(db, path)); }
-            },
-            ui: {
-                showLoader() { document.getElementById('loader').classList.add('active'); },
-                hideLoader() { document.getElementById('loader').classList.remove('active'); },
-                toast(msg, type = 'success') {
-                    const c = document.getElementById('toast-container');
-                    const t = document.createElement('div');
-                    t.className = 'toast';
-                    t.innerHTML = `<i class="fa-solid fa-${type==='success'?'circle-check success':'circle-exclamation error'}"></i> ${msg}`;
-                    c.appendChild(t);
-                    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000);
-                },
-                updateCartBadge() {
-                    const count = app.state.cart.reduce((a, c) => a + c.qty, 0);
-                    document.getElementById('cart-badge').innerText = count;
-                    localStorage.setItem('cart', JSON.stringify(app.state.cart));
-                },
-                formatPrice(price) { return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(price); }
-            },
-            auth: {
-                async login() {
-                    try {
-                        app.ui.showLoader();
-                        await signInWithPopup(auth, provider);
-                        app.ui.toast('Logged in successfully');
-                    } catch(e) { app.ui.toast(e.message, 'error'); } finally { app.ui.hideLoader(); }
-                },
-                async logout() {
-                    await signOut(auth);
-                    location.hash = '#home';
-                    app.ui.toast('Logged out');
-                },
-                handleProfileClick() {
-                    if (app.state.user) {
-                        location.hash = app.state.isAdmin ? '#owner' : '#profile';
-                    } else {
-                        app.auth.login();
-                    }
-                }
-            },
-            cart: {
-                add(product, qty = 1) {
-                    const ex = app.state.cart.find(c => c.id === product.id);
-                    if (ex) ex.qty += qty;
-                    else app.state.cart.push({ ...product, qty });
-                    app.ui.updateCartBadge();
-                    app.ui.toast('Added to cart');
-                },
-                remove(id) {
-                    app.state.cart = app.state.cart.filter(c => c.id !== id);
-                    app.ui.updateCartBadge();
-                    if(location.hash === '#cart') router();
-                },
-                updateQty(id, delta) {
-                    const item = app.state.cart.find(c => c.id === id);
-                    if(item) {
-                        item.qty += delta;
-                        if(item.qty <= 0) app.cart.remove(id);
-                        else { app.ui.updateCartBadge(); if(location.hash === '#cart') router(); }
-                    }
-                }
-            }
-        };
+    let bannerInterval = null;
+    function startBannerCarousel() {
+      if (bannerInterval) clearInterval(bannerInterval);
+      const slides = document.querySelectorAll('.banner-slide');
+      if (slides.length === 0) return;
+      let currentSlide = 0;
+      bannerInterval = setInterval(() => {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+      }, 4500);
+    }
 
-        // Header Scroll Effect
-        window.addEventListener('scroll', () => {
-            const h = document.getElementById('main-header');
-            window.scrollY > 20 ? h.classList.add('scrolled') : h.classList.remove('scrolled');
-        });
+    // 2. Search & Explore Renderer
+    function renderSearch(container) {
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Explore Catalog</h2>
+        </div>
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+          <input type="text" id="catalog-search" class="form-control" placeholder="Search items by name, brand, tag..." style="flex: 1; min-width: 260px;" oninput="filterCatalog()">
+          <select id="catalog-cat-filter" class="form-control" style="width: 200px;" onchange="filterCatalog()">
+            <option value="">All Categories</option>
+            ${categoriesDB.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}
+          </select>
+          <select id="catalog-sort" class="form-control" style="width: 200px;" onchange="filterCatalog()">
+            <option value="newest">Newest First</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="discount">Highest Discount</option>
+          </select>
+        </div>
+        <div class="product-grid" id="catalog-grid">
+          ${productsDB.map(p => `
+            <div class="product-card">
+              <div class="product-image-container">
+                <span class="product-badge">-${p.discount}%</span>
+                <div class="product-actions-overlay">
+                  <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
+                  <button class="btn-icon" onclick="toggleCompare('${p.id}')"><i class="fa-solid fa-scale-balanced"></i></button>
+                </div>
+                <img src="${p.image}" alt="${p.name}" loading="lazy">
+              </div>
+              <div class="product-content">
+                <span class="product-category">${p.category}</span>
+                <a href="#product/${p.id}" class="product-title">${p.name}</a>
+                <div class="product-pricing">
+                  <span class="price-current">${formatCurrency(p.price)}</span>
+                  <span class="price-mrp">${formatCurrency(p.mrp)}</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
 
-        // Initialize Auth State Listener
-        onAuthStateChanged(auth, async (user) => {
-            app.state.user = user;
-            app.state.isAdmin = user && user.email === OWNER_EMAIL;
-            const btn = document.getElementById('profileBtn');
-            btn.innerHTML = user 
-                ? `<img src="${user.photoURL}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`
-                : `<i class="fa-regular fa-user"></i>`;
+    function filterCatalog() {
+      const q = document.getElementById('catalog-search').value.toLowerCase();
+      const cat = document.getElementById('catalog-cat-filter').value;
+      const sort = document.getElementById('catalog-sort').value;
+
+      let filtered = productsDB.filter(p => {
+        const matchesQ = p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+        const matchesCat = !cat || p.category === cat;
+        return matchesQ && matchesCat;
+      });
+
+      if (sort === 'price-low') filtered.sort((a,b) => a.price - b.price);
+      if (sort === 'price-high') filtered.sort((a,b) => b.price - a.price);
+      if (sort === 'discount') filtered.sort((a,b) => b.discount - a.discount);
+
+      const grid = document.getElementById('catalog-grid');
+      if (!grid) return;
+      grid.innerHTML = filtered.map(p => `
+        <div class="product-card">
+          <div class="product-image-container">
+            <span class="product-badge">-${p.discount}%</span>
+            <div class="product-actions-overlay">
+              <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
+              <button class="btn-icon" onclick="toggleCompare('${p.id}')"><i class="fa-solid fa-scale-balanced"></i></button>
+            </div>
+            <img src="${p.image}" alt="${p.name}" loading="lazy">
+          </div>
+          <div class="product-content">
+            <span class="product-category">${p.category}</span>
+            <a href="#product/${p.id}" class="product-title">${p.name}</a>
+            <div class="product-pricing">
+              <span class="price-current">${formatCurrency(p.price)}</span>
+              <span class="price-mrp">${formatCurrency(p.mrp)}</span>
+            </div>
+            <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 3. Category Filter Page
+    function renderCategory(container, catName) {
+      const decodedCat = decodeURIComponent(catName);
+      const filtered = productsDB.filter(p => p.category.toLowerCase() === decodedCat.toLowerCase());
+
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Category: ${decodedCat}</h2>
+          <a href="#search" class="section-link">All Products <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="product-grid">
+          ${filtered.length > 0 ? filtered.map(p => `
+            <div class="product-card">
+              <div class="product-image-container">
+                <span class="product-badge">-${p.discount}%</span>
+                <div class="product-actions-overlay">
+                  <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
+                </div>
+                <img src="${p.image}" alt="${p.name}" loading="lazy">
+              </div>
+              <div class="product-content">
+                <span class="product-category">${p.category}</span>
+                <a href="#product/${p.id}" class="product-title">${p.name}</a>
+                <div class="product-pricing">
+                  <span class="price-current">${formatCurrency(p.price)}</span>
+                  <span class="price-mrp">${formatCurrency(p.mrp)}</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+              </div>
+            </div>
+          `).join('') : '<p style="color:var(--muted)">No products found in this category.</p>'}
+        </div>
+      `;
+    }
+
+    // 4. Product Detail Page
+    function renderProductDetail(container, prodId) {
+      const p = productsDB.find(x => x.id === prodId);
+      if (!p) {
+        container.innerHTML = `<h2>Product not found</h2><a href="#home" class="btn btn-primary" style="margin-top:1rem;">Return Home</a>`;
+        return;
+      }
+
+      container.innerHTML = `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; align-items: start;">
+          <div style="background:var(--surface-elevated); border:1px solid var(--border); border-radius: var(--radius-lg); overflow:hidden; position:relative;">
+            <span class="product-badge" style="top:16px; left:16px; font-size:0.9rem; padding:0.4rem 0.8rem;">-${p.discount}% OFF</span>
+            <img src="${p.image}" alt="${p.name}" style="width:100%; height:420px; object-fit:cover;">
+          </div>
+          <div style="display:flex; flex-direction: column; gap: 1.5rem;">
+            <div>
+              <span style="color:var(--primary); font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px;">${p.brand}</span>
+              <h1 style="font-family:var(--font-display); font-size: 2.25rem; font-weight:800; margin-top: 0.5rem; line-height:1.2;">${p.name}</h1>
+            </div>
+            <div style="display:flex; align-items: baseline; gap: 1rem;">
+              <span style="font-family:var(--font-display); font-size: 2rem; font-weight: 800; color:var(--text);">${formatCurrency(p.price)}</span>
+              <span style="font-size: 1.25rem; color: var(--muted); text-decoration: line-through;">${formatCurrency(p.mrp)}</span>
+            </div>
+            <p style="color: var(--muted); line-height: 1.6;">${p.desc || 'Engineered with precision for peak high-tech performance and aesthetic superiority.'}</p>
+            <div style="display:flex; gap: 1rem; align-items:center; padding: 1rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+              <span style="font-weight:600; color:${p.stock > 10 ? 'var(--success)' : 'var(--warning)'};"><i class="fa-solid fa-circle" style="font-size:0.5rem; vertical-align:middle;"></i> ${p.stock > 0 ? `In Stock (${p.stock} available)` : 'Out of Stock'}</span>
+              <span style="color:var(--muted);">| SKU: ${p.sku || 'TP-PROD'}</span>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+              <button class="btn btn-primary" style="flex: 2; padding: 1rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
+              <button class="btn btn-secondary" style="flex: 1; padding: 1rem;" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i> Wishlist</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // 5. Wishlist Page
+    function renderWishlist(container) {
+      const items = productsDB.filter(p => wishlist.includes(p.id));
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">My Saved Wishlist (${items.length})</h2>
+        </div>
+        <div class="product-grid">
+          ${items.length > 0 ? items.map(p => `
+            <div class="product-card">
+              <div class="product-image-container">
+                <span class="product-badge">-${p.discount}%</span>
+                <div class="product-actions-overlay">
+                  <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="fa-solid fa-trash" style="color:var(--danger);"></i></button>
+                </div>
+                <img src="${p.image}" alt="${p.name}" loading="lazy">
+              </div>
+              <div class="product-content">
+                <span class="product-category">${p.category}</span>
+                <a href="#product/${p.id}" class="product-title">${p.name}</a>
+                <div class="product-pricing">
+                  <span class="price-current">${formatCurrency(p.price)}</span>
+                </div>
+                <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}'); toggleWishlist('${p.id}');"><i class="fa-solid fa-cart-plus"></i> Move to Cart</button>
+              </div>
+            </div>
+          `).join('') : '<p style="color:var(--muted)">Your wishlist is currently empty.</p>'}
+        </div>
+      `;
+    }
+
+    // 6. Compare Page
+    function renderCompare(container) {
+      const items = productsDB.filter(p => compareList.includes(p.id));
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Product Comparison Suite</h2>
+        </div>
+        ${items.length > 0 ? `
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature / Spec</th>
+                  ${items.map(i => `<th>${i.name} <button class="btn-icon" style="width:28px;height:28px;float:right;" onclick="toggleCompare('${i.id}')"><i class="fa-solid fa-xmark text-xs"></i></button></th>`).join('')}
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Image</strong></td>${items.map(i => `<td><img src="${i.image}" style="width:80px;height:80px;object-fit:cover;border-radius:var(--radius-sm);"></td>`).join('')}</tr>
+                <tr><td><strong>Price</strong></td>${items.map(i => `<td><strong>${formatCurrency(i.price)}</strong> <span class="price-mrp">${formatCurrency(i.mrp)}</span></td>`).join('')}</tr>
+                <tr><td><strong>Category</strong></td>${items.map(i => `<td>${i.category}</td>`).join('')}</tr>
+                <tr><td><strong>Brand</strong></td>${items.map(i => `<td>${i.brand}</td>`).join('')}</tr>
+                <tr><td><strong>Discount</strong></td>${items.map(i => `<td><span class="price-discount">Save ${i.discount}%</span></td>`).join('')}</tr>
+                <tr><td><strong>SKU</strong></td>${items.map(i => `<td>${i.sku}</td>`).join('')}</tr>
+              </tbody>
+            </table>
+          </div>
+        ` : '<p style="color:var(--muted)">No products selected for comparison. Click the scale icon on products to compare specs side by side.</p>'}
+      `;
+    }
+
+    // 7. Cart & Checkout Flow
+    function addToCart(prodId) {
+      const p = productsDB.find(x => x.id === prodId);
+      if (!p) return;
+      const existing = cart.find(x => x.id === prodId);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, qty: 1 });
+      }
+      updateBadges();
+      showToast(`Added ${p.name} to cart!`);
+    }
+
+    function updateCartQty(prodId, change) {
+      const item = cart.find(x => x.id === prodId);
+      if (!item) return;
+      item.qty += change;
+      if (item.qty <= 0) {
+        cart = cart.filter(x => x.id !== prodId);
+      }
+      updateBadges();
+      renderRouter();
+    }
+
+    function renderCart(container) {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const shipping = cart.length > 0 ? 9.99 : 0.00;
+      const total = subtotal + shipping;
+
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Shopping Cart (${cart.reduce((s,i)=>s+i.qty,0)})</h2>
+        </div>
+        ${cart.length > 0 ? `
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start;" class="cart-grid">
+            <div style="display:flex; flex-direction:column; gap: 1rem;">
+              ${cart.map(item => `
+                <div style="display:flex; align-items:center; gap: 1rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1rem;">
+                  <img src="${item.image}" alt="${item.name}" style="width:80px; height:80px; object-fit:cover; border-radius:var(--radius-sm);">
+                  <div style="flex:1;">
+                    <h4 style="font-weight:600; font-size:1rem;">${item.name}</h4>
+                    <p style="color:var(--primary); font-weight:700; margin-top:0.25rem;">${formatCurrency(item.price)}</p>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:0.75rem;">
+                    <button class="btn-icon" style="width:32px;height:32px;" onclick="updateCartQty('${item.id}', -1)"><i class="fa-solid fa-minus text-xs"></i></button>
+                    <span style="font-weight:700;">${item.qty}</span>
+                    <button class="btn-icon" style="width:32px;height:32px;" onclick="updateCartQty('${item.id}', 1)"><i class="fa-solid fa-plus text-xs"></i></button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem; display:flex; flex-direction:column; gap: 1rem;">
+              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">Order Summary</h3>
+              <div style="display:flex; justify-content:space-between; color:var(--muted);"><span>Subtotal</span><span>${formatCurrency(subtotal)}</span></div>
+              <div style="display:flex; justify-content:space-between; color:var(--muted);"><span>Lightning Shipping</span><span>${formatCurrency(shipping)}</span></div>
+              <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.15rem; border-top:1px solid var(--border); padding-top:1rem; color:var(--text);"><span>Total</span><span>${formatCurrency(total)}</span></div>
+              <a href="#checkout" class="btn btn-primary" style="width:100%; text-decoration:none; text-align:center; justify-content:center; margin-top:0.5rem;">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+          </div>
+        ` : '<p style="color:var(--muted)">Your shopping cart is currently empty.</p>'}
+      `;
+    }
+
+    // 8. Checkout Form
+    function renderCheckout(container) {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const shipping = 9.99;
+      const total = subtotal + shipping;
+
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Secure Checkout</h2>
+        </div>
+        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+          <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" style="display:flex; flex-direction:column; gap:1.5rem;">
+            <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem;">
+              <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">1. Shipping Address</h3>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Full Name</label><input type="text" class="form-control" required placeholder="Alex Mercer" id="chk-name"></div>
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Mobile Number</label><input type="text" class="form-control" required placeholder="+1 555-0199" id="chk-mobile"></div>
+              </div>
+              <div class="form-group" style="margin-top:1rem;"><label class="form-label">Street Address</label><input type="text" class="form-control" required placeholder="123 Cyber Way, Suite 404" id="chk-address"></div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top:1rem;">
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">City</label><input type="text" class="form-control" required placeholder="Neo City" id="chk-city"></div>
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">State</label><input type="text" class="form-control" required placeholder="CA" id="chk-state"></div>
+                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Pincode</label><input type="text" class="form-control" required placeholder="90210" id="chk-pincode"></div>
+              </div>
+            </div>
+
+            <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem;">
+              <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">2. Payment Method</h3>
+              <div style="display:flex; gap: 1.5rem;">
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"><input type="radio" name="paymethod" value="COD" checked> Cash on Delivery (COD)</label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"><input type="radio" name="paymethod" value="Online"> Secure Online Payment</label>
+                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"><input type="radio" name="paymethod" value="Wallet"> TrendPro Wallet</label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="padding: 1rem; font-size: 1.05rem;">Place Secure Order <i class="fa-solid fa-shield-halved"></i></button>
+          </form>
+
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem; height: max-content;">
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">Order Items (${cart.reduce((s,i)=>s+i.qty,0)})</h3>
+            <div style="display:flex; flex-direction:column; gap:0.75rem; max-height:250px; overflow-y:auto; margin-bottom:1rem;">
+              ${cart.map(i => `<div style="display:flex; justify-content:space-between; font-size:0.9rem;"><span>${i.name} (x${i.qty})</span><strong>${formatCurrency(i.price * i.qty)}</strong></div>`).join('')}
+            </div>
+            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.15rem; border-top:1px solid var(--border); padding-top:1rem;"><span>Total</span><span>${formatCurrency(total)}</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function handleCheckoutSubmit(e) {
+      e.preventDefault();
+      if (cart.length === 0) {
+        showToast("Cart is empty!", "error");
+        return;
+      }
+
+      const orderId = 'TP-ORD-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
+      const newOrder = {
+        orderId: orderId,
+        customerName: document.getElementById('chk-name').value,
+        mobile: document.getElementById('chk-mobile').value,
+        address: `${document.getElementById('chk-address').value}, ${document.getElementById('chk-city').value}, ${document.getElementById('chk-state').value} - ${document.getElementById('chk-pincode').value}`,
+        items: cart,
+        total: cart.reduce((s,i)=>s+(i.price*i.qty),0) + 9.99,
+        paymentMethod: document.querySelector('input[name="paymethod"]:checked').value,
+        paymentStatus: 'Successful',
+        status: 'Pending',
+        createdAt: new Date().toISOString(),
+        timeline: [{ status: 'Pending', time: new Date().toLocaleTimeString(), updatedBy: 'System' }]
+      };
+
+      try {
+        await db.ref('orders/' + orderId).set(newOrder);
+        cart = [];
+        updateBadges();
+        showToast(`Order ${orderId} placed successfully!`);
+        window.location.hash = `#order/${orderId}`;
+      } catch (err) {
+        showToast("Order placement failed: " + err.message, "error");
+      }
+    }
+
+    // 9. Orders & Realtime Tracking
+    function renderOrders(container, hash) {
+      if (hash.startsWith('#order/')) {
+        const orderId = hash.split('/')[1];
+        const order = ordersDB.find(o => o.orderId === orderId);
+        if (!order) {
+          container.innerHTML = `<h2>Order not found</h2><a href="#home" class="btn btn-primary" style="margin-top:1rem;">Return Home</a>`;
+          return;
+        }
+
+        const statuses = ['Pending', 'Confirmed', 'Packed', 'Dispatched', 'In Transit', 'Out for Delivery', 'Delivered'];
+        const currentIdx = statuses.indexOf(order.status);
+
+        container.innerHTML = `
+          <div class="section-header">
+            <h2 class="section-title">Order Tracking: ${order.orderId}</h2>
+            <span style="font-weight:700; color:var(--primary);">Status: ${order.status}</span>
+          </div>
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; margin-bottom: 2rem;">
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+              <div><p style="color:var(--muted); font-size:0.85rem;">Customer</p><strong>${order.customerName}</strong></div>
+              <div><p style="color:var(--muted); font-size:0.85rem;">Shipping Address</p><strong>${order.address}</strong></div>
+              <div><p style="color:var(--muted); font-size:0.85rem;">Payment Method</p><strong>${order.paymentMethod} (${order.paymentStatus})</strong></div>
+              <div><p style="color:var(--muted); font-size:0.85rem;">Total Amount</p><strong>${formatCurrency(order.total)}</strong></div>
+            </div>
             
-            // Re-render if on restricted route
-            if(location.hash.startsWith('#owner') && !app.state.isAdmin) location.hash = '#home';
-            else router(true); // force re-render
-        });
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">Live Order Timeline</h3>
+            <div class="order-timeline">
+              ${statuses.map((st, idx) => `
+                <div class="timeline-item ${idx <= currentIdx ? 'completed' : ''} ${st === order.status ? 'active' : ''}">
+                  <div class="timeline-dot"></div>
+                  <strong>${st}</strong>
+                  <p style="color:var(--muted); font-size:0.85rem;">${idx <= currentIdx ? 'Completed / Verified' : 'Pending'}</p>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+        return;
+      }
 
-        // Seed Dummy Data (Rule 49)
-        async function seedDatabase() {
-            const existing = await app.db.get('products');
-            if(existing) {
-                app.state.products = Object.entries(existing).map(([id, val]) => ({id, ...val}));
-                return;
-            }
-            app.ui.showLoader();
-            const dummies = [
-                {name: "Premium Oversized T-Shirt", brand: "TrendPro X", price: 999, mrp: 1499, discount: 33, stock: 50, cat: "Men", img: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=600&q=80"},
-                {name: "Urban Denim Jacket", brand: "Levi's Classic", price: 2499, mrp: 3999, discount: 37, stock: 20, cat: "Men", img: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=600&q=80"},
-                {name: "Wireless ANC Earbuds Pro", brand: "TechSound", price: 3499, mrp: 5999, discount: 41, stock: 100, cat: "Electronics", img: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=600&q=80"},
-                {name: "Classic Analog Watch", brand: "Titan", price: 4500, mrp: 5500, discount: 18, stock: 15, cat: "Accessories", img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=600&q=80"},
-                {name: "AirMax Running Shoes", brand: "Nike", price: 7999, mrp: 9999, discount: 20, stock: 30, cat: "Footwear", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80"}
-            ];
-            for(let p of dummies) {
-                await app.db.push('products', {
-                    ...p, status: 'Active', desc: "Experience premium quality with TrendPro exclusive collections.", addedAt: Date.now()
-                });
-            }
-            const loaded = await app.db.get('products');
-            app.state.products = Object.entries(loaded).map(([id, val]) => ({id, ...val}));
-            app.ui.hideLoader();
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">My Orders (${ordersDB.length})</h2>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Order ID</th><th>Date</th><th>Amount</th><th>Payment</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              ${ordersDB.length > 0 ? ordersDB.map(o => `
+                <tr>
+                  <td><strong>${o.orderId}</strong></td>
+                  <td>${new Date(o.createdAt).toLocaleDateString()}</td>
+                  <td>${formatCurrency(o.total)}</td>
+                  <td>${o.paymentMethod}</td>
+                  <td><span style="font-weight:700; color:var(--primary);">${o.status}</span></td>
+                  <td><a href="#order/${o.orderId}" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size:0.85rem;">Track</a></td>
+                </tr>
+              `).join('') : '<tr><td colspan="6" style="text-align:center; color:var(--muted);">No orders placed yet.</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    // 10. Customer Profile & Auth
+    function renderProfile(container, hash) {
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Customer Profile & Management</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; display:flex; flex-direction:column; align-items:center; text-align:center; gap: 1rem;">
+            <div style="width: 80px; height: 80px; border-radius: var(--radius-full); background: var(--gradient-primary); display:flex; align-items:center; justify-content:center; color:white; font-size: 2rem; font-weight:800;">
+              ${currentUser ? currentUser.email[0].toUpperCase() : 'TP'}
+            </div>
+            <div>
+              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">${currentUser ? currentUser.displayName || 'TrendPro User' : 'Guest Customer'}</h3>
+              <p style="color:var(--muted); font-size:0.9rem;">${currentUser ? currentUser.email : 'Not signed in'}</p>
+            </div>
+            ${currentUser ? `
+              <button class="btn btn-danger" style="width:100%; margin-top:1rem;" onclick="auth.signOut(); showToast('Signed out successfully'); window.location.hash='#home';">Sign Out</button>
+            ` : `
+              <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="handleGoogleSignIn()">Sign In with Google</button>
+            `}
+          </div>
+
+          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; display:flex; flex-direction:column; gap: 1rem;">
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700;">Quick Navigation</h3>
+            <a href="#orders" class="btn btn-secondary" style="justify-content:space-between;"><span>My Orders</span><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#profile/wallet" class="btn btn-secondary" style="justify-content:space-between;"><span>TrendPro Wallet ($0.00)</span><i class="fa-solid fa-arrow-right"></i></a>
+            <a href="#profile/chat" class="btn btn-secondary" style="justify-content:space-between;"><span>Support Chat</span><i class="fa-solid fa-arrow-right"></i></a>
+            ${isOwner ? `<a href="#owner" class="btn btn-primary" style="justify-content:space-between; margin-top:1rem;"><span>Owner Admin Dashboard</span><i class="fa-solid fa-gauge-high"></i></a>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    async function handleGoogleSignIn() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await auth.signInWithPopup(provider);
+        showToast("Signed in successfully with Google!");
+        renderRouter();
+      } catch (err) {
+        showToast("Authentication failed: " + err.message, "error");
+      }
+    }
+
+    // 11. Owner / Admin Dashboard
+    function renderOwnerDashboard(container, hash) {
+      if (!isOwner) {
+        container.innerHTML = `
+          <div style="text-align:center; padding: 4rem 2rem;">
+            <i class="fa-solid fa-shield-cat" style="font-size: 4rem; color:var(--danger); margin-bottom: 1rem;"></i>
+            <h2 style="font-family:var(--font-display); font-size:2rem; font-weight:800;">Access Denied</h2>
+            <p style="color:var(--muted); margin: 1rem 0;">Owner privileges required (${OWNER_EMAIL}). Please sign in with the authorized owner account.</p>
+            <button class="btn btn-primary" onclick="handleGoogleSignIn()">Sign In as Owner</button>
+          </div>
+        `;
+        return;
+      }
+
+      const totalSales = ordersDB.reduce((s,o) => s + o.total, 0);
+      const totalOrders = ordersDB.length;
+
+      container.innerHTML = `
+        <div class="section-header">
+          <h2 class="section-title">Owner Admin Dashboard</h2>
+          <div style="display:flex; gap:1rem;">
+            <a href="#owner/products/add" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product</a>
+          </div>
+        </div>
+        
+        <div class="dashboard-grid">
+          <div class="metric-card"><span class="metric-title">Total Sales</span><span class="metric-value">${formatCurrency(totalSales)}</span></div>
+          <div class="metric-card"><span class="metric-title">Total Orders</span><span class="metric-value">${totalOrders}</span></div>
+          <div class="metric-card"><span class="metric-title">Catalog Products</span><span class="metric-value">${productsDB.length}</span></div>
+          <div class="metric-card"><span class="metric-title">Categories</span><span class="metric-value">${categoriesDB.length}</span></div>
+        </div>
+
+        <div class="section-header" style="margin-top:2.5rem;">
+          <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">Catalog Management</h3>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Image</th><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+              ${productsDB.map(p => `
+                <tr>
+                  <td><img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:var(--radius-sm);"></td>
+                  <td><strong>${p.name}</strong></td>
+                  <td>${p.sku}</td>
+                  <td>${p.category}</td>
+                  <td>${formatCurrency(p.price)}</td>
+                  <td>${p.stock}</td>
+                  <td>
+                    <button class="btn btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="deleteProduct('${p.id}')">Delete</button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      if (hash === '#owner/products/add') {
+        renderAddProductModal(container);
+      }
+    }
+
+    function renderAddProductModal(container) {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay';
+      modal.innerHTML = `
+        <div class="modal-content" style="padding: 2rem;">
+          <h3 style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; margin-bottom:1.5rem;">Add New Product</h3>
+          <form onsubmit="handleProductSubmit(event)" style="display:flex; flex-direction:column; gap:1rem;">
+            <div class="form-group"><label class="form-label">Product Name</label><input type="text" class="form-control" id="np-name" required></div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div class="form-group"><label class="form-label">Brand</label><input type="text" class="form-control" id="np-brand" required></div>
+              <div class="form-group"><label class="form-label">Category</label><select class="form-control" id="np-cat">${categoriesDB.map(c=>`<option value="${c.name}">${c.name}</option>`).join('')}</select></div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
+              <div class="form-group"><label class="form-label">Selling Price ($)</label><input type="number" step="0.01" class="form-control" id="np-price" required></div>
+              <div class="form-group"><label class="form-label">MRP ($)</label><input type="number" step="0.01" class="form-control" id="np-mrp" required></div>
+              <div class="form-group"><label class="form-label">Stock</label><input type="number" class="form-control" id="np-stock" required></div>
+            </div>
+            <div class="form-group"><label class="form-label">Image URL</label><input type="url" class="form-control" id="np-image" required placeholder="https://images.unsplash.com/..."></div>
+            <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="np-desc" rows="3"></textarea></div>
+            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1rem;">
+              <a href="#owner" class="btn btn-secondary">Cancel</a>
+              <button type="submit" class="btn btn-primary">Save Product</button>
+            </div>
+          </form>
+        </div>
+      `;
+      container.appendChild(modal);
+    }
+
+    async function handleProductSubmit(e) {
+      e.preventDefault();
+      const id = 'p-' + Date.now();
+      const price = parseFloat(document.getElementById('np-price').value);
+      const mrp = parseFloat(document.getElementById('np-mrp').value);
+      const discount = Math.round(((mrp - price) / mrp) * 100);
+
+      const newProd = {
+        id: id,
+        name: document.getElementById('np-name').value,
+        brand: document.getElementById('np-brand').value,
+        category: document.getElementById('np-cat').value,
+        price: price,
+        mrp: mrp,
+        discount: discount > 0 ? discount : 0,
+        stock: parseInt(document.getElementById('np-stock').value),
+        image: document.getElementById('np-image').value,
+        desc: document.getElementById('np-desc').value,
+        sku: 'TP-' + Math.random().toString(36).substring(2,6).toUpperCase(),
+        status: 'Active'
+      };
+
+      try {
+        await db.ref('products/' + id).set(newProd);
+        productsDB.push(newProd);
+        showToast("Product added successfully!");
+        window.location.hash = '#owner';
+      } catch (err) {
+        showToast("Failed to add product: " + err.message, "error");
+      }
+    }
+
+    async function deleteProduct(prodId) {
+      if (!confirm("Are you sure you want to delete this product?")) return;
+      try {
+        await db.ref('products/' + prodId).remove();
+        productsDB = productsDB.filter(p => p.id !== prodId);
+        showToast("Product deleted.");
+        renderRouter();
+      } catch (err) {
+        showToast("Delete failed: " + err.message, "error");
+      }
+    }
+
+    // Wishlist & Compare Toggles
+    function toggleWishlist(prodId) {
+      const idx = wishlist.indexOf(prodId);
+      if (idx > -1) {
+        wishlist.splice(idx, 1);
+        showToast("Removed from wishlist", "info");
+      } else {
+        wishlist.push(prodId);
+        showToast("Added to wishlist!");
+      }
+      updateBadges();
+      renderRouter();
+    }
+
+    function toggleCompare(prodId) {
+      const idx = compareList.indexOf(prodId);
+      if (idx > -1) {
+        compareList.splice(idx, 1);
+        showToast("Removed from comparison", "info");
+      } else {
+        if (compareList.length >= 4) {
+          showToast("Maximum 4 products can be compared at once.", "warning");
+          return;
         }
+        compareList.push(prodId);
+        showToast("Added to comparison suite!");
+      }
+      updateBadges();
+      renderRouter();
+    }
 
-        // --- View Renderers ---
+    // Theme Toggle
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      if (currentTheme === 'light') {
+        document.documentElement.removeAttribute('data-theme');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        localStorage.setItem('trendpro_theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        localStorage.setItem('trendpro_theme', 'light');
+      }
+    });
 
-        const views = {
-            renderHome: () => `
-                <div class="container slide-up">
-                    <div class="banner-carousel">
-                        <div class="banner-track">
-                            <div class="banner-slide">
-                                <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80" alt="Sale">
-                                <div class="banner-overlay">
-                                    <h2>New Arrivals<br>Season 2026</h2>
-                                    <button class="btn btn-primary" style="width:fit-content" onclick="location.hash='#search'">Explore Collection <i class="fa fa-arrow-right"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    if (localStorage.getItem('trendpro_theme') === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+      themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
 
-                    <h3 class="section-title">Shop by Category</h3>
-                    <div class="category-scroll">
-                        ${['Men', 'Women', 'Electronics', 'Footwear', 'Accessories'].map(c => `
-                            <div class="category-item" onclick="location.hash='#search'">
-                                <div class="cat-icon-wrap"><i class="fa-solid fa-layer-group"></i></div>
-                                <span class="cat-name">${c}</span>
-                            </div>
-                        `).join('')}
-                    </div>
+    // Initialize App on Load
+    window.addEventListener('DOMContentLoaded', async () => {
+      await initDatabase();
+      updateBadges();
+      renderRouter();
 
-                    <h3 class="section-title">Trending Now <a href="#search" class="text-muted" style="font-size:0.9rem">View All</a></h3>
-                    <div class="product-grid">
-                        ${app.state.products.slice(0, 8).map(p => `
-                            <div class="product-card" onclick="location.hash='#product/${p.id}'">
-                                <div class="img-container">
-                                    ${p.discount ? `<div class="discount-badge">${p.discount}% OFF</div>` : ''}
-                                    <button class="wishlist-float" onclick="event.stopPropagation(); app.ui.toast('Added to wishlist')"><i class="fa-solid fa-heart"></i></button>
-                                    <img src="${p.img}" loading="lazy" alt="${p.name}">
-                                </div>
-                                <div class="product-info">
-                                    <div class="p-brand">${p.brand}</div>
-                                    <div class="p-name">${p.name}</div>
-                                    <div class="p-price-row">
-                                        <span class="price-tag">${app.ui.formatPrice(p.price)}</span>${p.mrp > p.price ? `<span class="mrp-tag">${app.ui.formatPrice(p.mrp)}</span>` : ''}
-                                    </div>
-                                    <button class="btn add-to-cart-btn" onclick="event.stopPropagation(); app.cart.add({id:'${p.id}', name:'${p.name}', price:${p.price}, img:'${p.img}', brand:'${p.brand}'})">
-                                        Add to Cart
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `,
-            
-            renderProduct: (id) => {
-                const p = app.state.products.find(x => x.id === id);
-                if(!p) return `<div class="container" style="text-align:center; padding:100px 0;"><h2>Product Not Found</h2></div>`;
-                return `
-                <div class="container slide-up">
-                    <div class="pdp-layout">
-                        <div class="pdp-gallery">
-                            <img src="${p.img}" alt="${p.name}">
-                        </div>
-                        <div class="pdp-info">
-                            <div>
-                                <div class="pdp-brand">${p.brand}</div>
-                                <h1 class="pdp-title">${p.name}</h1>
-                                <div style="display:flex; gap:8px; color:var(--warning); margin-top:8px;">
-                                    <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> <span class="text-muted">(124 Reviews)</span>
-                                </div>
-                            </div>
-                            <div class="pdp-price">
-                                <span>${app.ui.formatPrice(p.price)}</span>
-                                ${p.mrp > p.price ? `<span class="mrp-tag" style="font-size:1.2rem; font-weight:normal">${app.ui.formatPrice(p.mrp)}</span><span class="status-badge status-Active">${p.discount}% OFF</span>` : ''}
-                            </div>
-                            <p class="pdp-desc">${p.desc || 'Premium quality product designed for everyday excellence. Crafted with precision and built to last.'}</p>
-                            
-                            <div style="margin-top:16px;">
-                                <h4 style="margin-bottom:8px">Delivery Status</h4>
-                                <div class="text-muted"><i class="fa-solid fa-truck" style="color:var(--success)"></i> Dispatch in 24 Hours. Free delivery on prepaid orders.</div>
-                            </div>
-
-                            <div class="action-row">
-                                <button class="btn btn-primary btn-huge" onclick="app.cart.add({id:'${p.id}', name:'${p.name}', price:${p.price}, img:'${p.img}', brand:'${p.brand}'}); location.hash='#cart'">Add to Cart</button>
-                                <button class="btn btn-outline btn-huge" onclick="app.ui.toast('Added to Wishlist')"><i class="fa-regular fa-heart"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            },
-
-            renderCart: () => {
-                if(app.state.cart.length === 0) return `
-                    <div class="container slide-up" style="text-align:center; padding: 100px 0;">
-                        <i class="fa-solid fa-cart-shopping" style="font-size: 4rem; color: var(--border); margin-bottom: 24px;"></i>
-                        <h2>Your Cart is Empty</h2>
-                        <p class="text-muted" style="margin: 16px 0 24px;">Looks like you haven't added anything to your cart yet.</p>
-                        <button class="btn btn-primary" onclick="location.hash='#home'">Start Shopping</button>
-                    </div>`;
-                
-                const subtotal = app.state.cart.reduce((a,c) => a + (c.price * c.qty), 0);
-                const delivery = subtotal > 1000 ? 0 : 50;
-                const total = subtotal + delivery;
-
-                return `
-                <div class="container slide-up">
-                    <h2 style="margin-bottom:24px;">Shopping Cart (${app.state.cart.length})</h2>
-                    <div class="cart-layout">
-                        <div class="cart-items">
-                            ${app.state.cart.map(c => `
-                                <div class="cart-item">
-                                    <img src="${c.img}" alt="${c.name}">
-                                    <div class="cart-item-info">
-                                        <div class="p-brand">${c.brand}</div>
-                                        <h4 style="margin-bottom:8px">${c.name}</h4>
-                                        <div class="price-tag">${app.ui.formatPrice(c.price)}</div>
-                                    </div>
-                                    <div class="qty-controls">
-                                        <button onclick="app.cart.updateQty('${c.id}', -1)"><i class="fa-solid fa-minus"></i></button>
-                                        <span style="font-weight:600; min-width:20px; text-align:center">${c.qty}</span>
-                                        <button onclick="app.cart.updateQty('${c.id}', 1)"><i class="fa-solid fa-plus"></i></button>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                        <div class="cart-summary">
-                            <div class="summary-card">
-                                <h3 style="margin-bottom:24px;">Order Summary</h3>
-                                <div class="summary-row"><span>Subtotal</span><span>${app.ui.formatPrice(subtotal)}</span></div>
-                                <div class="summary-row"><span>Delivery</span><span style="color:${delivery===0?'var(--success)':'inherit'}">${delivery===0?'Free':app.ui.formatPrice(delivery)}</span></div>
-                                <div class="summary-row summary-total"><span>Total</span><span>${app.ui.formatPrice(total)}</span></div>
-                                <button class="btn btn-primary btn-huge" style="width:100%; margin-top:24px;" onclick="window.checkout()">Proceed to Checkout</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            },
-
-            // Checkout flow mockup integrated into UI flow
-            renderCheckout: () => `
-                <div class="container slide-up" style="max-width: 800px;">
-                    <h2 style="margin-bottom:24px;">Checkout</h2>
-                    <div class="card" style="padding:32px;">
-                        <h3 style="margin-bottom:16px;">Delivery Address</h3>
-                        <div class="grid-2" style="margin-bottom:24px;">
-                            <div class="form-group"><label>Full Name</label><input type="text" class="form-input" placeholder="Saurav Kumar"></div>
-                            <div class="form-group"><label>Mobile</label><input type="tel" class="form-input" placeholder="+91"></div>
-                            <div class="form-group" style="grid-column: span 2;"><label>Full Address</label><textarea class="form-input" rows="3" placeholder="House/Flat, Street..."></textarea></div>
-                            <div class="form-group"><label>Pincode</label><input type="text" class="form-input"></div>
-                            <div class="form-group"><label>City</label><input type="text" class="form-input"></div>
-                        </div>
-                        <button class="btn btn-primary btn-huge" style="width:100%;" onclick="window.placeOrder()">Place Order (Cash on Delivery)</button>
-                    </div>
-                </div>
-            `,
-
-            renderProfile: () => `
-                <div class="container slide-up" style="max-width: 800px;">
-                    <div class="card" style="padding: 32px; text-align:center; margin-bottom: 24px;">
-                        <img src="${app.state.user.photoURL}" style="width:100px; height:100px; border-radius:50%; margin: 0 auto 16px;">
-                        <h2>${app.state.user.displayName}</h2>
-                        <p class="text-muted">${app.state.user.email}</p>
-                        <button class="btn btn-outline" style="margin-top:16px;" onclick="app.auth.logout()">Logout</button>
-                    </div>
-                    
-                    <h3 style="margin-bottom:16px;">My Orders</h3>
-                    <div class="card" id="my-orders-list" style="padding: 24px;">
-                        Loading orders...
-                    </div>
-                </div>
-            `,
-
-            // --- OWNER ADMIN DASHBOARD ---
-            renderOwner: (subRoute) => {
-                const navItems = [
-                    { id: '', icon: 'fa-chart-pie', label: 'Dashboard' },
-                    { id: 'products', icon: 'fa-box', label: 'Products' },
-                    { id: 'orders', icon: 'fa-shopping-bag', label: 'Orders' },
-                    { id: 'customers', icon: 'fa-users', label: 'Customers' }
-                ];
-
-                let content = '';
-                if(subRoute === '' || !subRoute) {
-                    content = `
-                        <h2 style="margin-bottom:24px;">Overview</h2>
-                        <div class="grid-3">
-                            <div class="card" style="padding:24px; border-left: 4px solid var(--primary);">
-                                <div class="text-muted" style="margin-bottom:8px;">Total Revenue</div>
-                                <h2 style="font-size:2rem;">₹1,24,500</h2>
-                            </div>
-                            <div class="card" style="padding:24px; border-left: 4px solid var(--success);">
-                                <div class="text-muted" style="margin-bottom:8px;">Orders Pending</div>
-                                <h2 style="font-size:2rem;">12</h2>
-                            </div>
-                            <div class="card" style="padding:24px; border-left: 4px solid var(--warning);">
-                                <div class="text-muted" style="margin-bottom:8px;">Total Products</div>
-                                <h2 style="font-size:2rem;">${app.state.products.length}</h2>
-                            </div>
-                        </div>
-                    `;
-                } else if (subRoute === 'products') {
-                    content = `
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h2>Products Inventory</h2>
-                            <button class="btn btn-primary" onclick="location.hash='#owner/add-product'"><i class="fa-solid fa-plus"></i> Add Product</button>
-                        </div>
-                        <div style="overflow-x:auto;">
-                            <table class="data-table">
-                                <thead><tr><th>Image</th><th>Name</th><th>Brand</th><th>Price</th><th>Stock</th><th>Status</th><th>Actions</th></tr></thead>
-                                <tbody>
-                                    ${app.state.products.map(p => `
-                                        <tr>
-                                            <td><img src="${p.img}" style="width:40px; height:40px; border-radius:4px; object-fit:cover;"></td>
-                                            <td style="font-weight:600;">${p.name}</td>
-                                            <td class="text-muted">${p.brand}</td>
-                                            <td>${app.ui.formatPrice(p.price)}</td>
-                                            <td>${p.stock}</td>
-                                            <td><span class="status-badge status-${p.status}">${p.status}</span></td>
-                                            <td>
-                                                <button style="color:var(--info); padding:4px;" onclick="app.ui.toast('Edit coming soon')"><i class="fa-solid fa-pen"></i></button>
-                                                <button style="color:var(--danger); padding:4px; margin-left:8px;" onclick="window.deleteProduct('${p.id}')"><i class="fa-solid fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
-                } else if (subRoute === 'add-product') {
-                    content = `
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
-                            <h2>Add New Product</h2>
-                            <button class="btn btn-outline" onclick="location.hash='#owner/products'"><i class="fa-solid fa-arrow-left"></i> Back</button>
-                        </div>
-                        <div class="grid-2" style="align-items: start;">
-                            <div class="card" style="padding:32px;">
-                                <form id="addProductForm" onsubmit="window.saveProduct(event)">
-                                    <div class="form-group"><label>Product Name</label><input type="text" id="pName" class="form-input" required onkeyup="updatePreview()"></div>
-                                    <div class="grid-2">
-                                        <div class="form-group"><label>Brand</label><input type="text" id="pBrand" class="form-input" required onkeyup="updatePreview()"></div>
-                                        <div class="form-group"><label>Category</label><select id="pCat" class="form-input"><option>Men</option><option>Women</option><option>Electronics</option></select></div>
-                                    </div>
-                                    <div class="grid-2">
-                                        <div class="form-group"><label>Selling Price (₹)</label><input type="number" id="pPrice" class="form-input" required onkeyup="updatePreview()"></div>
-                                        <div class="form-group"><label>MRP (₹)</label><input type="number" id="pMrp" class="form-input" required onkeyup="updatePreview()"></div>
-                                    </div>
-                                    <div class="grid-2">
-                                        <div class="form-group"><label>Stock</label><input type="number" id="pStock" class="form-input" required></div>
-                                        <div class="form-group"><label>Image URL</label><input type="url" id="pImg" class="form-input" required oninput="updatePreview()"></div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-huge" style="width:100%; margin-top:16px;">Save Product</button>
-                                </form>
-                            </div>
-                            <div class="card" style="padding:32px; background:var(--bg-main);">
-                                <h3 style="margin-bottom:16px;">Live Preview</h3>
-                                <div id="previewCard" class="product-card" style="max-width:300px; margin:0 auto; background:var(--surface);">
-                                    <div class="img-container"><img id="prevImg" src="https://via.placeholder.com/400x500?text=Preview" alt=""></div>
-                                    <div class="product-info">
-                                        <div class="p-brand" id="prevBrand">Brand Name</div>
-                                        <div class="p-name" id="prevName">Product Title</div>
-                                        <div class="p-price-row"><span class="price-tag" id="prevPrice">₹0</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                } else if (subRoute === 'orders') {
-                    content = `
-                        <h2 style="margin-bottom:24px;">Order Management</h2>
-                        <div class="card" id="admin-orders-list" style="padding:0; overflow-x:auto;">
-                            Loading orders...
-                        </div>
-                    `;
-                } else if (subRoute.startsWith('order/')) {
-                    content = `<div id="admin-order-detail">Loading order details...</div>`;
-                } else {
-                    content = `<h2>Module in development</h2>`;
-                }
-
-                return `
-                <div class="admin-layout slide-up">
-                    <aside class="admin-sidebar">
-                        <div style="padding: 24px; font-size: 1.5rem; font-weight: 800; border-bottom: 1px solid var(--admin-border);">
-                            TrendPro <span style="color:var(--primary)">Admin</span>
-                        </div>
-                        <nav class="admin-nav">
-                            ${navItems.map(n => `
-                                <a href="#owner/${n.id}" class="admin-nav-item ${subRoute.split('/')[0] === n.id ? 'active' : ''}">
-                                    <i class="fa-solid ${n.icon}" style="width:24px;"></i> ${n.label}
-                                </a>
-                            `).join('')}
-                        </nav>
-                        <div style="padding: 24px; border-top: 1px solid var(--admin-border);">
-                            <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:8px;">Logged in as</div>
-                            <div style="font-weight:600; font-size:0.9rem; word-break:break-all;">${OWNER_EMAIL}</div>
-                            <button class="btn btn-outline" style="width:100%; margin-top:16px; border-color:var(--admin-border); color:white;" onclick="app.auth.logout()">Logout</button>
-                        </div>
-                    </aside>
-                    <main class="admin-main">
-                        ${content}
-                    </main>
-                </div>
-                `;
-            }
-        };
-
-        // --- Controller / Actions ---
-
-        // Helper to update Add Product preview
-        window.updatePreview = () => {
-            const v = (id) => document.getElementById(id).value;
-            const price = Number(v('pPrice')||0);
-            document.getElementById('prevName').innerText = v('pName') || 'Product Title';
-            document.getElementById('prevBrand').innerText = v('pBrand') || 'Brand Name';
-            document.getElementById('prevPrice').innerText = app.ui.formatPrice(price);
-            const img = v('pImg');
-            if(img) document.getElementById('prevImg').src = img;
-        };
-
-        window.saveProduct = async (e) => {
-            e.preventDefault();
-            app.ui.showLoader();
-            const v = (id) => document.getElementById(id).value;
-            const mrp = Number(v('pMrp'));
-            const price = Number(v('pPrice'));
-            const data = {
-                name: v('pName'), brand: v('pBrand'), cat: v('pCat'), price, mrp,
-                discount: Math.round(((mrp-price)/mrp)*100), stock: Number(v('pStock')), img: v('pImg'),
-                status: 'Active', addedAt: Date.now()
-            };
-            try {
-                await app.db.push('products', data);
-                app.ui.toast('Product saved successfully');
-                await seedDatabase(); // Refresh local cache
-                location.hash = '#owner/products';
-            } catch(e) { app.ui.toast('Error saving product', 'error'); }
-            finally { app.ui.hideLoader(); }
-        };
-
-        window.deleteProduct = async (id) => {
-            if(!confirm('Delete this product permanently?')) return;
-            app.ui.showLoader();
-            try {
-                await app.db.remove(`products/${id}`);
-                app.ui.toast('Product deleted');
-                await seedDatabase();
-                router();
-            } catch(e) { app.ui.toast('Error deleting', 'error'); }
-            finally { app.ui.hideLoader(); }
-        };
-
-        window.placeOrder = async () => {
-            if(!app.state.user) return app.auth.login();
-            app.ui.showLoader();
-            try {
-                const subtotal = app.state.cart.reduce((a,c) => a + (c.price * c.qty), 0);
-                const orderData = {
-                    uid: app.state.user.uid,
-                    customerEmail: app.state.user.email,
-                    items: app.state.cart,
-                    total: subtotal + (subtotal>1000?0:50),
-                    status: 'Pending',
-                    timestamp: Date.now(),
-                    history: [{status: 'Pending', time: Date.now()}]
-                };
-                await app.db.push('orders', orderData);
-                app.state.cart = [];
-                app.ui.updateCartBadge();
-                app.ui.toast('Order Placed Successfully!');
-                location.hash = '#profile';
-            } catch(e) { app.ui.toast('Checkout failed', 'error'); }
-            finally { app.ui.hideLoader(); }
-        };
-
-        window.updateOrderStatus = async (orderId, newStatus) => {
-            app.ui.showLoader();
-            try {
-                const order = await app.db.get(`orders/${orderId}`);
-                order.status = newStatus;
-                if(!order.history) order.history = [];
-                order.history.push({status: newStatus, time: Date.now()});
-                await app.db.set(`orders/${orderId}`, order);
-                app.ui.toast(`Order marked as ${newStatus}`);
-                router();
-            } catch(e) { app.ui.toast('Error updating', 'error'); }
-            finally { app.ui.hideLoader(); }
-        };
-
-        // Render My Orders (Customer View)
-        async function loadCustomerOrders() {
-            const list = document.getElementById('my-orders-list');
-            if(!list) return;
-            const allOrders = await app.db.get('orders') || {};
-            const myOrders = Object.entries(allOrders).map(([id,v])=>({id,...v})).filter(o => o.uid === app.state.user.uid).sort((a,b)=>b.timestamp - a.timestamp);
-            if(myOrders.length === 0) { list.innerHTML = 'No orders yet.'; return; }
-            list.innerHTML = myOrders.map(o => `
-                <div style="border-bottom: 1px solid var(--border-light); padding-bottom: 16px; margin-bottom: 16px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:12px;">
-                        <div><span class="text-muted">Order ID:</span> <b>#${o.id.substring(1,8).toUpperCase()}</b></div>
-                        <span class="status-badge status-${o.status}">${o.status}</span>
-                    </div>
-                    <div style="display:flex; gap:16px;">
-                        <img src="${o.items[0].img}" style="width:60px; height:60px; border-radius:8px; object-fit:cover;">
-                        <div>
-                            <div style="font-weight:600;">${o.items[0].name} ${o.items.length>1?`+ ${o.items.length-1} more`:''}</div>
-                            <div class="text-muted">Total: ${app.ui.formatPrice(o.total)} • ${new Date(o.timestamp).toLocaleDateString()}</div>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Render Admin Orders List
-        async function loadAdminOrders() {
-            const list = document.getElementById('admin-orders-list');
-            if(!list) return;
-            const allOrders = await app.db.get('orders') || {};
-            const orders = Object.entries(allOrders).map(([id,v])=>({id,...v})).sort((a,b)=>b.timestamp - a.timestamp);
-            if(orders.length === 0) { list.innerHTML = '<div style="padding:24px;">No orders found.</div>'; return; }
-            list.innerHTML = `
-                <table class="data-table">
-                    <thead><tr><th>Order ID</th><th>Customer</th><th>Amount</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
-                    <tbody>
-                        ${orders.map(o => `
-                            <tr>
-                                <td>#${o.id.substring(1,8).toUpperCase()}</td>
-                                <td>${o.customerEmail}</td>
-                                <td>${app.ui.formatPrice(o.total)}</td>
-                                <td><span class="status-badge status-${o.status}">${o.status}</span></td>
-                                <td>${new Date(o.timestamp).toLocaleDateString()}</td>
-                                <td><button class="btn btn-outline" style="padding:6px 12px; font-size:0.8rem;" onclick="location.hash='#owner/order/${o.id}'">Manage</button></td>
-                            </tr>
-                        `).join('')}
-                    </tbody>
-                </table>
-            `;
-        }
-
-        // Render Admin Order Detail & Pipeline
-        async function loadAdminOrderDetail(id) {
-            const container = document.getElementById('admin-order-detail');
-            if(!container) return;
-            const order = await app.db.get(`orders/${id}`);
-            if(!order) { container.innerHTML = 'Order not found'; return; }
-            
-            const pipeline = ['Pending', 'Confirmed', 'Packed', 'Dispatched', 'In Transit', 'Out for Delivery', 'Delivered'];
-            let currentIdx = pipeline.indexOf(order.status);
-            if(order.status === 'Canceled' || order.status === 'Returned') currentIdx = -1;
-
-            container.innerHTML = `
-                <div style="display:flex; justify-content:space-between; margin-bottom:24px;">
-                    <div>
-                        <h2>Order #${id.substring(1,8).toUpperCase()}</h2>
-                        <div class="text-muted">${new Date(order.timestamp).toLocaleString()}</div>
-                    </div>
-                    <div>
-                        <select class="form-input" style="width:auto; font-weight:600;" onchange="updateOrderStatus('${id}', this.value)">
-                            ${['Pending', 'Confirmed', 'Packed', 'Dispatched', 'In Transit', 'Out for Delivery', 'Delivered', 'Canceled', 'Returned'].map(s => 
-                                `<option value="${s}" ${order.status===s?'selected':''}>Update:${s}</option>`
-                            ).join('')}
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="grid-2">
-                    <div class="card" style="padding:24px;">
-                        <h3 style="margin-bottom:16px;">Items</h3>
-                        ${order.items.map(i => `
-                            <div style="display:flex; gap:16px; margin-bottom:12px; border-bottom:1px solid var(--border-light); padding-bottom:12px;">
-                                <img src="${i.img}" style="width:50px; height:50px; border-radius:4px; object-fit:cover;">
-                                <div style="flex:1;">
-                                    <div style="font-weight:600; font-size:0.9rem;">${i.name}</div>
-                                    <div class="text-muted">Qty: ${i.qty} ×${app.ui.formatPrice(i.price)}</div>
-                                </div>
-                                <div style="font-weight:700;">${app.ui.formatPrice(i.qty * i.price)}</div>
-                            </div>
-                        `).join('')}
-                        <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.2rem; margin-top:16px;">
-                            <span>Total Paid</span><span>${app.ui.formatPrice(order.total)}</span>
-                        </div>
-                    </div>
-
-                    <div class="card" style="padding:24px;">
-                        <h3 style="margin-bottom:24px;">Tracking Pipeline</h3>
-                        <div class="timeline">
-                            ${(order.status === 'Canceled' || order.status === 'Returned') ? `
-                                <div class="timeline-step completed"><div class="t-dot"><i class="fa-solid fa-xmark"></i></div><div class="t-content"><h4>${order.status}</h4></div></div>
-                            ` : pipeline.map((step, idx) => `
-                                <div class="timeline-step ${idx <= currentIdx ? 'completed' : ''}">
-                                    <div class="t-dot">${idx <= currentIdx ? '<i class="fa-solid fa-check"></i>' : ''}</div>
-                                    <div class="t-content">
-                                        <h4>${step}</h4>${idx === currentIdx ? '<div class="text-muted" style="font-size:0.8rem;">Current Status</div>' : ''}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // --- Core Router ---
-        async function router(force = false) {
-            const hash = window.location.hash || '#home';
-            const [route, ...params] = hash.split('/');
-            const main = document.getElementById('main-content');
-            
-            // Header visibility control
-            const header = document.getElementById('main-header');
-            const bnav = document.getElementById('bottom-nav');
-            if(route.startsWith('#owner')) {
-                header.style.display = 'none';
-                bnav.style.display = 'none';
-                document.body.style.backgroundColor = 'var(--bg-main)';
-                document.body.style.backgroundImage = 'none';
-            } else {
-                header.style.display = 'block';
-                bnav.style.display = 'block';
-                document.body.style.backgroundImage = 'radial-gradient(var(--border) 1px, transparent 1px)';
-            }
-
-            // Update Bottom Nav Active State
-            document.querySelectorAll('.nav-item').forEach(el => {
-                el.classList.remove('active');
-                if(el.getAttribute('href') === route) el.classList.add('active');
-            });
-
-            // Ensure DB is seeded and loaded
-            if(app.state.products.length === 0) await seedDatabase();
-
-            // Routing Logic
-            switch(route) {
-                case '#home': main.innerHTML = views.renderHome(); break;
-                case '#product': main.innerHTML = views.renderProduct(params[0]); window.scrollTo(0,0); break;
-                case '#cart': main.innerHTML = views.renderCart(); break;
-                case '#checkout': main.innerHTML = views.renderCheckout(); break;
-                case '#profile': 
-                    if(!app.state.user) { app.auth.login(); location.hash='#home'; return; }
-                    main.innerHTML = views.renderProfile(); 
-                    loadCustomerOrders();
-                    break;
-                case '#owner':
-                    if(!app.state.isAdmin) { location.hash='#home'; return; }
-                    main.innerHTML = views.renderOwner(params.join('/'));
-                    if(params[0] === 'orders') loadAdminOrders();
-                    if(params[0] === 'order') loadAdminOrderDetail(params[1]);
-                    break;
-                case '#search': 
-                    // Basic redirect to home with focus for this implementation
-                    location.hash='#home'; 
-                    setTimeout(()=>document.getElementById('searchInput').focus(), 100);
-                    break;
-                default: main.innerHTML = views.renderHome(); break;
-            }
-            app.ui.updateCartBadge();
-        }
-
-        // Initialize Router
-        window.addEventListener('hashchange', () => router());
-        window.addEventListener('DOMContentLoaded', () => {
-            app.ui.updateCartBadge();
-            router();
-        });
-
-    </script>
+      // Hide Splash Screen with fade out
+      const splash = document.getElementById('splash-screen');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => splash.remove(), 400);
+      }
+    });
+  </script>
 </body>
 </html>

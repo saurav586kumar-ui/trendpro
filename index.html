@@ -2,877 +2,1739 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TRENDPRO | Premium Ecommerce</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendPro - Advanced Ecommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Firebase SDKs (Compat version for Realtime DB & Auth) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' },
+                        dark: { 800: '#1f2937', 900: '#111827' }
+                    }
+                }
+            }
+        }
+    </script>
 
     <style>
-        /* ================= ADVANCED CSS VARIABLES & DESIGN TOKENS ================= */
-        :root {
-            --primary: #000000;
-            --primary-hover: #333333;
-            --secondary: #ffffff;
-            --accent: #ff3b30;
-            --bg-body: #f8f9fa;
-            --bg-surface: #ffffff;
-            --text-main: #111111;
-            --text-muted: #666666;
-            --border-color: #eaeaea;
-            --success: #34c759;
-            --warning: #ffcc00;
-            --danger: #ff3b30;
-            --radius-sm: 8px;
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --radius-pill: 50px;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
-            --shadow-lg: 0 24px 48px rgba(0,0,0,0.12);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --header-height: 70px;
-            --bottom-nav-height: 65px;
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
-        }
-
-        /* ================= RESET & BASE ================= */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
-            color: var(--text-main);
-            overflow-x: hidden;
-            overscroll-behavior-y: none;
-        }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        button, input { font-family: inherit; outline: none; border: none; }
-        button { cursor: pointer; background: none; }
-
-        /* ================= MICRO-INTERACTIONS & ANIMATIONS ================= */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes scaleIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes pulseSkeleton {
-            0% { background-color: #f0f0f0; }
-            50% { background-color: #e0e0e0; }
-            100% { background-color: #f0f0f0; }
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #1f2937; margin: 0; overflow-x: hidden; }
         
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 12px 24px; border-radius: var(--radius-pill); font-weight: 600;
-            transition: var(--transition); user-select: none;
-        }
-        .btn:active { transform: scale(0.96); }
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: var(--primary-hover); box-shadow: var(--shadow-md); }
-        .btn-outline { border: 1px solid var(--border-color); color: var(--text-main); }
-        .btn-danger { background: var(--danger); color: white; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
         
-        /* ================= LAYOUT & VIEWS ================= */
-        .app-container { display: flex; flex-direction: column; min-height: 100vh; }
-        .view { display: none; animation: fadeUp 0.4s ease forwards; padding-bottom: calc(var(--bottom-nav-height) + var(--safe-bottom) + 20px); }
-        .view.active { display: block; }
+        .animate-fade-in { animation: fadeIn 0.3s ease-out; }
+        .animate-slide-up { animation: slideUp 0.4s ease-out; }
+        .animate-slide-in-right { animation: slideInRight 0.3s ease-out; }
+        .animate-spin-slow { animation: spin 2s linear infinite; }
 
-        /* ================= HEADER ================= */
-        .header {
-            position: fixed; top: 0; left: 0; right: 0; height: var(--header-height);
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 1000; border-bottom: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-        .logo { font-size: 24px; font-weight: 800; letter-spacing: -1px; display: flex; align-items: center; gap: 8px;}
-        .logo i { color: var(--accent); }
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .action-icon { position: relative; font-size: 20px; color: var(--text-main); transition: var(--transition); }
-        .action-icon:hover { color: var(--accent); transform: translateY(-2px); }
-        .badge {
-            position: absolute; top: -6px; right: -8px; background: var(--accent); color: white;
-            font-size: 10px; font-weight: bold; width: 18px; height: 18px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; border: 2px solid white;
-        }
-
-        /* ================= BOTTOM NAVIGATION (MOBILE) ================= */
-        .bottom-nav {
-            position: fixed; bottom: 0; left: 0; right: 0; height: calc(var(--bottom-nav-height) + var(--safe-bottom));
-            background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);
-            border-top: 1px solid var(--border-color); z-index: 1000;
-            display: none; padding-bottom: var(--safe-bottom);
-        }
-        .bottom-nav-inner { display: flex; justify-content: space-around; height: 100%; align-items: center; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; transition: var(--transition); }
-        .nav-item i { font-size: 20px; transition: var(--transition); }
-        .nav-item.active { color: var(--primary); font-weight: 600; }
-        .nav-item.active i { transform: translateY(-3px); }
-
-        /* ================= HOME VIEW ================= */
-        .search-bar-container { padding: 90px 5% 20px 5%; background: var(--bg-surface); }
-        .search-input-wrapper { position: relative; width: 100%; }
-        .search-input-wrapper input {
-            width: 100%; padding: 16px 20px 16px 45px; border-radius: var(--radius-md);
-            background: var(--bg-body); border: 1px solid var(--border-color);
-            font-size: 15px; transition: var(--transition);
-        }
-        .search-input-wrapper input:focus { border-color: var(--primary); box-shadow: var(--shadow-sm); }
-        .search-input-wrapper i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-
-        .section-title { font-size: 20px; font-weight: 700; padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;}
-        .section-title span { font-size: 14px; color: var(--text-muted); font-weight: 500; cursor: pointer; }
-
-        /* Category Chips */
-        .category-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 0 5% 20px 5%; scrollbar-width: none; }
-        .category-scroll::-webkit-scrollbar { display: none; }
-        .cat-chip {
-            padding: 12px 24px; background: var(--bg-surface); border-radius: var(--radius-pill);
-            border: 1px solid var(--border-color); white-space: nowrap; font-weight: 500;
-            box-shadow: var(--shadow-sm); transition: var(--transition);
-        }
-        .cat-chip:active { transform: scale(0.95); }
-        .cat-chip.active { background: var(--primary); color: white; border-color: var(--primary); }
-
-        /* Product Grid */
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 0 5%; }
-        .product-card {
-            background: var(--bg-surface); border-radius: var(--radius-md); overflow: hidden;
-            box-shadow: var(--shadow-sm); transition: var(--transition); position: relative;
-        }
-        .product-card:active { transform: scale(0.98); }
-        .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-        .product-img-wrap { width: 100%; aspect-ratio: 4/5; background: #f0f0f0; position: relative; overflow: hidden;}
-        .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .wishlist-btn { position: absolute; top: 10px; right: 10px; background: rgba(255,255,255,0.8); width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--text-muted); backdrop-filter: blur(4px); z-index: 2; transition: var(--transition);}
-        .wishlist-btn.active { color: var(--accent); }
-        .product-info { padding: 12px; }
-        .p-brand { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
-        .p-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
-        .p-price-row { display: flex; align-items: baseline; gap: 8px; }
-        .p-price { font-size: 16px; font-weight: 700; }
-        .p-mrp { font-size: 12px; color: var(--text-muted); text-decoration: line-through; }
-        .p-discount { font-size: 11px; color: var(--success); font-weight: 600; }
-
-        /* Skeleton Loaders */
-        .skeleton { animation: pulseSkeleton 1.5s infinite; }
-        .skeleton-card { border-radius: var(--radius-md); overflow: hidden; }
-        .skeleton-img { width: 100%; aspect-ratio: 4/5; }
-        .skeleton-text { height: 14px; margin: 10px; border-radius: 4px; }
-
-        /* ================= PRODUCT DETAIL VIEW ================= */
-        .pd-header { padding: 70px 0 0 0; }
-        .pd-image-gallery { width: 100%; aspect-ratio: 3/4; background: #eee; position: relative; }
-        .pd-image-gallery img { width: 100%; height: 100%; object-fit: cover; }
-        .pd-content { padding: 20px 5%; background: var(--bg-surface); border-radius: 20px 20px 0 0; margin-top: -20px; position: relative; z-index: 10; box-shadow: 0 -4px 15px rgba(0,0,0,0.05); }
-        .pd-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
-        .pd-price-box { margin-bottom: 20px; }
-        .pd-price { font-size: 28px; font-weight: 800; }
-        .variant-box { margin-bottom: 20px; }
-        .variant-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
-        .size-chips { display: flex; gap: 10px; flex-wrap: wrap; }
-        .size-chip { padding: 10px 18px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-weight: 500; transition: var(--transition); }
-        .size-chip.selected { background: var(--primary); color: white; border-color: var(--primary); }
-        .fixed-bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 15px 5% calc(15px + var(--safe-bottom)); background: var(--bg-surface); border-top: 1px solid var(--border-color); display: flex; gap: 15px; z-index: 1000;}
-        .fixed-bottom-bar .btn { flex: 1; }
-
-        /* ================= CART & CHECKOUT ================= */
-        .cart-item { display: flex; gap: 15px; padding: 15px; background: var(--bg-surface); border-radius: var(--radius-md); margin: 0 5% 15px 5%; box-shadow: var(--shadow-sm); }
-        .cart-img { width: 80px; height: 100px; border-radius: var(--radius-sm); object-fit: cover; }
-        .cart-details { flex: 1; display: flex; flex-direction: column; justify-content: space-between;}
-        .qty-controls { display: flex; align-items: center; gap: 15px; background: var(--bg-body); padding: 5px 15px; border-radius: var(--radius-pill); width: fit-content; }
-        .qty-controls i { cursor: pointer; color: var(--text-muted); }
-        .cart-summary { padding: 20px 5%; background: var(--bg-surface); margin-top: 20px; border-radius: 20px 20px 0 0; }
-        .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
-        .summary-row.total { font-size: 18px; font-weight: 700; border-top: 1px solid var(--border-color); padding-top: 15px; margin-top: 10px; }
-
-        /* ================= PROFILE & LOGIN ================= */
-        .auth-container { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; padding: 5%; text-align: center; }
-        .auth-container h2 { margin-bottom: 10px; font-size: 28px; }
-        .auth-container p { color: var(--text-muted); margin-bottom: 30px; }
-        .btn-google { background: white; color: var(--text-main); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 10px; font-size: 16px; padding: 15px 30px; box-shadow: var(--shadow-sm); }
-        .btn-google img { width: 20px; }
-
-        .profile-header { display: flex; align-items: center; gap: 20px; padding: 90px 5% 20px 5%; }
-        .profile-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; }
-        .profile-menu { padding: 0 5%; }
-        .menu-item { display: flex; align-items: center; justify-content: space-between; padding: 20px; background: var(--bg-surface); border-radius: var(--radius-md); margin-bottom: 10px; box-shadow: var(--shadow-sm); transition: var(--transition); }
-        .menu-item:active { transform: scale(0.98); }
-        .menu-item-left { display: flex; align-items: center; gap: 15px; font-weight: 500; }
-        .menu-item-left i { color: var(--text-muted); font-size: 18px; width: 24px; text-align: center; }
-
-        /* ================= ADMIN DASHBOARD ================= */
-        .admin-layout { padding: 80px 5% 20px 5%; }
-        .admin-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: var(--bg-surface); padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
-        .stat-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 5px; }
-        .stat-card p { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+        /* Glassmorphism & UI Elements */
+        .glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .card { background: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); border: 1px solid #f3f4f6; transition: all 0.2s ease; }
+        .card:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); transform: translateY(-2px); }
         
-        .admin-table-wrap { overflow-x: auto; background: var(--bg-surface); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 15px; border-bottom: 1px solid var(--border-color); font-size: 14px; }
-        th { background: var(--bg-body); font-weight: 600; color: var(--text-muted); }
+        /* Input Styling */
+        .input-field { width: 100%; padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid #d1d5db; outline: none; transition: border-color 0.2s, box-shadow 0.2s; background-color: #f9fafb; }
+        .input-field:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); background-color: #ffffff; }
+        .label { display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.25rem; }
 
-        /* ================= MODALS & TOASTS ================= */
-        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); background: var(--primary); color: white; padding: 12px 24px; border-radius: var(--radius-pill); font-weight: 500; z-index: 9999; transition: var(--transition); opacity: 0; display: flex; align-items: center; gap: 10px; }
-        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-        .toast.success { background: var(--success); }
-        .toast.error { background: var(--danger); }
+        /* Timeline CSS */
+        .timeline-container { position: relative; padding-left: 1.5rem; }
+        .timeline-container::before { content: ''; position: absolute; left: 0.375rem; top: 0.5rem; bottom: 0; width: 2px; background: #e5e7eb; }
+        .timeline-item { position: relative; padding-bottom: 1.5rem; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot { position: absolute; left: -1.5rem; top: 0.25rem; width: 0.875rem; height: 0.875rem; border-radius: 50%; background: #e5e7eb; border: 2px solid #fff; z-index: 10; }
+        .timeline-item.active .timeline-dot { background: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+        .timeline-item.completed .timeline-dot { background: #10b981; }
 
-        /* Form Elements */
-        .form-group { margin-bottom: 15px; }
-        .form-label { display: block; margin-bottom: 5px; font-size: 13px; font-weight: 600; color: var(--text-muted); }
-        .form-input { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 15px; background: var(--bg-body); transition: var(--transition); }
-        .form-input:focus { border-color: var(--primary); outline: none; background: var(--bg-surface); }
+        /* Toast */
+        #toast-container { position: fixed; bottom: 1rem; right: 1rem; z-index: 9999; display: flex; flex-direction: column; gap: 0.5rem; }
+        .toast { padding: 1rem; border-radius: 8px; background: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 0.75rem; min-width: 300px; transform: translateX(120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast.show { transform: translateX(0); }
 
-        /* Media Queries */
-        @media(max-width: 768px) {
-            .bottom-nav { display: block; }
-            .header-actions .hide-mobile { display: none; }
-            .fixed-bottom-bar { padding-bottom: calc(15px + var(--safe-bottom) + var(--bottom-nav-height)); }
-        }
-        @media(min-width: 769px) {
-            .product-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-            .pd-header { display: flex; padding: 90px 5% 20px 5%; gap: 40px; }
-            .pd-image-gallery { flex: 1; border-radius: var(--radius-lg); overflow: hidden; }
-            .pd-content { flex: 1; margin-top: 0; border-radius: 0; box-shadow: none; padding: 0; background: transparent; }
-            .fixed-bottom-bar { position: relative; padding: 20px 0; border: none; background: transparent; }
-        }
+        /* Image Uploader */
+        .image-drop-zone { border: 2px dashed #d1d5db; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; transition: background 0.2s; }
+        .image-drop-zone:hover, .image-drop-zone.dragover { background: #f3f4f6; border-color: #3b82f6; }
+        
+        /* Loader */
+        .skeleton { background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%); background-size: 200% 100%; animation: skeleton-loading 1.5s infinite; border-radius: 4px; }
+        @keyframes skeleton-loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+        /* Hide elements helper */
+        .hidden { display: none !important; }
     </style>
 </head>
-<body>
+<body class="text-gray-800 antialiased h-screen flex flex-col overflow-hidden">
 
-    <!-- ================= TOAST NOTIFICATION ================= -->
-    <div id="toast" class="toast"><i class="fas fa-info-circle"></i> <span id="toast-msg"></span></div>
-
-    <!-- ================= HEADER ================= -->
-    <header class="header">
-        <div class="logo" onclick="app.navigate('home')" style="cursor:pointer;">
-            <i class="fas fa-shopping-bag"></i> TRENDPRO
-        </div>
-        <div class="header-actions">
-            <div class="action-icon" onclick="app.navigate('search')"><i class="fas fa-search"></i></div>
-            <div class="action-icon hide-mobile" onclick="app.navigate('wishlist')"><i class="far fa-heart"></i></div>
-            <div class="action-icon" onclick="app.navigate('cart')">
-                <i class="fas fa-shopping-cart"></i>
-                <div class="badge" id="cart-badge">0</div>
-            </div>
-            <div class="action-icon hide-mobile" onclick="app.navigate('profile')"><i class="far fa-user"></i></div>
-        </div>
-    </header>
-
-    <!-- ================= APP CONTAINER (VIEWS) ================= -->
-    <main class="app-container" id="app-root">
-
-        <!-- VIEW: HOME -->
-        <div id="view-home" class="view active">
-            <div class="search-bar-container">
-                <div class="search-input-wrapper" onclick="app.navigate('search')">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search for products, brands..." readonly>
-                </div>
-            </div>
-
-            <div class="category-scroll" id="home-categories">
-                <!-- Categories injected here -->
-            </div>
-
-            <div class="section-title">
-                Trending Now <span onclick="app.navigate('search')">View All</span>
-            </div>
-            
-            <div class="product-grid" id="home-products">
-                <!-- Skeletons shown instantly, replaced by DB data -->
-                <div class="product-card skeleton-card">
-                    <div class="skeleton-img skeleton"></div>
-                    <div class="skeleton-text skeleton" style="width: 60%;"></div>
-                    <div class="skeleton-text skeleton" style="width: 40%;"></div>
-                </div>
-                <div class="product-card skeleton-card">
-                    <div class="skeleton-img skeleton"></div>
-                    <div class="skeleton-text skeleton" style="width: 60%;"></div>
-                    <div class="skeleton-text skeleton" style="width: 40%;"></div>
-                </div>
+    <!-- App Mount Point -->
+    <div id="app" class="h-full w-full flex flex-col">
+        <!-- Initial Loader -->
+        <div class="flex-1 flex items-center justify-center bg-gray-50 h-full w-full absolute inset-0 z-50 transition-opacity duration-500" id="initial-loader">
+            <div class="text-center">
+                <i class="ph ph-shopping-bag text-5xl text-brand-600 mb-4 animate-bounce"></i>
+                <h1 class="text-2xl font-bold text-gray-800 tracking-tight">TrendPro</h1>
+                <p class="text-gray-500 mt-2 flex items-center justify-center gap-2">
+                    <i class="ph ph-spinner animate-spin-slow"></i> Initializing System...
+                </p>
             </div>
         </div>
+    </div>
 
-        <!-- VIEW: PRODUCT DETAIL -->
-        <div id="view-product" class="view">
-            <div id="pd-container"></div> <!-- Injected by JS -->
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Modal Container -->
+    <div id="modal-container" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div id="modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-md scale-95 transition-transform duration-300 transform">
+            <!-- Modal content injected here -->
         </div>
+    </div>
 
-        <!-- VIEW: CART -->
-        <div id="view-cart" class="view">
-            <div class="section-title" style="padding-top: 90px;">Your Cart</div>
-            <div id="cart-items-container"></div>
-            <div class="cart-summary" id="cart-summary-container" style="display:none;">
-                <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">₹0</span></div>
-                <div class="summary-row"><span>Delivery</span><span class="text-success">Free</span></div>
-                <div class="summary-row total"><span>Total</span><span id="cart-total">₹0</span></div>
-                <button class="btn btn-primary" style="width: 100%; margin-top: 15px; padding: 16px;" onclick="app.checkout()">Proceed to Checkout</button>
-            </div>
-        </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, signInWithCustomToken, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc, getDoc, getDocs, onSnapshot, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
 
-        <!-- VIEW: PROFILE / AUTH -->
-        <div id="view-profile" class="view">
-            <div id="auth-section" class="auth-container">
-                <h2>Welcome to TRENDPRO</h2>
-                <p>Sign in to manage orders, wallet, and wishlist.</p>
-                <button class="btn btn-google" onclick="app.login()">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="G">
-                    Continue with Google
-                </button>
-            </div>
-            
-            <div id="profile-section" style="display: none;">
-                <div class="profile-header">
-                    <img src="" id="prof-img" class="profile-img">
-                    <div>
-                        <h2 id="prof-name">Name</h2>
-                        <p id="prof-email" style="color: var(--text-muted); font-size: 14px;">email</p>
-                    </div>
-                </div>
-                
-                <div class="profile-menu">
-                    <div class="menu-item" id="admin-menu-btn" style="display:none; background: #000; color: #fff;" onclick="app.navigate('admin')">
-                        <div class="menu-item-left"><i class="fas fa-shield-alt"></i> Owner Dashboard</div>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="menu-item" onclick="app.navigate('orders')">
-                        <div class="menu-item-left"><i class="fas fa-box"></i> My Orders</div>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="menu-item" onclick="app.navigate('wishlist')">
-                        <div class="menu-item-left"><i class="fas fa-heart"></i> Wishlist</div>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="menu-item" onclick="app.navigate('chat')">
-                        <div class="menu-item-left"><i class="fas fa-headset"></i> Support Chat</div>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                    <div class="menu-item" onclick="app.logout()">
-                        <div class="menu-item-left" style="color: var(--danger);"><i class="fas fa-sign-out-alt"></i> Logout</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        // --- Configuration ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'trendpro-ecommerce-app';
+        let firebaseConfig = null;
+        try {
+            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        } catch(e) { console.error("Error parsing firebase config", e); }
 
-        <!-- VIEW: ADMIN DASHBOARD -->
-        <div id="view-admin" class="view">
-            <div class="admin-layout">
-                <h2>Owner Dashboard</h2>
-                <p style="color: var(--text-muted); margin-bottom: 20px;">Manage your store</p>
-                
-                <div class="admin-stats">
-                    <div class="stat-card">
-                        <h3>₹<span id="ad-rev">0</span></h3>
-                        <p>Total Revenue</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="ad-orders">0</h3>
-                        <p>Total Orders</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="ad-prods">0</h3>
-                        <p>Active Products</p>
-                    </div>
-                </div>
+        // Fallback for development outside immersive environment
+        if (!firebaseConfig) {
+             firebaseConfig = {
+                // Mock config - in a real scenario this requires valid Firebase credentials
+                projectId: "demo-project"
+            };
+        }
 
-                <div style="display:flex; gap:10px; margin-bottom: 20px;">
-                    <button class="btn btn-primary" onclick="app.navigate('admin-add-product')">+ Add Product</button>
-                </div>
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+        const provider = new GoogleAuthProvider();
 
-                <h3>Recent Products</h3>
-                <div class="admin-table-wrap" style="margin-top: 10px;">
-                    <table id="admin-product-table">
-                        <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
-                        <tbody><!-- Injected --></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        const ADMIN_EMAIL = 'saurav586kumar@gmail.com';
 
-        <!-- VIEW: ADMIN ADD PRODUCT -->
-        <div id="view-admin-add-product" class="view">
-            <div style="padding: 90px 5% 20px 5%;">
-                <h2>Add New Product</h2>
-                <div class="form-group" style="margin-top: 20px;">
-                    <label class="form-label">Product Name</label>
-                    <input type="text" id="ap-name" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Brand</label>
-                    <input type="text" id="ap-brand" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">MRP (₹)</label>
-                    <input type="number" id="ap-mrp" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Selling Price (₹)</label>
-                    <input type="number" id="ap-price" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Image URL (For Demo)</label>
-                    <input type="text" id="ap-image" class="form-input" placeholder="https://...">
-                </div>
-                <button class="btn btn-primary" style="width: 100%;" onclick="app.adminSaveProduct()">Save Product</button>
-                <button class="btn btn-outline" style="width: 100%; margin-top: 10px;" onclick="app.navigate('admin')">Cancel</button>
-            </div>
-        </div>
-
-    </main>
-
-    <!-- ================= BOTTOM NAVIGATION ================= -->
-    <nav class="bottom-nav">
-        <div class="bottom-nav-inner">
-            <div class="nav-item active" data-route="home" onclick="app.navigate('home')">
-                <i class="fas fa-home"></i><span>Home</span>
-            </div>
-            <div class="nav-item" data-route="search" onclick="app.navigate('search')">
-                <i class="fas fa-search"></i><span>Search</span>
-            </div>
-            <div class="nav-item" data-route="cart" onclick="app.navigate('cart')">
-                <i class="fas fa-shopping-bag"></i><span>Cart</span>
-            </div>
-            <div class="nav-item" data-route="profile" onclick="app.navigate('profile')">
-                <i class="far fa-user"></i><span>Profile</span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ================= JAVASCRIPT APP LOGIC ================= -->
-    <script>
-        // --- 1. FIREBASE CONFIGURATION & INIT ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyCjr6addRfZbk7Ce4Lzku9HnBqzqHN5LtY",
-            authDomain: "store-1a8c3.firebaseapp.com",
-            databaseURL: "https://store-1a8c3-default-rtdb.firebaseio.com",
-            projectId: "store-1a8c3",
-            storageBucket: "store-1a8c3.firebasestorage.app",
-            messagingSenderId: "1046602403433",
-            appId: "1:1046602403433:web:ee005a4ddaa07ada5d1cf8"
+        // --- Global State ---
+        const state = {
+            user: null,
+            isAdmin: false,
+            currentView: 'loading',
+            products: [],
+            orders: [],
+            cart: [],
+            customers: [],
+            notifications: [],
+            productFormDraft: null,
+            unsubscribes: [],
+            aiChatHistory: [] // Added for AI Assistant
         };
+
+        // --- Utility Functions ---
+        const $ = id => document.getElementById(id);
         
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
-        const OWNER_EMAIL = "saurav586kumar@gmail.com";
+        const showToast = (message, type = 'success') => {
+            const container = $('toast-container');
+            const toast = document.createElement('div');
+            const icon = type === 'success' ? '<i class="ph-fill ph-check-circle text-green-500 text-xl"></i>' : 
+                         type === 'error' ? '<i class="ph-fill ph-warning-circle text-red-500 text-xl"></i>' : 
+                         '<i class="ph-fill ph-info text-blue-500 text-xl"></i>';
+            toast.className = `toast`;
+            toast.innerHTML = `${icon} <span class="text-sm font-medium text-gray-700">${message}</span>`;
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => toast.classList.add('show'), 10);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
 
-        // --- 2. CORE APPLICATION LOGIC ---
-        const app = {
-            state: {
-                user: null,
-                isOwner: false,
-                cart: JSON.parse(localStorage.getItem('trendpro_cart')) || [],
-                products: [],
-                categories: ['Men', 'Women', 'Sneakers', 'Accessories', 'Electronics']
-            },
+        const generateId = (prefix = 'TP') => {
+            return `${prefix}-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+        };
 
-            init: async function() {
-                // Initialize Router (Bypass Loading Screen entirely)
-                window.addEventListener('hashchange', this.handleRoute.bind(this));
-                
-                // Auth Listener
-                auth.onAuthStateChanged(user => {
-                    this.state.user = user;
-                    if(user) {
-                        this.state.isOwner = (user.email === OWNER_EMAIL);
-                        this.updateProfileUI();
-                    } else {
-                        this.state.isOwner = false;
-                        this.updateProfileUI();
-                    }
+        const formatCurrency = (amount) => {
+            return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+        };
+
+        // --- Gemini AI Integration ---
+        const callGemini = async (input, systemInstruction = null) => {
+            const apiKey = ""; // API key is handled automatically by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            // Handle either a single string prompt or a conversation history array
+            let contents = [];
+            if (typeof input === 'string') {
+                contents = [{ role: 'user', parts: [{ text: input }] }];
+            } else if (Array.isArray(input)) {
+                contents = input;
+            }
+
+            const payload = { contents };
+            if (systemInstruction) {
+                payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
                 });
-
-                this.updateCartBadge();
-                await this.fetchProductsSafe();
-                
-                // Trigger initial route
-                if(!window.location.hash) window.location.hash = 'home';
-                else this.handleRoute();
-            },
-
-            // SAFE DB FETCH (Prevents crashing if DB rules block read on first load)
-            fetchProductsSafe: async function() {
-                try {
-                    const snap = await db.ref('products').once('value');
-                    if(snap.exists()) {
-                        this.state.products = [];
-                        snap.forEach(child => {
-                            this.state.products.push({ id: child.key, ...child.val() });
-                        });
-                    } else {
-                        this.seedDummyData(); // Only seed if empty
-                    }
-                    this.renderHome();
-                } catch (e) {
-                    console.warn("Firebase Read Blocked (Normal for new setups with strict rules). Using Local Demo Data.");
-                    this.generateLocalDemoData();
-                    this.renderHome();
-                }
-            },
-
-            generateLocalDemoData: function() {
-                this.state.products = [
-                    { id: '1', name: 'Oversized Graphic T-Shirt', brand: 'TrendPro', price: 799, mrp: 1499, img: 'https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=500&q=80', cat: 'Men' },
-                    { id: '2', name: 'Classic White Sneakers', brand: 'UrbanWalk', price: 1299, mrp: 2999, img: 'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=500&q=80', cat: 'Sneakers' },
-                    { id: '3', name: 'Premium Leather Wallet', brand: 'Luxe', price: 499, mrp: 999, img: 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&q=80', cat: 'Accessories' },
-                    { id: '4', name: 'Wireless Noise Cancelling Earbuds', brand: 'Sonic', price: 2499, mrp: 4999, img: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80', cat: 'Electronics' }
-                ];
-            },
-
-            seedDummyData: async function() {
-                this.generateLocalDemoData();
-                try {
-                    for(let p of this.state.products) {
-                        await db.ref('products/' + p.id).set(p);
-                    }
-                } catch(e) {
-                    console.log("Could not write dummy data to Firebase (Permissions).");
-                }
-            },
-
-            // ROUTER
-            navigate: function(route) {
-                window.location.hash = route;
-            },
-
-            handleRoute: function() {
-                let hash = window.location.hash.substring(1) || 'home';
-                let parts = hash.split('/');
-                let baseRoute = parts[0];
-
-                // Hide all views
-                document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-                
-                // Update bottom nav active state
-                document.querySelectorAll('.nav-item').forEach(n => {
-                    n.classList.toggle('active', n.dataset.route === baseRoute);
-                });
-
-                // Route Logic
-                if (baseRoute === 'home') {
-                    document.getElementById('view-home').classList.add('active');
-                    this.renderHome();
-                } 
-                else if (baseRoute === 'product' && parts[1]) {
-                    document.getElementById('view-product').classList.add('active');
-                    this.renderProductDetail(parts[1]);
-                }
-                else if (baseRoute === 'cart') {
-                    document.getElementById('view-cart').classList.add('active');
-                    this.renderCart();
-                }
-                else if (baseRoute === 'profile') {
-                    document.getElementById('view-profile').classList.add('active');
-                    this.updateProfileUI();
-                }
-                else if (baseRoute === 'admin') {
-                    if (this.state.isOwner) {
-                        document.getElementById('view-admin').classList.add('active');
-                        this.renderAdmin();
-                    } else {
-                        this.toast("Unauthorized Access", "error");
-                        this.navigate('home');
-                    }
-                }
-                else if (baseRoute === 'admin-add-product') {
-                    if (this.state.isOwner) {
-                        document.getElementById('view-admin-add-product').classList.add('active');
-                    }
-                }
-                else {
-                    // Fallback
-                    document.getElementById('view-home').classList.add('active');
-                }
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            },
-
-            // UI RENDERING
-            renderHome: function() {
-                // Categories
-                const catContainer = document.getElementById('home-categories');
-                catContainer.innerHTML = this.state.categories.map((c, i) => 
-                    `<div class="cat-chip ${i===0?'active':''}">${c}</div>`
-                ).join('');
-
-                // Products
-                const grid = document.getElementById('home-products');
-                if(this.state.products.length === 0) return; // Keep skeletons if empty
-
-                grid.innerHTML = this.state.products.map(p => `
-                    <div class="product-card" onclick="app.navigate('product/${p.id}')">
-                        <div class="product-img-wrap">
-                            <div class="wishlist-btn" onclick="event.stopPropagation(); app.toggleWishlist('${p.id}', this)"><i class="fas fa-heart"></i></div>
-                            <img src="${p.img}" alt="${p.name}" loading="lazy">
-                        </div>
-                        <div class="product-info">
-                            <div class="p-brand">${p.brand}</div>
-                            <div class="p-name">${p.name}</div>
-                            <div class="p-price-row">
-                                <span class="p-price">₹${p.price}</span>
-                                ${p.mrp > p.price ? `<span class="p-mrp">₹${p.mrp}</span> <span class="p-discount">${Math.round((p.mrp-p.price)/p.mrp*100)}% OFF</span>` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-            },
-
-            renderProductDetail: function(id) {
-                const product = this.state.products.find(p => p.id === id);
-                const container = document.getElementById('pd-container');
-                if(!product) {
-                    container.innerHTML = `<div style="padding: 100px 5%; text-align:center;">Product not found.</div>`;
-                    return;
-                }
-
-                container.innerHTML = `
-                    <div class="pd-header">
-                        <div class="pd-image-gallery">
-                            <img src="${product.img}" alt="${product.name}">
-                        </div>
-                        <div class="pd-content">
-                            <div class="p-brand" style="margin-bottom: 8px;">${product.brand}</div>
-                            <h1 class="pd-title">${product.name}</h1>
-                            <div class="pd-price-box">
-                                <span class="pd-price">₹${product.price}</span>
-                                ${product.mrp > product.price ? `<span class="p-mrp" style="margin-left:10px;">₹${product.mrp}</span> <span class="p-discount">(${Math.round((product.mrp-product.price)/product.mrp*100)}% OFF)</span>` : ''}
-                            </div>
-                            
-                            <div class="variant-box">
-                                <div class="variant-title">Select Size</div>
-                                <div class="size-chips">
-                                    <div class="size-chip selected">S</div>
-                                    <div class="size-chip">M</div>
-                                    <div class="size-chip">L</div>
-                                    <div class="size-chip">XL</div>
-                                </div>
-                            </div>
-                            
-                            <div style="margin-top: 30px; line-height: 1.6; color: var(--text-muted); font-size: 14px;">
-                                Premium quality product designed for modern lifestyle. 100% original brand. Easy 7 days return and exchange available.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fixed-bottom-bar">
-                        <button class="btn btn-outline" onclick="app.toggleWishlist('${product.id}', this)"><i class="far fa-heart" style="font-size: 20px;"></i></button>
-                        <button class="btn btn-primary" onclick="app.addToCart('${product.id}')">Add to Cart</button>
-                    </div>
-                `;
-
-                // Add size selection logic
-                setTimeout(() => {
-                    document.querySelectorAll('.size-chip').forEach(c => {
-                        c.onclick = function() {
-                            document.querySelectorAll('.size-chip').forEach(x => x.classList.remove('selected'));
-                            this.classList.add('selected');
-                        }
-                    });
-                }, 100);
-            },
-
-            // CART LOGIC
-            addToCart: function(id) {
-                const product = this.state.products.find(p => p.id === id);
-                if(!product) return;
-                
-                const existing = this.state.cart.find(c => c.id === id);
-                if(existing) existing.qty += 1;
-                else this.state.cart.push({ ...product, qty: 1 });
-                
-                this.saveCart();
-                this.updateCartBadge();
-                this.toast("Added to Cart", "success");
-            },
-
-            updateCartQty: function(id, delta) {
-                const item = this.state.cart.find(c => c.id === id);
-                if(item) {
-                    item.qty += delta;
-                    if(item.qty <= 0) this.state.cart = this.state.cart.filter(c => c.id !== id);
-                    this.saveCart();
-                    this.renderCart();
-                    this.updateCartBadge();
-                }
-            },
-
-            saveCart: function() {
-                localStorage.setItem('trendpro_cart', JSON.stringify(this.state.cart));
-            },
-
-            updateCartBadge: function() {
-                const count = this.state.cart.reduce((a, b) => a + b.qty, 0);
-                document.getElementById('cart-badge').innerText = count;
-                document.getElementById('cart-badge').style.display = count > 0 ? 'flex' : 'none';
-            },
-
-            renderCart: function() {
-                const container = document.getElementById('cart-items-container');
-                const summary = document.getElementById('cart-summary-container');
-                
-                if(this.state.cart.length === 0) {
-                    container.innerHTML = `<div style="text-align:center; padding: 50px 5%; color: var(--text-muted);"><i class="fas fa-shopping-cart" style="font-size:40px; margin-bottom:15px; opacity:0.5;"></i><br>Your cart is empty.</div>`;
-                    summary.style.display = 'none';
-                    return;
-                }
-
-                let subtotal = 0;
-                container.innerHTML = this.state.cart.map(c => {
-                    subtotal += (c.price * c.qty);
-                    return `
-                    <div class="cart-item">
-                        <img src="${c.img}" class="cart-img">
-                        <div class="cart-details">
-                            <div>
-                                <div class="p-name">${c.name}</div>
-                                <div class="p-price" style="margin-top:5px;">₹${c.price}</div>
-                            </div>
-                            <div class="qty-controls">
-                                <i class="fas fa-minus" onclick="app.updateCartQty('${c.id}', -1)"></i>
-                                <span style="font-weight:600; width: 20px; text-align:center;">${c.qty}</span>
-                                <i class="fas fa-plus" onclick="app.updateCartQty('${c.id}', 1)"></i>
-                            </div>
-                        </div>
-                    </div>
-                `}).join('');
-
-                summary.style.display = 'block';
-                document.getElementById('cart-subtotal').innerText = '₹' + subtotal;
-                document.getElementById('cart-total').innerText = '₹' + subtotal;
-            },
-
-            checkout: function() {
-                if(!this.state.user) {
-                    this.toast("Please Login to Checkout", "error");
-                    this.navigate('profile');
-                    return;
-                }
-                this.toast("Order Placed Successfully!", "success");
-                this.state.cart = [];
-                this.saveCart();
-                this.updateCartBadge();
-                setTimeout(() => this.navigate('orders'), 1500);
-            },
-
-            // AUTH & PROFILE LOGIC
-            login: async function() {
-                const provider = new firebase.auth.GoogleAuthProvider();
-                try {
-                    await auth.signInWithPopup(provider);
-                    this.toast("Login Successful", "success");
-                } catch(e) {
-                    this.toast("Login Failed", "error");
-                    console.error(e);
-                }
-            },
-
-            logout: async function() {
-                await auth.signOut();
-                this.toast("Logged Out", "success");
-                this.navigate('home');
-            },
-
-            updateProfileUI: function() {
-                const authSec = document.getElementById('auth-section');
-                const profSec = document.getElementById('profile-section');
-                
-                if(this.state.user) {
-                    authSec.style.display = 'none';
-                    profSec.style.display = 'block';
-                    document.getElementById('prof-name').innerText = this.state.user.displayName;
-                    document.getElementById('prof-email').innerText = this.state.user.email;
-                    document.getElementById('prof-img').src = this.state.user.photoURL || 'https://via.placeholder.com/70';
-                    
-                    document.getElementById('admin-menu-btn').style.display = this.state.isOwner ? 'flex' : 'none';
-                } else {
-                    authSec.style.display = 'flex';
-                    profSec.style.display = 'none';
-                }
-            },
-
-            // ADMIN LOGIC
-            renderAdmin: function() {
-                document.getElementById('ad-prods').innerText = this.state.products.length;
-                
-                const tbody = document.querySelector('#admin-product-table tbody');
-                tbody.innerHTML = this.state.products.map(p => `
-                    <tr>
-                        <td><img src="${p.img}" style="width:40px; border-radius:4px;"></td>
-                        <td style="font-weight:500;">${p.name}</td>
-                        <td>₹${p.price}</td>
-                        <td><span class="badge" style="position:static; background:var(--success); padding:4px 8px; border-radius:4px; font-size:11px;">In Stock</span></td>
-                        <td><button onclick="app.adminDeleteProduct('${p.id}')" style="color:var(--danger);"><i class="fas fa-trash"></i></button></td>
-                    </tr>
-                `).join('');
-            },
-
-            adminSaveProduct: async function() {
-                const name = document.getElementById('ap-name').value;
-                const brand = document.getElementById('ap-brand').value;
-                const mrp = document.getElementById('ap-mrp').value;
-                const price = document.getElementById('ap-price').value;
-                const img = document.getElementById('ap-image').value || 'https://via.placeholder.com/500';
-
-                if(!name || !price) return this.toast("Required fields missing", "error");
-
-                const id = 'prod_' + Date.now();
-                const newProd = { id, name, brand, mrp: Number(mrp), price: Number(price), img, cat: 'Men' };
-                
-                this.state.products.push(newProd);
-                
-                try {
-                    await db.ref('products/' + id).set(newProd);
-                } catch(e) {} // Fallback to local state if rules block
-
-                this.toast("Product Added Successfully", "success");
-                document.querySelectorAll('.form-input').forEach(i => i.value = '');
-                this.navigate('admin');
-            },
-
-            adminDeleteProduct: async function(id) {
-                if(confirm("Delete this product?")) {
-                    this.state.products = this.state.products.filter(p => p.id !== id);
-                    try { await db.ref('products/' + id).remove(); } catch(e){}
-                    this.renderAdmin();
-                    this.toast("Product Deleted", "success");
-                }
-            },
-
-            // UTILS
-            toggleWishlist: function(id, el) {
-                const icon = el.querySelector('i');
-                if(icon.classList.contains('far')) {
-                    icon.classList.remove('far'); icon.classList.add('fas');
-                    el.classList.add('active');
-                    this.toast("Added to Wishlist", "success");
-                } else {
-                    icon.classList.remove('fas'); icon.classList.add('far');
-                    el.classList.remove('active');
-                }
-            },
-
-            toast: function(msg, type="success") {
-                const t = document.getElementById('toast');
-                document.getElementById('toast-msg').innerText = msg;
-                t.className = `toast show ${type}`;
-                setTimeout(() => t.classList.remove('show'), 3000);
+                if(!response.ok) throw new Error("Gemini API Error");
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to respond to that.";
+            } catch (error) {
+                console.error("Gemini API Call Failed:", error);
+                throw error;
             }
         };
 
-        // --- 3. BOOT APPLICATION ---
-        window.onload = () => app.init();
+        const formatDate = (timestamp) => {
+            if(!timestamp) return 'N/A';
+            const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+            return date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+        };
+
+        // Modal System
+        const Modal = {
+            show: (contentHTML) => {
+                const modal = $('modal-container');
+                const content = $('modal-content');
+                content.innerHTML = contentHTML;
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    content.classList.remove('scale-95');
+                }, 10);
+            },
+            hide: () => {
+                const modal = $('modal-container');
+                const content = $('modal-content');
+                modal.classList.add('opacity-0');
+                content.classList.add('scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                    content.innerHTML = '';
+                }, 300);
+            },
+            confirm: (title, message, confirmText, confirmCallback, isDanger = false) => {
+                const btnColor = isDanger ? 'bg-red-600 hover:bg-red-700' : 'bg-brand-600 hover:bg-brand-700';
+                Modal.show(`
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">${title}</h3>
+                        <p class="text-gray-600 mb-6">${message}</p>
+                        <div class="flex justify-end gap-3">
+                            <button onclick="window.TrendPro.Modal.hide()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition">Cancel</button>
+                            <button id="modal-confirm-btn" class="px-4 py-2 text-sm font-medium text-white ${btnColor} rounded-lg transition">${confirmText}</button>
+                        </div>
+                    </div>
+                `);
+                $('modal-confirm-btn').addEventListener('click', () => {
+                    confirmCallback();
+                    Modal.hide();
+                });
+            }
+        };
+        // Expose Modal to window for inline HTML handlers
+        window.TrendPro = { Modal };
+
+        // --- Authentication & Initialization ---
+        const initAuth = async () => {
+            // Check for initial token from system
+            const initialToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+            
+            onAuthStateChanged(auth, async (user) => {
+                const loader = $('initial-loader');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 500);
+                }
+
+                if (user) {
+                    state.user = user;
+                    state.isAdmin = user.email === ADMIN_EMAIL;
+                    
+                    // Save/Update user profile
+                    await setDoc(PATHS.userDoc(user.uid), {
+                        uid: user.uid,
+                        name: user.displayName || 'Anonymous User',
+                        email: user.email || 'N/A',
+                        photoURL: user.photoURL || '',
+                        lastLogin: serverTimestamp(),
+                        role: state.isAdmin ? 'admin' : 'customer'
+                    }, { merge: true });
+
+                    setupRealtimeListeners();
+                    
+                    // Route based on role
+                    if (state.isAdmin) {
+                        navigate('admin-dashboard');
+                    } else {
+                        navigate('storefront');
+                    }
+                } else {
+                    state.user = null;
+                    state.isAdmin = false;
+                    cleanupListeners();
+                    renderLogin();
+                }
+            });
+
+            if (!auth.currentUser) {
+                if (initialToken) {
+                    try {
+                        await signInWithCustomToken(auth, initialToken);
+                    } catch (e) {
+                        console.error("Custom token failed, falling back to anon", e);
+                        await signInAnonymously(auth);
+                    }
+                }
+            }
+        };
+
+        const handleLogin = async () => {
+            try {
+                // In an iframe/immersive env, popup might be blocked. Using anonymous if popup fails.
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                console.error("Popup login failed, attempting anonymous", error);
+                await signInAnonymously(auth);
+                showToast("Logged in anonymously (Popup blocked)", "info");
+            }
+        };
+
+        const handleLogout = () => {
+            signOut(auth);
+        };
+
+        // --- Data Listeners ---
+        const setupRealtimeListeners = () => {
+            cleanupListeners(); // Prevent duplicates
+
+            // Listen to Products (Everyone needs this)
+            const unsubProducts = onSnapshot(PATHS.publicProducts(), (snapshot) => {
+                state.products = [];
+                snapshot.forEach(doc => state.products.push({ id: doc.id, ...doc.data() }));
+                updateCurrentViewData();
+            }, (err) => console.error("Products listener error:", err));
+            state.unsubscribes.push(unsubProducts);
+
+            // Listen to Orders (Admin sees all, Customer sees theirs)
+            if(state.isAdmin) {
+                const unsubOrders = onSnapshot(PATHS.publicOrders(), (snapshot) => {
+                    state.orders = [];
+                    snapshot.forEach(doc => state.orders.push({ id: doc.id, ...doc.data() }));
+                    // Sort descending by date in memory (Rule 2 workaround)
+                    state.orders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                    updateCurrentViewData();
+                }, (err) => console.error("Admin orders listener error:", err));
+                state.unsubscribes.push(unsubOrders);
+
+                // Listen to Customers
+                const unsubCustomers = onSnapshot(PATHS.publicUsers(), (snapshot) => {
+                    state.customers = [];
+                    snapshot.forEach(doc => state.customers.push({ id: doc.id, ...doc.data() }));
+                    updateCurrentViewData();
+                });
+                state.unsubscribes.push(unsubCustomers);
+
+            } else {
+                // Customer Order Listener (Filtering client-side for sandbox simplicity, ideally queried by UID)
+                const unsubOrders = onSnapshot(PATHS.publicOrders(), (snapshot) => {
+                    state.orders = [];
+                    snapshot.forEach(doc => {
+                        const data = doc.data();
+                        if(data.customerId === state.user.uid) {
+                            state.orders.push({ id: doc.id, ...data });
+                        }
+                    });
+                    state.orders.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+                    updateCurrentViewData();
+                });
+                state.unsubscribes.push(unsubOrders);
+            }
+        };
+
+        const cleanupListeners = () => {
+            state.unsubscribes.forEach(unsub => unsub());
+            state.unsubscribes = [];
+        };
+
+        const updateCurrentViewData = () => {
+            // Re-render current view if data changes
+            if(state.currentView.startsWith('admin-')) renderAdminContent(state.currentView);
+            else if(state.currentView === 'storefront') renderStorefront();
+        };
+
+        // --- Navigation & Routing ---
+        const navigate = (view, params = null) => {
+            state.currentView = view;
+            state.viewParams = params;
+            
+            const appDiv = $('app');
+            appDiv.innerHTML = ''; // Clear
+
+            if (view === 'login') {
+                renderLogin();
+            } else if (view.startsWith('admin-')) {
+                if(!state.isAdmin) { navigate('storefront'); return; }
+                renderAdminShell();
+                renderAdminContent(view, params);
+            } else {
+                renderCustomerShell();
+                if(view === 'storefront') renderStorefront();
+                // Add checkout/cart views here later
+            }
+        };
+
+        // --- View Rendering: Login ---
+        const renderLogin = () => {
+            $('app').innerHTML = `
+                <div class="h-full flex items-center justify-center bg-gray-900 bg-[url('https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=2000&auto=format&fit=crop')] bg-cover bg-center">
+                    <div class="absolute inset-0 bg-gray-900/70 backdrop-blur-sm"></div>
+                    <div class="z-10 bg-white p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 animate-slide-up text-center">
+                        <div class="w-16 h-16 bg-brand-100 rounded-2xl flex items-center justify-center mx-auto mb-6 transform rotate-3">
+                            <i class="ph ph-shopping-bag text-3xl text-brand-600"></i>
+                        </div>
+                        <h1 class="text-3xl font-bold text-gray-900 tracking-tight mb-2">TrendPro</h1>
+                        <p class="text-gray-500 mb-8 text-sm">Advanced E-commerce Management</p>
+                        
+                        <button id="btn-login-google" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-xl px-4 py-3 text-gray-700 font-medium hover:bg-gray-50 hover:shadow-md transition duration-200">
+                            <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                            Continue with Google
+                        </button>
+                        <div class="mt-6 text-xs text-gray-400">
+                            Admin access requires specific authorization.<br>
+                            Customer view available for all other accounts.
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('btn-login-google').addEventListener('click', handleLogin);
+        };
+
+        // --- View Rendering: Admin Shell ---
+        const renderAdminShell = () => {
+            const shellHTML = `
+                <div class="flex h-screen bg-gray-50 overflow-hidden">
+                    <!-- Sidebar (Desktop) -->
+                    <aside class="hidden md:flex flex-col w-64 bg-white border-r border-gray-200 z-20">
+                        <div class="h-16 flex items-center px-6 border-b border-gray-200">
+                            <i class="ph-fill ph-shopping-bag text-brand-600 text-2xl mr-2"></i>
+                            <span class="text-xl font-bold text-gray-900 tracking-tight">TrendPro</span>
+                            <span class="ml-2 text-[10px] uppercase font-bold tracking-wider bg-brand-100 text-brand-700 py-1 px-2 rounded">Owner</span>
+                        </div>
+                        <nav class="flex-1 overflow-y-auto py-4 space-y-1 px-3" id="admin-nav">
+                            ${getAdminNavItems()}
+                        </nav>
+                        <div class="p-4 border-t border-gray-200">
+                            <div class="flex items-center gap-3 mb-4">
+                                <img src="${state.user.photoURL || 'https://ui-avatars.com/api/?name=Admin&background=random'}" class="w-10 h-10 rounded-full border border-gray-200">
+                                <div class="overflow-hidden">
+                                    <p class="text-sm font-medium text-gray-900 truncate">${state.user.name}</p>
+                                    <p class="text-xs text-gray-500 truncate">${state.user.email}</p>
+                                </div>
+                            </div>
+                            <button id="btn-logout" class="w-full flex items-center justify-center gap-2 text-sm text-red-600 bg-red-50 hover:bg-red-100 py-2 rounded-lg transition">
+                                <i class="ph ph-sign-out"></i> Logout
+                            </button>
+                        </div>
+                    </aside>
+
+                    <!-- Main Content -->
+                    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+                        <!-- Mobile Header -->
+                        <header class="md:hidden h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 z-20">
+                            <div class="flex items-center">
+                                <i class="ph-fill ph-shopping-bag text-brand-600 text-xl mr-2"></i>
+                                <span class="text-lg font-bold">TrendPro</span>
+                            </div>
+                            <button id="btn-mobile-menu" class="p-2 text-gray-600 bg-gray-100 rounded-lg"><i class="ph ph-list text-xl"></i></button>
+                        </header>
+
+                        <!-- Mobile Drawer Overlay -->
+                        <div id="mobile-drawer-overlay" class="fixed inset-0 bg-gray-900/50 z-40 hidden transition-opacity opacity-0"></div>
+                        
+                        <!-- Mobile Drawer -->
+                        <aside id="mobile-drawer" class="fixed inset-y-0 left-0 w-64 bg-white z-50 transform -translate-x-full transition-transform duration-300 flex flex-col">
+                            <div class="h-16 flex items-center justify-between px-6 border-b border-gray-200">
+                                <span class="text-xl font-bold">Menu</span>
+                                <button id="btn-close-drawer" class="p-2 text-gray-500 hover:bg-gray-100 rounded"><i class="ph ph-x"></i></button>
+                            </div>
+                            <nav class="flex-1 overflow-y-auto py-4 space-y-1 px-3" id="admin-nav-mobile">
+                                ${getAdminNavItems()}
+                            </nav>
+                        </aside>
+
+                        <!-- Dynamic Content Area -->
+                        <main id="admin-main-content" class="flex-1 overflow-y-auto p-4 md:p-8 bg-gray-50 relative"></main>
+                    </div>
+                </div>
+            `;
+            $('app').innerHTML = shellHTML;
+
+            // Event Listeners for Shell
+            $('btn-logout').addEventListener('click', handleLogout);
+            
+            // Mobile Menu Logic
+            const drawer = $('mobile-drawer');
+            const overlay = $('mobile-drawer-overlay');
+            const toggleDrawer = (show) => {
+                if(show) {
+                    overlay.classList.remove('hidden');
+                    setTimeout(() => { overlay.classList.remove('opacity-0'); drawer.classList.remove('-translate-x-full'); }, 10);
+                } else {
+                    overlay.classList.add('opacity-0');
+                    drawer.classList.add('-translate-x-full');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            };
+
+            $('btn-mobile-menu').addEventListener('click', () => toggleDrawer(true));
+            $('btn-close-drawer').addEventListener('click', () => toggleDrawer(false));
+            overlay.addEventListener('click', () => toggleDrawer(false));
+
+            // Setup Navigation Listeners
+            document.querySelectorAll('.admin-nav-link').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    toggleDrawer(false);
+                    const view = e.currentTarget.dataset.view;
+                    navigate(view);
+                });
+            });
+        };
+
+        const getAdminNavItems = () => {
+            const items = [
+                { id: 'admin-dashboard', icon: 'squares-four', label: 'Dashboard' },
+                { id: 'admin-products', icon: 'package', label: 'Products' },
+                { id: 'admin-orders', icon: 'shopping-cart', label: 'Orders' },
+                { id: 'admin-customers', icon: 'users', label: 'Customers' },
+                { id: 'admin-settings', icon: 'gear', label: 'Settings' }
+            ];
+
+            return items.map(item => `
+                <a href="#" data-view="${item.id}" class="admin-nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${state.currentView.startsWith(item.id) ? 'bg-brand-50 text-brand-700' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}">
+                    <i class="ph ph-${item.icon} text-lg ${state.currentView.startsWith(item.id) ? 'text-brand-600' : ''}"></i>
+                    ${item.label}
+                </a>
+            `).join('');
+        };
+
+        const renderAdminContent = (view, params) => {
+            const container = $('admin-main-content');
+            
+            // Update active nav state visually
+            document.querySelectorAll('.admin-nav-link').forEach(link => {
+                link.className = `admin-nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${link.dataset.view === view || (view.startsWith('admin-products') && link.dataset.view === 'admin-products') ? 'bg-brand-50 text-brand-700' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}`;
+            });
+
+            switch(view) {
+                case 'admin-dashboard': renderAdminDashboard(container); break;
+                case 'admin-products': renderAdminProducts(container); break;
+                case 'admin-products-add': renderAdminProductForm(container, null); break;
+                case 'admin-products-edit': renderAdminProductForm(container, params); break;
+                case 'admin-orders': renderAdminOrders(container); break;
+                case 'admin-order-detail': renderAdminOrderDetail(container, params); break;
+                case 'admin-customers': renderAdminCustomers(container); break;
+                default: container.innerHTML = `<div class="p-8 text-center text-gray-500">View Not Implemented Yet</div>`;
+            }
+        };
+
+        // --- Admin: Dashboard ---
+        const renderAdminDashboard = (container) => {
+            const today = new Date().setHours(0,0,0,0);
+            
+            // Calculate Stats
+            const totalRevenue = state.orders.filter(o => o.status === 'DELIVERED').reduce((sum, o) => sum + (o.total || 0), 0);
+            const pendingOrders = state.orders.filter(o => o.status === 'PENDING').length;
+            const lowStockProducts = state.products.filter(p => p.inventory?.available < p.inventory?.lowThreshold).length;
+
+            container.innerHTML = `
+                <div class="animate-fade-in">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h1>
+                    
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        ${createStatCard('Total Revenue', formatCurrency(totalRevenue), 'currency-inr', 'bg-emerald-100 text-emerald-600')}
+                        ${createStatCard('Total Orders', state.orders.length, 'shopping-cart', 'bg-blue-100 text-blue-600')}
+                        ${createStatCard('Pending Orders', pendingOrders, 'clock-counter-clockwise', 'bg-amber-100 text-amber-600', pendingOrders > 0)}
+                        ${createStatCard('Low Stock Items', lowStockProducts, 'warning-circle', 'bg-red-100 text-red-600', lowStockProducts > 0)}
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Recent Orders -->
+                        <div class="lg:col-span-2 card p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-lg font-bold text-gray-800">Recent Orders</h2>
+                                <button onclick="window.TrendPro.navigate('admin-orders')" class="text-sm text-brand-600 font-medium hover:underline">View All</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-sm">
+                                    <thead class="text-xs text-gray-500 uppercase bg-gray-50 border-b">
+                                        <tr><th class="px-4 py-3">Order ID</th><th class="px-4 py-3">Customer</th><th class="px-4 py-3">Amount</th><th class="px-4 py-3">Status</th></tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100">
+                                        ${state.orders.slice(0, 5).map(o => `
+                                            <tr class="hover:bg-gray-50 cursor-pointer" onclick="window.TrendPro.navigate('admin-order-detail', '${o.id}')">
+                                                <td class="px-4 py-3 font-medium text-gray-900">#${o.id.substring(3,11)}</td>
+                                                <td class="px-4 py-3">${o.customerName || 'Guest'}</td>
+                                                <td class="px-4 py-3 font-medium">${formatCurrency(o.total)}</td>
+                                                <td class="px-4 py-3">${getStatusBadge(o.status)}</td>
+                                            </tr>
+                                        `).join('') || `<tr><td colspan="4" class="text-center py-6 text-gray-500">No orders yet</td></tr>`}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Action Needs -->
+                        <div class="card p-6">
+                            <h2 class="text-lg font-bold text-gray-800 mb-4">Needs Attention</h2>
+                            <div class="space-y-4">
+                                ${pendingOrders > 0 ? `
+                                <div class="flex items-center gap-3 p-3 bg-amber-50 border border-amber-100 rounded-lg cursor-pointer" onclick="window.TrendPro.navigate('admin-orders')">
+                                    <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600"><i class="ph ph-bell text-lg"></i></div>
+                                    <div><p class="text-sm font-bold text-amber-900">${pendingOrders} Pending Orders</p><p class="text-xs text-amber-700">Require confirmation</p></div>
+                                </div>` : ''}
+                                ${lowStockProducts > 0 ? `
+                                <div class="flex items-center gap-3 p-3 bg-red-50 border border-red-100 rounded-lg cursor-pointer" onclick="window.TrendPro.navigate('admin-products')">
+                                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center text-red-600"><i class="ph ph-package text-lg"></i></div>
+                                    <div><p class="text-sm font-bold text-red-900">${lowStockProducts} Low Stock Items</p><p class="text-xs text-red-700">Update inventory</p></div>
+                                </div>` : ''}
+                                ${pendingOrders === 0 && lowStockProducts === 0 ? `
+                                <div class="text-center py-8 text-gray-400"><i class="ph ph-check-circle text-4xl mb-2"></i><p>All caught up!</p></div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            // Expose navigation for inline handlers
+            window.TrendPro.navigate = navigate;
+        };
+
+        const createStatCard = (title, value, icon, colorClass, highlight = false) => `
+            <div class="card p-6 relative overflow-hidden group ${highlight ? 'ring-2 ring-opacity-50 ring-offset-2 ' + colorClass.split(' ')[1].replace('text-', 'ring-') : ''}">
+                <div class="flex justify-between items-start z-10 relative">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500 mb-1">${title}</p>
+                        <h3 class="text-2xl font-bold text-gray-900">${value}</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center ${colorClass} transition-transform group-hover:scale-110">
+                        <i class="ph ph-${icon} text-2xl"></i>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const getStatusBadge = (status) => {
+            const styles = {
+                'PENDING': 'bg-amber-100 text-amber-700 border-amber-200',
+                'CONFIRMED': 'bg-blue-100 text-blue-700 border-blue-200',
+                'PACKED': 'bg-purple-100 text-purple-700 border-purple-200',
+                'DISPATCHED': 'bg-indigo-100 text-indigo-700 border-indigo-200',
+                'IN TRANSIT': 'bg-cyan-100 text-cyan-700 border-cyan-200',
+                'OUT FOR DELIVERY': 'bg-orange-100 text-orange-700 border-orange-200',
+                'DELIVERED': 'bg-emerald-100 text-emerald-700 border-emerald-200',
+                'CANCELED': 'bg-red-100 text-red-700 border-red-200',
+                'RETURNED': 'bg-gray-100 text-gray-700 border-gray-200'
+            };
+            const style = styles[status] || 'bg-gray-100 text-gray-700';
+            return `<span class="px-2.5 py-1 text-[10px] uppercase font-bold tracking-wider rounded-full border ${style}">${status}</span>`;
+        };
+
+        // --- Admin: Products ---
+        const renderAdminProducts = (container) => {
+            container.innerHTML = `
+                <div class="animate-fade-in flex flex-col h-full">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900">Products</h1>
+                            <p class="text-sm text-gray-500">${state.products.length} total products</p>
+                        </div>
+                        <button onclick="window.TrendPro.navigate('admin-products-add')" class="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg font-medium transition shadow-sm">
+                            <i class="ph ph-plus"></i> Add Product
+                        </button>
+                    </div>
+
+                    <!-- Filters Bar -->
+                    <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm mb-6 flex flex-wrap gap-4 items-center">
+                        <div class="relative flex-1 min-w-[200px]">
+                            <i class="ph ph-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="prod-search" placeholder="Search by name, SKU..." class="input-field pl-10 text-sm py-2">
+                        </div>
+                        <select class="input-field w-auto text-sm py-2"><option>All Categories</option></select>
+                        <select class="input-field w-auto text-sm py-2"><option>All Status</option><option>Active</option><option>Disabled</option></select>
+                    </div>
+
+                    <!-- Products Table/List -->
+                    <div class="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="text-xs text-gray-500 uppercase bg-gray-50 border-b sticky top-0 z-10">
+                                    <tr>
+                                        <th class="px-6 py-4 font-semibold">Product</th>
+                                        <th class="px-6 py-4 font-semibold">SKU</th>
+                                        <th class="px-6 py-4 font-semibold">Price</th>
+                                        <th class="px-6 py-4 font-semibold">Stock</th>
+                                        <th class="px-6 py-4 font-semibold">Status</th>
+                                        <th class="px-6 py-4 font-semibold text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100" id="products-tbody">
+                                    <!-- Rendered via JS below -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const renderTable = (products) => {
+                const tbody = $('products-tbody');
+                if(products.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-12"><div class="flex flex-col items-center"><i class="ph ph-package text-4xl text-gray-300 mb-3"></i><p class="text-gray-500 font-medium">No products found</p></div></td></tr>`;
+                    return;
+                }
+                
+                tbody.innerHTML = products.map(p => {
+                    const imgUrl = p.images && p.images.length > 0 ? p.images[0] : 'https://placehold.co/100x100/f3f4f6/a1a1aa?text=No+Img';
+                    const stockStatus = p.inventory?.available > 0 ? (p.inventory?.available <= p.inventory?.lowThreshold ? '<span class="text-amber-600 font-medium">Low Stock</span>' : '<span class="text-green-600 font-medium">In Stock</span>') : '<span class="text-red-600 font-medium">Out of Stock</span>';
+                    
+                    return `
+                    <tr class="hover:bg-gray-50 transition group">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-4">
+                                <img src="${imgUrl}" class="w-12 h-12 rounded-lg object-cover border border-gray-200">
+                                <div>
+                                    <p class="font-bold text-gray-900">${p.name}</p>
+                                    <p class="text-xs text-gray-500">${p.category || 'Uncategorized'}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-gray-600 font-mono text-xs">${p.sku}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900">${formatCurrency(p.pricing?.sellingPrice || 0)}</td>
+                        <td class="px-6 py-4">
+                            <p class="font-bold text-gray-900">${p.inventory?.available || 0}</p>
+                            <p class="text-xs">${stockStatus}</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2.5 py-1 text-xs font-medium rounded-full ${p.status === 'Active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}">${p.status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-right">
+                            <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button onclick="window.TrendPro.editProduct('${p.id}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg tooltip" title="Edit"><i class="ph ph-pencil-simple"></i></button>
+                                <button onclick="window.TrendPro.deleteProduct('${p.id}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg tooltip" title="Delete"><i class="ph ph-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                `}).join('');
+            };
+
+            renderTable(state.products);
+
+            $('prod-search').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = state.products.filter(p => p.name.toLowerCase().includes(term) || p.sku.toLowerCase().includes(term));
+                renderTable(filtered);
+            });
+
+            window.TrendPro.editProduct = (id) => navigate('admin-products-edit', id);
+            window.TrendPro.deleteProduct = (id) => {
+                Modal.confirm('Delete Product', 'Are you sure you want to delete this product? This cannot be undone.', 'Delete', async () => {
+                    try {
+                        await deleteDoc(PATHS.productDoc(id));
+                        showToast('Product deleted', 'success');
+                    } catch (e) { showToast('Error deleting product', 'error'); }
+                }, true);
+            };
+        };
+
+        const renderAdminProductForm = async (container, productId) => {
+            let product = {
+                name: '', sku: '', category: '', description: '', status: 'Active',
+                pricing: { mrp: '', sellingPrice: '', discount: 0 },
+                inventory: { available: '', lowThreshold: 5 },
+                images: [],
+                specs: []
+            };
+
+            if (productId) {
+                const p = state.products.find(x => x.id === productId);
+                if(p) product = JSON.parse(JSON.stringify(p)); // Deep copy
+            } else {
+                product.sku = generateId('SKU');
+            }
+
+            container.innerHTML = `
+                <div class="animate-fade-in max-w-6xl mx-auto pb-20">
+                    <div class="flex items-center justify-between mb-6 sticky top-0 bg-gray-50 pt-4 pb-4 z-20 border-b border-gray-200">
+                        <div class="flex items-center gap-3">
+                            <button onclick="window.TrendPro.navigate('admin-products')" class="p-2 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"><i class="ph ph-arrow-left"></i></button>
+                            <h1 class="text-2xl font-bold text-gray-900">${productId ? 'Edit Product' : 'Add New Product'}</h1>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="window.TrendPro.navigate('admin-products')" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">Cancel</button>
+                            <button id="btn-save-product" class="px-6 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-lg text-sm font-bold shadow flex items-center gap-2 transition">
+                                <i class="ph ph-floppy-disk"></i> Save Product
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Main Form Area -->
+                        <div class="lg:col-span-2 space-y-6">
+                            
+                            <!-- Basic Info -->
+                            <div class="card p-6">
+                                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Basic Information</h2>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="label">Product Name *</label>
+                                        <input type="text" id="pf-name" class="input-field" value="${product.name}" placeholder="e.g. Premium Wireless Headphones">
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="label">SKU *</label>
+                                            <input type="text" id="pf-sku" class="input-field font-mono text-sm" value="${product.sku}">
+                                        </div>
+                                        <div>
+                                            <label class="label">Category</label>
+                                            <input type="text" id="pf-cat" class="input-field" value="${product.category || ''}" placeholder="e.g. Electronics">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between items-center mb-1">
+                                            <label class="label mb-0">Description</label>
+                                            <button type="button" id="btn-ai-desc" class="text-xs text-brand-600 font-bold hover:underline flex items-center gap-1 bg-brand-50 px-2 py-1 rounded-md transition hover:bg-brand-100">
+                                                <i class="ph-fill ph-magic-wand"></i> AI Generate
+                                            </button>
+                                        </div>
+                                        <textarea id="pf-desc" class="input-field h-32 resize-none" placeholder="Detailed product description...">${product.description || ''}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Pricing -->
+                            <div class="card p-6">
+                                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Pricing</h2>
+                                <div class="grid grid-cols-3 gap-4 items-end">
+                                    <div>
+                                        <label class="label">MRP (₹)</label>
+                                        <input type="number" id="pf-mrp" class="input-field" value="${product.pricing.mrp}">
+                                    </div>
+                                    <div>
+                                        <label class="label">Selling Price (₹) *</label>
+                                        <input type="number" id="pf-price" class="input-field" value="${product.pricing.sellingPrice}">
+                                    </div>
+                                    <div class="bg-brand-50 p-3 rounded-lg border border-brand-100 flex flex-col justify-center items-center">
+                                        <span class="text-xs text-brand-700 font-medium mb-1">Discount</span>
+                                        <span id="pf-discount-display" class="text-xl font-bold text-brand-600">${product.pricing.discount}% OFF</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Inventory -->
+                            <div class="card p-6">
+                                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Inventory</h2>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="label">Available Stock *</label>
+                                        <input type="number" id="pf-stock" class="input-field" value="${product.inventory.available}">
+                                    </div>
+                                    <div>
+                                        <label class="label">Low Stock Threshold</label>
+                                        <input type="number" id="pf-low" class="input-field" value="${product.inventory.lowThreshold}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Side Panel (Images & Status) -->
+                        <div class="space-y-6">
+                            
+                            <!-- Status -->
+                            <div class="card p-6">
+                                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Status</h2>
+                                <select id="pf-status" class="input-field font-medium">
+                                    <option value="Active" ${product.status === 'Active' ? 'selected' : ''}>Active (Visible)</option>
+                                    <option value="Draft" ${product.status === 'Draft' ? 'selected' : ''}>Draft (Hidden)</option>
+                                    <option value="Disabled" ${product.status === 'Disabled' ? 'selected' : ''}>Disabled</option>
+                                </select>
+                            </div>
+
+                            <!-- Images Upload -->
+                            <div class="card p-6">
+                                <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2 flex justify-between items-center">
+                                    Product Images
+                                    <span class="text-xs text-gray-500 font-normal">Max 5MB</span>
+                                </h2>
+                                
+                                <div id="image-dropzone" class="image-drop-zone mb-4 relative overflow-hidden">
+                                    <input type="file" id="pf-file" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" accept="image/*" multiple>
+                                    <i class="ph-fill ph-image text-3xl text-gray-400 mb-2"></i>
+                                    <p class="text-sm font-medium text-gray-700">Click or drag images here</p>
+                                    <p class="text-xs text-gray-500 mt-1">First image is primary</p>
+                                </div>
+
+                                <div id="image-preview-container" class="grid grid-cols-2 gap-3">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Form Logic
+            const formState = { images: [...product.images], newFiles: [] };
+
+            // Dynamic Pricing Calc
+            const calcDiscount = () => {
+                const mrp = parseFloat($('pf-mrp').value) || 0;
+                const sp = parseFloat($('pf-price').value) || 0;
+                let perc = 0;
+                if(mrp > sp && mrp > 0) perc = Math.round(((mrp - sp) / mrp) * 100);
+                $('pf-discount-display').innerText = `${perc}% OFF`;
+            };
+            $('pf-mrp').addEventListener('input', calcDiscount);
+            $('pf-price').addEventListener('input', calcDiscount);
+
+            // AI Description Generator Logic
+            $('btn-ai-desc').addEventListener('click', async () => {
+                const name = $('pf-name').value.trim();
+                const category = $('pf-cat').value.trim();
+                
+                if(!name) return showToast('Please enter a Product Name first', 'error');
+
+                const btn = $('btn-ai-desc');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = `<i class="ph ph-spinner animate-spin-slow"></i> Generating...`;
+                btn.disabled = true;
+
+                try {
+                    const prompt = `Write a compelling, professional, and SEO-friendly product description for an e-commerce store. Product Name: "${name}". Category: "${category || 'General'}". Keep it concise (under 100 words), focus on benefits, and format it nicely. Return ONLY the description text without markdown formatting wrappers.`;
+                    
+                    const generatedText = await callGemini(prompt);
+                    $('pf-desc').value = generatedText;
+                    showToast('AI Description Generated!', 'success');
+                } catch (error) {
+                    showToast('Failed to generate description', 'error');
+                } finally {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            });
+
+            // Image Handling
+            const renderImagePreviews = () => {
+                const container = $('image-preview-container');
+                container.innerHTML = '';
+                
+                // Existing URLs
+                formState.images.forEach((url, i) => {
+                    container.innerHTML += `
+                        <div class="relative group rounded-lg overflow-hidden border border-gray-200 aspect-square">
+                            <img src="${url}" class="w-full h-full object-cover">
+                            ${i === 0 ? '<span class="absolute top-1 left-1 bg-brand-600 text-white text-[10px] px-1.5 py-0.5 rounded font-bold">Primary</span>' : ''}
+                            <button type="button" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition shadow" onclick="window.TrendPro.removeImg(${i}, false)">
+                                <i class="ph ph-x text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+
+                // New Files (Pending Upload)
+                formState.newFiles.forEach((fileObj, i) => {
+                    container.innerHTML += `
+                        <div class="relative group rounded-lg overflow-hidden border border-brand-200 aspect-square ring-2 ring-brand-500 ring-inset">
+                            <img src="${fileObj.preview}" class="w-full h-full object-cover opacity-70">
+                            <div class="absolute inset-0 flex items-center justify-center"><i class="ph-fill ph-cloud-arrow-up text-white text-xl drop-shadow-md"></i></div>
+                            <button type="button" class="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition shadow" onclick="window.TrendPro.removeImg(${i}, true)">
+                                <i class="ph ph-x text-xs"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+            };
+
+            window.TrendPro.removeImg = (index, isNew) => {
+                if(isNew) formState.newFiles.splice(index, 1);
+                else formState.images.splice(index, 1);
+                renderImagePreviews();
+            };
+
+            $('pf-file').addEventListener('change', (e) => {
+                const files = Array.from(e.target.files);
+                files.forEach(file => {
+                    if(file.size > 5 * 1024 * 1024) return showToast('File too large', 'error');
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        formState.newFiles.push({ file, preview: ev.target.result });
+                        renderImagePreviews();
+                    };
+                    reader.readAsDataURL(file);
+                });
+                e.target.value = ''; // reset
+            });
+
+            renderImagePreviews();
+
+            // Save Logic
+            $('btn-save-product').addEventListener('click', async () => {
+                const btn = $('btn-save-product');
+                
+                // Basic Validation
+                const name = $('pf-name').value.trim();
+                const sku = $('pf-sku').value.trim();
+                const sp = parseFloat($('pf-price').value);
+                const stock = parseInt($('pf-stock').value);
+
+                if(!name || !sku || isNaN(sp) || isNaN(stock)) {
+                    return showToast('Please fill all required fields correctly.', 'error');
+                }
+
+                btn.disabled = true;
+                btn.innerHTML = `<i class="ph ph-spinner animate-spin-slow"></i> Saving...`;
+
+                try {
+                    // 1. Upload new images to Storage (Simulated or Real depending on rules, we try real first)
+                    const uploadedUrls = [];
+                    for(const item of formState.newFiles) {
+                        try {
+                            const storageRef = ref(storage, `artifacts/${appId}/products/${Date.now()}_${item.file.name}`);
+                            const snapshot = await uploadBytesResumable(storageRef, item.file);
+                            const url = await getDownloadURL(snapshot.ref);
+                            uploadedUrls.push(url);
+                        } catch(uploadErr) {
+                            console.warn("Storage upload failed, fallback to base64 for demo purposes if allowed, else fail.", uploadErr);
+                            // Due to strict sandbox limits, if storage fails, we might just store the dataURL, but it's bad practice for production.
+                            // The prompt asks for production grade, so we rely on Storage working.
+                            throw new Error("Image upload failed.");
+                        }
+                    }
+
+                    const finalImages = [...formState.images, ...uploadedUrls];
+                    const mrp = parseFloat($('pf-mrp').value) || 0;
+
+                    const productData = {
+                        name, sku,
+                        category: $('pf-cat').value.trim(),
+                        description: $('pf-desc').value.trim(),
+                        status: $('pf-status').value,
+                        pricing: { mrp, sellingPrice: sp, discount: mrp > sp ? Math.round(((mrp - sp) / mrp) * 100) : 0 },
+                        inventory: { available: stock, lowThreshold: parseInt($('pf-low').value) || 5 },
+                        images: finalImages,
+                        updatedAt: serverTimestamp()
+                    };
+
+                    if (!productId) {
+                        productData.createdAt = serverTimestamp();
+                        // Generate ID or let Firestore generate
+                        const newDocRef = doc(PATHS.publicProducts()); 
+                        await setDoc(newDocRef, productData);
+                    } else {
+                        await updateDoc(PATHS.productDoc(productId), productData);
+                    }
+
+                    showToast(`Product ${productId ? 'updated' : 'added'} successfully!`);
+                    
+                    // Success animation before nav
+                    btn.innerHTML = `<i class="ph ph-check-circle"></i> Success`;
+                    btn.classList.replace('bg-brand-600', 'bg-green-600');
+                    
+                    setTimeout(() => navigate('admin-products'), 1000);
+
+                } catch (error) {
+                    console.error("Save product error:", error);
+                    showToast(error.message || 'Error saving product', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = `<i class="ph ph-floppy-disk"></i> Save Product`;
+                }
+            });
+        };
+
+        // --- Admin: Orders ---
+        const renderAdminOrders = (container) => {
+            container.innerHTML = `
+                <div class="animate-fade-in flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-bold text-gray-900">Orders Management</h1>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex gap-2 mb-6 overflow-x-auto pb-2 custom-scrollbar">
+                        ${['ALL', 'PENDING', 'CONFIRMED', 'PACKED', 'DISPATCHED', 'IN TRANSIT', 'OUT FOR DELIVERY', 'DELIVERED', 'CANCELED'].map(status => `
+                            <button class="order-filter-btn whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition ${status === 'ALL' ? 'bg-gray-800 text-white border-gray-800' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}" data-status="${status}">
+                                ${status}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto h-full">
+                            <table class="w-full text-left text-sm whitespace-nowrap">
+                                <thead class="text-xs text-gray-500 uppercase bg-gray-50 border-b sticky top-0">
+                                    <tr>
+                                        <th class="px-6 py-4">Order ID & Date</th>
+                                        <th class="px-6 py-4">Customer</th>
+                                        <th class="px-6 py-4">Amount</th>
+                                        <th class="px-6 py-4">Status</th>
+                                        <th class="px-6 py-4 text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-100" id="orders-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            let currentFilter = 'ALL';
+
+            const renderTable = () => {
+                const tbody = $('orders-tbody');
+                const filtered = currentFilter === 'ALL' ? state.orders : state.orders.filter(o => o.status === currentFilter);
+                
+                if(filtered.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" class="text-center py-12 text-gray-500">No orders found.</td></tr>`;
+                    return;
+                }
+
+                tbody.innerHTML = filtered.map(o => `
+                    <tr class="hover:bg-gray-50 transition cursor-pointer group" onclick="window.TrendPro.navigate('admin-order-detail', '${o.id}')">
+                        <td class="px-6 py-4">
+                            <p class="font-bold text-gray-900 font-mono text-xs mb-1">#${o.id}</p>
+                            <p class="text-xs text-gray-500 flex items-center gap-1"><i class="ph ph-calendar"></i> ${formatDate(o.createdAt)}</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="font-medium text-gray-900">${o.customerName || 'Unknown'}</p>
+                        </td>
+                        <td class="px-6 py-4 font-bold text-gray-900">${formatCurrency(o.total)}</td>
+                        <td class="px-6 py-4">${getStatusBadge(o.status)}</td>
+                        <td class="px-6 py-4 text-right">
+                            <button class="text-brand-600 hover:text-brand-800 font-medium text-xs bg-brand-50 px-3 py-1.5 rounded-md opacity-0 group-hover:opacity-100 transition-opacity">View Details</button>
+                        </td>
+                    </tr>
+                `).join('');
+            };
+
+            renderTable();
+
+            document.querySelectorAll('.order-filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.order-filter-btn').forEach(b => {
+                        b.className = "order-filter-btn whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition bg-white text-gray-600 border-gray-200 hover:bg-gray-50";
+                    });
+                    e.target.className = "order-filter-btn whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium border transition bg-gray-800 text-white border-gray-800";
+                    currentFilter = e.target.dataset.status;
+                    renderTable();
+                });
+            });
+        };
+
+        const renderAdminOrderDetail = (container, orderId) => {
+            const order = state.orders.find(o => o.id === orderId);
+            if(!order) {
+                container.innerHTML = `<div class="p-8 text-center">Order not found</div>`; return;
+            }
+
+            const STATUS_FLOW = ['PENDING', 'CONFIRMED', 'PACKED', 'DISPATCHED', 'IN TRANSIT', 'OUT FOR DELIVERY', 'DELIVERED'];
+            const currentIndex = STATUS_FLOW.indexOf(order.status);
+            const isCanceled = order.status === 'CANCELED';
+
+            container.innerHTML = `
+                <div class="animate-slide-in-right max-w-5xl mx-auto pb-10">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center gap-3">
+                            <button onclick="window.TrendPro.navigate('admin-orders')" class="p-2 bg-white border border-gray-200 rounded-lg"><i class="ph ph-arrow-left"></i></button>
+                            <div>
+                                <h1 class="text-xl font-bold text-gray-900 font-mono">Order #${orderId}</h1>
+                                <p class="text-sm text-gray-500">${formatDate(order.createdAt)}</p>
+                            </div>
+                        </div>
+                        <div>${getStatusBadge(order.status)}</div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <!-- Left Column: Items & Details -->
+                        <div class="lg:col-span-2 space-y-6">
+                            
+                            <!-- Items Card -->
+                            <div class="card overflow-hidden">
+                                <div class="px-6 py-4 border-b border-gray-100 bg-gray-50"><h2 class="font-bold text-gray-800">Order Items</h2></div>
+                                <div class="divide-y divide-gray-100">
+                                    ${(order.items || []).map(item => `
+                                        <div class="p-6 flex gap-4 items-center">
+                                            <img src="${item.image || 'https://placehold.co/100'}" class="w-16 h-16 rounded border border-gray-200 object-cover">
+                                            <div class="flex-1">
+                                                <p class="font-bold text-gray-900">${item.name}</p>
+                                                <p class="text-xs text-gray-500 font-mono mb-1">SKU: ${item.sku}</p>
+                                                <div class="flex justify-between items-center mt-2">
+                                                    <p class="text-sm font-medium bg-gray-100 px-2 py-0.5 rounded">Qty: ${item.quantity}</p>
+                                                    <p class="font-bold text-gray-900">${formatCurrency(item.price * item.quantity)}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <div class="p-6 bg-gray-50 border-t border-gray-200 flex justify-end">
+                                    <div class="w-64 space-y-2 text-sm">
+                                        <div class="flex justify-between"><span class="text-gray-500">Subtotal</span><span class="font-medium">${formatCurrency(order.subtotal || order.total)}</span></div>
+                                        <div class="flex justify-between"><span class="text-gray-500">Delivery</span><span class="text-green-600 font-medium">Free</span></div>
+                                        <div class="flex justify-between border-t border-gray-200 pt-2 text-lg"><span class="font-bold">Total</span><span class="font-bold text-brand-600">${formatCurrency(order.total)}</span></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Customer & Address -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="card p-6">
+                                    <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="ph ph-user text-gray-400"></i> Customer Info</h2>
+                                    <p class="font-medium">${order.customerName}</p>
+                                    <p class="text-sm text-gray-600">${order.customerEmail || 'N/A'}</p>
+                                </div>
+                                <div class="card p-6">
+                                    <h2 class="font-bold text-gray-800 mb-4 flex items-center gap-2"><i class="ph ph-map-pin text-gray-400"></i> Shipping Address</h2>
+                                    <p class="text-sm text-gray-600 leading-relaxed">
+                                        ${order.address?.street || 'No Street'},<br>
+                                        ${order.address?.city || 'No City'}, ${order.address?.state || ''} ${order.address?.zip || ''}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Timeline & Actions -->
+                        <div class="space-y-6">
+                            
+                            <!-- Actions -->
+                            <div class="card p-6 border-brand-200 shadow-brand-100/50 shadow-lg">
+                                <h2 class="font-bold text-gray-800 mb-4">Update Status</h2>
+                                <select id="status-updater" class="input-field mb-4 font-bold" ${isCanceled || order.status === 'DELIVERED' ? 'disabled' : ''}>
+                                    ${STATUS_FLOW.map(s => `<option value="${s}" ${order.status === s ? 'selected' : ''} ${STATUS_FLOW.indexOf(s) < currentIndex ? 'disabled' : ''}>Mark as ${s}</option>`).join('')}
+                                    ${!isCanceled && order.status !== 'DELIVERED' ? `<option value="CANCELED" class="text-red-600">CANCEL ORDER</option>` : ''}
+                                </select>
+                                <button id="btn-update-status" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl transition ${isCanceled || order.status === 'DELIVERED' ? 'opacity-50 cursor-not-allowed' : ''}">Update Order</button>
+                            </div>
+
+                            <!-- Timeline -->
+                            <div class="card p-6">
+                                <h2 class="font-bold text-gray-800 mb-6">Status Timeline</h2>
+                                <div class="timeline-container">
+                                    ${isCanceled ? `
+                                        <div class="timeline-item active"><div class="timeline-dot bg-red-500"></div><p class="font-bold text-red-600 text-sm">Order Canceled</p></div>
+                                    ` : STATUS_FLOW.map((step, idx) => {
+                                        const isActive = idx === currentIndex;
+                                        const isDone = idx < currentIndex;
+                                        return `
+                                            <div class="timeline-item ${isActive ? 'active' : ''} ${isDone ? 'completed' : ''} ${idx > currentIndex ? 'opacity-50' : ''}">
+                                                <div class="timeline-dot"></div>
+                                                <p class="font-bold text-sm ${isActive ? 'text-brand-600' : 'text-gray-700'}">${step}</p>
+                                                ${isDone ? `<p class="text-xs text-gray-400 mt-1"><i class="ph-fill ph-check-circle text-green-500"></i> Completed</p>` : ''}
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            if(!isCanceled && order.status !== 'DELIVERED') {
+                $('btn-update-status').addEventListener('click', async () => {
+                    const newStatus = $('status-updater').value;
+                    if(newStatus === order.status) return;
+
+                    Modal.confirm('Update Status', `Change order status to ${newStatus}?`, 'Confirm Update', async () => {
+                        try {
+                            const btn = $('btn-update-status');
+                            btn.innerHTML = `<i class="ph ph-spinner animate-spin-slow"></i>`;
+                            btn.disabled = true;
+
+                            // Update Order Doc
+                            await updateDoc(PATHS.orderDoc(orderId), {
+                                status: newStatus,
+                                updatedAt: serverTimestamp()
+                            });
+
+                            // Create Notification for Customer
+                            await setDoc(doc(PATHS.userNotifications(order.customerId)), {
+                                title: `Order ${newStatus}`,
+                                message: `Your order #${orderId.substring(3,11)} is now ${newStatus}.`,
+                                type: 'order',
+                                orderId: orderId,
+                                read: false,
+                                createdAt: serverTimestamp()
+                            });
+
+                            showToast(`Order status updated to ${newStatus}`);
+                            // Re-render happens automatically due to onSnapshot listener
+                        } catch (e) {
+                            showToast('Error updating status', 'error');
+                            console.error(e);
+                        }
+                    });
+                });
+            }
+        };
+
+        // --- Storefront (Customer View) ---
+        const renderCustomerShell = () => {
+            $('app').innerHTML = `
+                <div class="flex flex-col h-screen bg-gray-50">
+                    <!-- Customer Header -->
+                    <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-8 sticky top-0 z-30 shadow-sm">
+                        <div class="flex items-center cursor-pointer" onclick="window.TrendPro.navigate('storefront')">
+                            <i class="ph-fill ph-shopping-bag text-brand-600 text-2xl mr-2"></i>
+                            <span class="text-xl font-bold text-gray-900 tracking-tight">TrendPro</span>
+                        </div>
+                        
+                        <div class="hidden md:flex flex-1 max-w-xl mx-8 relative">
+                            <input type="text" placeholder="Search products..." class="input-field py-2 pl-4 pr-10 rounded-full bg-gray-100 border-transparent focus:bg-white focus:border-brand-300 focus:ring-2 focus:ring-brand-100">
+                            <i class="ph ph-magnifying-glass absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                        </div>
+
+                        <div class="flex items-center gap-4">
+                            <div class="relative cursor-pointer" id="cart-toggle">
+                                <i class="ph ph-shopping-cart text-2xl text-gray-700 hover:text-brand-600 transition"></i>
+                                <span id="cart-badge" class="absolute -top-1 -right-2 bg-brand-600 text-white text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center hidden">0</span>
+                            </div>
+                            
+                            <div class="relative group">
+                                <div class="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-100 transition">
+                                    <img src="${state.user?.photoURL || 'https://ui-avatars.com/api/?name=User'}" class="w-8 h-8 rounded-full border border-gray-200">
+                                </div>
+                                <div class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all transform origin-top-right z-50">
+                                    <div class="p-3 border-b border-gray-100">
+                                        <p class="text-sm font-bold truncate">${state.user?.name}</p>
+                                        <p class="text-xs text-gray-500 truncate">${state.user?.email}</p>
+                                    </div>
+                                    <div class="p-1">
+                                        <button class="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg">My Orders</button>
+                                        ${state.isAdmin ? `<button onclick="window.TrendPro.navigate('admin-dashboard')" class="w-full text-left px-3 py-2 text-sm text-brand-600 font-bold hover:bg-brand-50 rounded-lg">Owner Panel</button>` : ''}
+                                        <button onclick="window.TrendPro.logout()" class="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg mt-1">Logout</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Main Content -->
+                    <main id="customer-main-content" class="flex-1 overflow-y-auto"></main>
+
+                    <!-- Slide-over Cart -->
+                    <div id="cart-overlay" class="fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity"></div>
+                    <div id="cart-drawer" class="fixed inset-y-0 right-0 w-full md:w-96 bg-white z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
+                        <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+                            <h2 class="text-lg font-bold flex items-center gap-2"><i class="ph ph-shopping-cart"></i> Your Cart</h2>
+                            <button id="close-cart" class="p-2 hover:bg-gray-100 rounded-full"><i class="ph ph-x"></i></button>
+                        </div>
+                        <div id="cart-items" class="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+                            <!-- Items here -->
+                        </div>
+                        <div class="p-6 border-t border-gray-100 bg-gray-50">
+                            <div class="flex justify-between mb-4"><span class="font-bold text-gray-600">Total</span><span id="cart-total" class="font-bold text-xl text-gray-900">₹0</span></div>
+                            <button id="btn-checkout" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-brand-200 transition transform active:scale-95 disabled:opacity-50">Proceed to Checkout</button>
+                        </div>
+                    </div>
+
+                    <!-- AI Assistant Features -->
+                    <button id="ai-chat-fab" class="fixed bottom-6 right-6 w-14 h-14 bg-gray-900 text-white rounded-full shadow-2xl flex items-center justify-center hover:bg-gray-800 hover:scale-105 transition-transform z-40">
+                        <i class="ph-fill ph-sparkle text-2xl animate-pulse"></i>
+                    </button>
+
+                    <div id="ai-chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white border border-gray-200 rounded-2xl shadow-2xl flex flex-col hidden z-40 overflow-hidden transition-all transform origin-bottom-right scale-95 opacity-0">
+                        <div class="bg-gray-900 p-4 text-white flex justify-between items-center">
+                            <div class="flex items-center gap-2">
+                                <i class="ph-fill ph-robot text-2xl text-brand-400"></i>
+                                <div>
+                                    <span class="font-bold block text-sm">TrendPro AI Assistant</span>
+                                    <span class="text-[10px] text-green-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-400"></span> Online</span>
+                                </div>
+                            </div>
+                            <button id="ai-chat-close" class="text-white hover:text-gray-300 p-1"><i class="ph ph-x"></i></button>
+                        </div>
+                        <div id="ai-chat-messages" class="flex-1 h-80 p-4 overflow-y-auto flex flex-col gap-3 bg-gray-50 custom-scrollbar">
+                            <div class="bg-white p-3 rounded-xl rounded-tl-sm shadow-sm text-sm text-gray-800 self-start max-w-[85%] border border-gray-100">
+                                Hi there! 👋 I'm your TrendPro AI. I can help you find products, check availability, or answer questions. What are you looking for today?
+                            </div>
+                        </div>
+                        <div class="p-3 bg-white border-t border-gray-100 flex gap-2 items-center">
+                            <input type="text" id="ai-chat-input" placeholder="Ask about our products..." class="flex-1 input-field py-2 text-sm bg-gray-50 border-gray-200 rounded-full">
+                            <button id="ai-chat-send" class="bg-gray-900 text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800 transition shadow-md"><i class="ph-fill ph-paper-plane-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            window.TrendPro.logout = handleLogout;
+            
+            // Cart UI Logic
+            const toggleCart = (show) => {
+                const overlay = $('cart-overlay');
+                const drawer = $('cart-drawer');
+                if(show) {
+                    overlay.classList.remove('hidden');
+                    renderCartItems();
+                    setTimeout(() => { overlay.classList.remove('opacity-0'); drawer.classList.remove('translate-x-full'); }, 10);
+                } else {
+                    overlay.classList.add('opacity-0');
+                    drawer.classList.add('translate-x-full');
+                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                }
+            };
+            $('cart-toggle').addEventListener('click', () => toggleCart(true));
+            $('close-cart').addEventListener('click', () => toggleCart(false));
+            $('cart-overlay').addEventListener('click', () => toggleCart(false));
+            
+            // Checkout Logic
+            $('btn-checkout').addEventListener('click', processCheckout);
+
+            // AI Chat Assistant Logic
+            const chatWindow = $('ai-chat-window');
+            const chatMessages = $('ai-chat-messages');
+            const chatInput = $('ai-chat-input');
+            const chatSendBtn = $('ai-chat-send');
+
+            const toggleAiChat = (show) => {
+                if(show) {
+                    chatWindow.classList.remove('hidden');
+                    setTimeout(() => { chatWindow.classList.remove('opacity-0', 'scale-95'); }, 10);
+                    chatInput.focus();
+                } else {
+                    chatWindow.classList.add('opacity-0', 'scale-95');
+                    setTimeout(() => chatWindow.classList.add('hidden'), 300);
+                }
+            };
+
+            $('ai-chat-fab').addEventListener('click', () => toggleAiChat(true));
+            $('ai-chat-close').addEventListener('click', () => toggleAiChat(false));
+
+            const appendMessage = (text, isUser = false) => {
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `p-3 rounded-xl shadow-sm text-sm border ${
+                    isUser ? 'bg-brand-600 text-white self-end rounded-tr-sm border-brand-700 ml-auto' 
+                           : 'bg-white text-gray-800 self-start rounded-tl-sm border-gray-100'
+                } max-w-[85%]`;
+                
+                // Simple markdown-like bold parsing for AI responses
+                let formattedText = text;
+                if(!isUser) {
+                    formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                }
+                
+                msgDiv.innerHTML = formattedText;
+                chatMessages.appendChild(msgDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            };
+
+            const handleAiQuery = async () => {
+                const text = chatInput.value.trim();
+                if(!text) return;
+
+                appendMessage(text, true);
+                chatInput.value = '';
+                
+                // Add to history
+                state.aiChatHistory.push({ role: 'user', parts: [{ text }] });
+
+                // Create loading bubble
+                const loadingId = 'ai-loading-' + Date.now();
+                const loadingDiv = document.createElement('div');
+                loadingDiv.id = loadingId;
+                loadingDiv.className = 'bg-white p-3 rounded-xl rounded-tl-sm shadow-sm text-sm text-gray-500 self-start border border-gray-100 flex gap-1 items-center';
+                loadingDiv.innerHTML = `<div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>`;
+                chatMessages.appendChild(loadingDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+
+                try {
+                    // Build context dynamically from active products
+                    const activeProducts = state.products.filter(p => p.status === 'Active');
+                    const catalogSummary = activeProducts.map(p => 
+                        `- ${p.name} (${p.category}): ₹${p.pricing.sellingPrice} (Stock: ${p.inventory.available > 0 ? 'In Stock' : 'Out of stock'})`
+                    ).join('\n');
+
+                    const systemInstruction = `You are the friendly AI shopping assistant for TrendPro Ecommerce. 
+                    Be concise, helpful, and polite. 
+                    If a user asks about products, recommend items ONLY from the active catalog below. 
+                    Current Active Catalog:\n${catalogSummary || 'No products currently available.'}\n
+                    General store rules: Standard shipping is free and takes 3-5 days. Do not make up product details or prices that aren't listed. Keep responses under 3-4 short sentences.`;
+
+                    const reply = await callGemini(state.aiChatHistory, systemInstruction);
+                    
+                    // Add AI reply to history
+                    state.aiChatHistory.push({ role: 'model', parts: [{ text: reply }] });
+                    
+                    // Display
+                    document.getElementById(loadingId)?.remove();
+                    appendMessage(reply, false);
+
+                } catch (error) {
+                    document.getElementById(loadingId)?.remove();
+                    appendMessage("I'm sorry, I am having trouble connecting right now. Please try again later.", false);
+                    state.aiChatHistory.pop(); // Remove failed prompt from history
+                }
+            };
+
+            chatSendBtn.addEventListener('click', handleAiQuery);
+            chatInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') handleAiQuery();
+            });
+        };
+
+        const renderStorefront = () => {
+            const container = $('customer-main-content');
+            
+            // Filter active products only for storefront
+            const activeProducts = state.products.filter(p => p.status === 'Active');
+
+            container.innerHTML = `
+                <!-- Hero Banner -->
+                <div class="bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16 px-4 lg:px-8 relative overflow-hidden">
+                    <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+                    <div class="max-w-7xl mx-auto relative z-10 text-center">
+                        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight animate-slide-up">Discover Premium Tech</h1>
+                        <p class="text-lg text-gray-300 max-w-2xl mx-auto mb-8 animate-slide-up" style="animation-delay: 0.1s">Upgrade your lifestyle with our curated collection of high-tech gadgets and accessories.</p>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="max-w-7xl mx-auto px-4 lg:px-8 py-12">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">Featured Products</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        ${activeProducts.map(p => `
+                            <div class="card group flex flex-col h-full overflow-hidden cursor-pointer" onclick="window.TrendPro.addToCart('${p.id}')">
+                                <div class="relative aspect-square overflow-hidden bg-gray-100">
+                                    <img src="${p.images?.[0] || 'https://placehold.co/400'}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                    ${p.pricing?.discount > 0 ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm">${p.pricing.discount}% OFF</span>` : ''}
+                                    <!-- Hover Overlay -->
+                                    <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+                                        <button class="bg-white text-gray-900 font-bold px-6 py-2 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform">Add to Cart</button>
+                                    </div>
+                                </div>
+                                <div class="p-4 flex-1 flex flex-col">
+                                    <p class="text-xs text-brand-600 font-bold mb-1 uppercase tracking-wider">${p.category || 'Tech'}</p>
+                                    <h3 class="font-bold text-gray-900 leading-tight mb-2 line-clamp-2">${p.name}</h3>
+                                    <div class="mt-auto flex items-end gap-2">
+                                        <span class="text-lg font-bold text-gray-900">${formatCurrency(p.pricing?.sellingPrice)}</span>
+                                        ${p.pricing?.mrp > p.pricing?.sellingPrice ? `<span class="text-sm text-gray-400 line-through pb-0.5">${formatCurrency(p.pricing.mrp)}</span>` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    ${activeProducts.length === 0 ? `<div class="text-center py-20"><i class="ph ph-package text-5xl text-gray-300 mb-4"></i><p class="text-gray-500">No products available right now.</p></div>` : ''}
+                </div>
+            `;
+
+            window.TrendPro.addToCart = (id) => {
+                const product = state.products.find(p => p.id === id);
+                if(!product || product.inventory?.available <= 0) {
+                    return showToast('Product is out of stock', 'error');
+                }
+                
+                const existing = state.cart.find(item => item.id === id);
+                if(existing) {
+                    if(existing.quantity < product.inventory.available) {
+                        existing.quantity += 1;
+                        showToast('Cart updated');
+                    } else {
+                        showToast('Max stock reached', 'error');
+                    }
+                } else {
+                    state.cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.pricing.sellingPrice,
+                        image: product.images?.[0],
+                        sku: product.sku,
+                        quantity: 1
+                    });
+                    showToast('Added to cart');
+                }
+                updateCartBadge();
+                renderCartItems(); // In case cart is open
+            };
+        };
+
+        // Cart Logic
+        const updateCartBadge = () => {
+            const badge = $('cart-badge');
+            const totalItems = state.cart.reduce((sum, item) => sum + item.quantity, 0);
+            if(badge) {
+                badge.innerText = totalItems;
+                if(totalItems > 0) badge.classList.remove('hidden');
+                else badge.classList.add('hidden');
+            }
+        };
+
+        const renderCartItems = () => {
+            const container = $('cart-items');
+            if(!container) return;
+
+            let total = 0;
+            if(state.cart.length === 0) {
+                container.innerHTML = `<div class="flex-1 flex flex-col items-center justify-center text-gray-400"><i class="ph ph-shopping-cart text-5xl mb-4 opacity-50"></i><p>Your cart is empty</p></div>`;
+                $('btn-checkout').disabled = true;
+                $('cart-total').innerText = '₹0';
+                return;
+            }
+
+            $('btn-checkout').disabled = false;
+            container.innerHTML = state.cart.map((item, index) => {
+                total += (item.price * item.quantity);
+                return `
+                <div class="flex gap-4 p-3 bg-gray-50 rounded-xl border border-gray-100 relative group animate-fade-in">
+                    <img src="${item.image || 'https://placehold.co/100'}" class="w-20 h-20 rounded-lg object-cover bg-white">
+                    <div class="flex-1 flex flex-col">
+                        <h4 class="font-bold text-gray-800 text-sm leading-tight line-clamp-2">${item.name}</h4>
+                        <p class="font-bold text-brand-600 mt-1">${formatCurrency(item.price)}</p>
+                        <div class="mt-auto flex items-center gap-3">
+                            <div class="flex items-center bg-white border border-gray-200 rounded-md">
+                                <button onclick="window.TrendPro.updateCartQty(${index}, -1)" class="px-2 py-0.5 text-gray-500 hover:text-gray-900">-</button>
+                                <span class="text-xs font-bold w-4 text-center">${item.quantity}</span>
+                                <button onclick="window.TrendPro.updateCartQty(${index}, 1)" class="px-2 py-0.5 text-gray-500 hover:text-gray-900">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="window.TrendPro.removeCartItem(${index})" class="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow border border-gray-100 text-red-500 opacity-0 group-hover:opacity-100 transition"><i class="ph ph-trash"></i></button>
+                </div>
+            `}).join('');
+            
+            $('cart-total').innerText = formatCurrency(total);
+        };
+
+        window.TrendPro.updateCartQty = (index, delta) => {
+            const item = state.cart[index];
+            const product = state.products.find(p => p.id === item.id);
+            const newQty = item.quantity + delta;
+            
+            if(newQty > 0 && newQty <= (product?.inventory?.available || 0)) {
+                item.quantity = newQty;
+            } else if (newQty === 0) {
+                state.cart.splice(index, 1);
+            } else {
+                showToast('Stock limit reached', 'error');
+            }
+            updateCartBadge();
+            renderCartItems();
+        };
+
+        window.TrendPro.removeCartItem = (index) => {
+            state.cart.splice(index, 1);
+            updateCartBadge();
+            renderCartItems();
+        };
+
+        const processCheckout = async () => {
+            if(state.cart.length === 0) return;
+            
+            const btn = $('btn-checkout');
+            btn.innerHTML = `<i class="ph ph-spinner animate-spin-slow"></i> Processing...`;
+            btn.disabled = true;
+
+            try {
+                const orderId = generateId('ORD');
+                let total = 0;
+                const items = state.cart.map(item => {
+                    total += (item.price * item.quantity);
+                    return { ...item };
+                });
+
+                const orderData = {
+                    customerId: state.user.uid,
+                    customerName: state.user.name,
+                    customerEmail: state.user.email,
+                    items: items,
+                    subtotal: total,
+                    total: total, // Add delivery logic here if needed
+                    status: 'PENDING',
+                    address: { // Mock address for demo, usually from a form
+                        street: '123 Tech Avenue',
+                        city: 'Bangalore',
+                        state: 'Karnataka',
+                        zip: '560001'
+                    },
+                    createdAt: serverTimestamp(),
+                    updatedAt: serverTimestamp()
+                };
+
+                // Create Order in DB
+                await setDoc(PATHS.orderDoc(orderId), orderData);
+
+                // Reduce Stock (Simplified approach without strict transaction for this sandbox constraint)
+                for(const item of items) {
+                    const product = state.products.find(p => p.id === item.id);
+                    if(product && product.inventory?.available >= item.quantity) {
+                        await updateDoc(PATHS.productDoc(item.id), {
+                            'inventory.available': product.inventory.available - item.quantity
+                        });
+                    }
+                }
+
+                // Clear Cart
+                state.cart = [];
+                updateCartBadge();
+                $('close-cart').click();
+                
+                // Show Success Modal
+                Modal.show(`
+                    <div class="p-8 text-center">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="ph-fill ph-check-circle text-5xl text-green-500"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Order Confirmed!</h2>
+                        <p class="text-gray-500 mb-6">Your order #${orderId.substring(3,11)} has been placed successfully.</p>
+                        <button onclick="window.TrendPro.Modal.hide()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl transition">Continue Shopping</button>
+                    </div>
+                `);
+
+                showToast('Order placed successfully!');
+
+            } catch(e) {
+                console.error(e);
+                showToast('Checkout failed. Please try again.', 'error');
+                btn.innerHTML = `Proceed to Checkout`;
+                btn.disabled = false;
+            }
+        };
+
+        // --- Start Application ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initAuth();
+        });
+
     </script>
 </body>
 </html>

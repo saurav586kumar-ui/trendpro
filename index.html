@@ -86,7 +86,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Scrollbar */
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
@@ -102,7 +101,6 @@
       background: var(--muted);
     }
 
-    /* Utilities */
     .flex { display: flex; }
     .flex-col { flex-direction: column; }
     .items-center { align-items: center; }
@@ -129,7 +127,6 @@
     .text-xs { font-size: 0.75rem; }
     .text-muted { color: var(--muted); }
 
-    /* Buttons & Interactive */
     button, input, select, textarea {
       font-family: var(--font-sans);
       color: inherit;
@@ -194,56 +191,6 @@
       transform: scale(1.05);
     }
 
-    /* Splash Screen */
-    #splash-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-      transition: opacity 0.4s ease;
-    }
-    .splash-logo {
-      font-family: var(--font-display);
-      font-size: 3rem;
-      font-weight: 800;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -1px;
-      animation: pulseGlow 2s infinite alternate;
-    }
-    .loader-bar {
-      width: 200px;
-      height: 4px;
-      background: var(--border);
-      border-radius: var(--radius-full);
-      overflow: hidden;
-      position: relative;
-    }
-    .loader-bar::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; bottom: 0;
-      width: 40%;
-      background: var(--gradient-primary);
-      border-radius: var(--radius-full);
-      animation: loadSlide 1.2s infinite ease-in-out;
-    }
-    @keyframes loadSlide {
-      0% { left: -40%; }
-      100% { left: 100%; }
-    }
-    @keyframes pulseGlow {
-      0% { opacity: 0.8; filter: drop-shadow(0 0 10px rgba(99,102,241,0.3)); }
-      100% { opacity: 1; filter: drop-shadow(0 0 25px rgba(99,102,241,0.6)); }
-    }
-
-    /* Header */
     header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -304,7 +251,6 @@
       color: var(--muted);
     }
 
-    /* Mobile Bottom Navigation */
     .mobile-nav {
       display: none;
       position: fixed;
@@ -339,7 +285,6 @@
       font-size: 1.25rem;
     }
 
-    /* Main Content Wrapper */
     main {
       padding-top: calc(var(--header-height) + 1.5rem);
       padding-bottom: 4rem;
@@ -350,7 +295,6 @@
       padding-right: 2rem;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       header {
         padding: 0 1rem;
@@ -366,7 +310,6 @@
       .mobile-nav { display: flex; }
     }
 
-    /* Notifications Badge */
     .badge-count {
       position: absolute;
       top: -5px; right: -5px;
@@ -379,7 +322,6 @@
       box-shadow: 0 2px 6px rgba(244, 63, 94, 0.4);
     }
 
-    /* Toast Notification System */
     #toast-container {
       position: fixed;
       bottom: 2rem;
@@ -415,7 +357,6 @@
       to { opacity: 0; transform: translateY(20px) scale(0.95); }
     }
 
-    /* Modal Framework */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -443,7 +384,6 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-    /* Cards & Grids */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -549,7 +489,6 @@
       font-weight: 700;
     }
 
-    /* Banners Carousel */
     .banner-carousel {
       position: relative;
       border-radius: var(--radius-lg);
@@ -599,7 +538,6 @@
       font-size: 1.1rem;
     }
 
-    /* Categories Horizontal Scroll */
     .categories-scroll {
       display: flex;
       gap: 1rem;
@@ -641,7 +579,6 @@
       font-weight: 600;
     }
 
-    /* Section Headers */
     .section-header {
       display: flex;
       align-items: center;
@@ -666,7 +603,6 @@
     }
     .section-link:hover { gap: 0.75rem; }
 
-    /* Footer */
     footer {
       background: var(--surface);
       border-top: 1px solid var(--border);
@@ -712,7 +648,6 @@
       font-size: 0.9rem;
     }
 
-    /* Admin / Owner Dashboard */
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -741,7 +676,6 @@
       color: var(--text);
     }
 
-    /* Table */
     .table-container {
       width: 100%;
       overflow-x: auto;
@@ -771,7 +705,6 @@
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: var(--surface-elevated); }
 
-    /* Forms */
     .form-group {
       display: flex;
       flex-direction: column;
@@ -797,7 +730,6 @@
       box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
     }
 
-    /* Timeline */
     .order-timeline {
       display: flex;
       flex-direction: column;
@@ -843,13 +775,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Short Technical Splash Loader -->
-  <div id="splash-screen">
-    <div class="splash-logo"><i class="fa-solid fa-bolt-lightning"></i> TRENDPRO</div>
-    <div class="loader-bar"></div>
-    <p style="color: var(--muted); font-size: 0.9rem;">Initializing High-Tech E-Commerce Suite...</p>
-  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-container"></div>
@@ -945,7 +870,6 @@
 
   <!-- Application Logic -->
   <script>
-    // Firebase Config & Initialization (Demo / Cloud Integration)
     const firebaseConfig = {
       apiKey: "AIzaSyDummyKeyForTrendPro2026SecureBuildX",
       authDomain: "trendpro-ecommerce.firebaseapp.com",
@@ -965,7 +889,6 @@
 
     const OWNER_EMAIL = "saurav586kumar@gmail.com";
 
-    // Application State
     let currentUser = null;
     let isOwner = false;
     let productsDB = [];
@@ -977,7 +900,6 @@
     let ordersDB = [];
     let activeChatMessages = [];
 
-    // Dummy Initial Data Seeds for Instant High-Tech Experience
     const INITIAL_CATEGORIES = [
       { id: 'cat-1', name: 'Men', icon: 'fa-shirt', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80' },
       { id: 'cat-2', name: 'Women', icon: 'fa-person-dress', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80' },
@@ -1020,7 +942,6 @@
       { id: 'p-20', name: 'Graphic Streetwear Hoodie', brand: 'TrendPro Studio', category: 'Men', price: 74.99, mrp: 110.00, discount: 31, stock: 45, status: 'Active', sku: 'TP-M-020', image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80', desc: 'Artistic cyberpunk typography print on heavyweight French terry cotton.' }
     ];
 
-    // Helper Functions
     function showToast(message, type = 'success') {
       const container = document.getElementById('toast-container');
       const toast = document.createElement('div');
@@ -1072,7 +993,6 @@
       localStorage.setItem('trendpro_compare', JSON.stringify(compareList));
     }
 
-    // Firebase Data Synchronization
     async function initDatabase() {
       try {
         const prodRef = db.ref('products');
@@ -1129,7 +1049,6 @@
       }
     }
 
-    // Authentication State Observer
     auth.onAuthStateChanged((user) => {
       currentUser = user;
       if (user) {
@@ -1144,13 +1063,11 @@
       updateBadges();
     });
 
-    // Router & Page Renderers
     function renderRouter() {
       const hash = window.location.hash || '#home';
       const main = document.getElementById('app-main');
       window.scrollTo(0, 0);
 
-      // Highlight Mobile Nav
       document.querySelectorAll('.mobile-nav-item').forEach(el => {
         el.classList.remove('active');
         if (hash.includes(el.getAttribute('data-route'))) {
@@ -1189,9 +1106,7 @@
 
     window.addEventListener('hashchange', renderRouter);
 
-    // 1. Home Page Renderer
     function renderHome(container) {
-      // Banner Carousel HTML
       let bannerHtml = `
         <div class="banner-carousel" id="main-banner-carousel">
           ${bannersDB.map((b, idx) => `
@@ -1206,7 +1121,6 @@
         </div>
       `;
 
-      // Categories Horizontal Scroll
       let categoriesHtml = `
         <div class="section-header">
           <h2 class="section-title">Shop by Category</h2>
@@ -1222,7 +1136,6 @@
         </div>
       `;
 
-      // Products Sections (Trending, New Arrivals, Best Sellers)
       const renderProductCard = (p) => `
         <div class="product-card">
           <div class="product-image-container">
@@ -1272,7 +1185,6 @@
         </div>
       `;
 
-      // Start Banner Auto Slide
       startBannerCarousel();
     }
 
@@ -1289,7 +1201,6 @@
       }, 4500);
     }
 
-    // 2. Search & Explore Renderer
     function renderSearch(container) {
       container.innerHTML = `
         <div class="section-header">
@@ -1374,7 +1285,6 @@
       `).join('');
     }
 
-    // 3. Category Filter Page
     function renderCategory(container, catName) {
       const decodedCat = decodeURIComponent(catName);
       const filtered = productsDB.filter(p => p.category.toLowerCase() === decodedCat.toLowerCase());
@@ -1409,7 +1319,6 @@
       `;
     }
 
-    // 4. Product Detail Page
     function renderProductDetail(container, prodId) {
       const p = productsDB.find(x => x.id === prodId);
       if (!p) {
@@ -1446,7 +1355,6 @@
       `;
     }
 
-    // 5. Wishlist Page
     function renderWishlist(container) {
       const items = productsDB.filter(p => wishlist.includes(p.id));
       container.innerHTML = `
@@ -1477,7 +1385,6 @@
       `;
     }
 
-    // 6. Compare Page
     function renderCompare(container) {
       const items = productsDB.filter(p => compareList.includes(p.id));
       container.innerHTML = `
@@ -1507,7 +1414,6 @@
       `;
     }
 
-    // 7. Cart & Checkout Flow
     function addToCart(prodId) {
       const p = productsDB.find(x => x.id === prodId);
       if (!p) return;
@@ -1571,7 +1477,6 @@
       `;
     }
 
-    // 8. Checkout Form
     function renderCheckout(container) {
       const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
       const shipping = 9.99;
@@ -1653,7 +1558,6 @@
       }
     }
 
-    // 9. Orders & Realtime Tracking
     function renderOrders(container, hash) {
       if (hash.startsWith('#order/')) {
         const orderId = hash.split('/')[1];
@@ -1720,7 +1624,6 @@
       `;
     }
 
-    // 10. Customer Profile & Auth
     function renderProfile(container, hash) {
       container.innerHTML = `
         <div class="section-header">
@@ -1764,7 +1667,6 @@
       }
     }
 
-    // 11. Owner / Admin Dashboard
     function renderOwnerDashboard(container, hash) {
       if (!isOwner) {
         container.innerHTML = `
@@ -1901,7 +1803,6 @@
       }
     }
 
-    // Wishlist & Compare Toggles
     function toggleWishlist(prodId) {
       const idx = wishlist.indexOf(prodId);
       if (idx > -1) {
@@ -1932,7 +1833,6 @@
       renderRouter();
     }
 
-    // Theme Toggle
     const themeToggleBtn = document.getElementById('theme-toggle');
     themeToggleBtn.addEventListener('click', () => {
       const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -1952,18 +1852,10 @@
       themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
     }
 
-    // Initialize App on Load
     window.addEventListener('DOMContentLoaded', async () => {
       await initDatabase();
       updateBadges();
       renderRouter();
-
-      // Hide Splash Screen with fade out
-      const splash = document.getElementById('splash-screen');
-      if (splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => splash.remove(), 400);
-      }
     });
   </script>
 </body>

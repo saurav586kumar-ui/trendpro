@@ -867,17 +867,19 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
 
   <!-- Application Logic -->
   <script>
     const firebaseConfig = {
-      apiKey: "AIzaSyDummyKeyForTrendPro2026SecureBuildX",
-      authDomain: "trendpro-ecommerce.firebaseapp.com",
-      databaseURL: "https://trendpro-ecommerce-default-rtdb.firebaseio.com",
-      projectId: "trendpro-ecommerce",
-      storageBucket: "trendpro-ecommerce.appspot.com",
-      messagingSenderId: "123456789098",
-      appId: "1:123456789098:web:abcdef123456789"
+      apiKey: "AIzaSyA_BeXCmVOmKKsFwpFQRDZuIL1sP7guzn0",
+      authDomain: "special-17180.firebaseapp.com",
+      databaseURL: "https://special-17180-default-rtdb.firebaseio.com",
+      projectId: "special-17180",
+      storageBucket: "special-17180.firebasestorage.app",
+      messagingSenderId: "292238441127",
+      appId: "1:292238441127:web:54daf8273f51d591a9f982",
+      measurementId: "G-G043YZ1W2R"
     };
 
     if (!firebase.apps.length) {
@@ -886,6 +888,7 @@
     const auth = firebase.auth();
     const db = firebase.database();
     const storage = firebase.storage();
+    const analytics = firebase.analytics();
 
     const OWNER_EMAIL = "saurav586kumar@gmail.com";
 
@@ -898,7 +901,6 @@
     let wishlist = JSON.parse(localStorage.getItem('trendpro_wishlist')) || [];
     let compareList = JSON.parse(localStorage.getItem('trendpro_compare')) || [];
     let ordersDB = [];
-    let activeChatMessages = [];
 
     const INITIAL_CATEGORIES = [
       { id: 'cat-1', name: 'Men', icon: 'fa-shirt', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80' },
@@ -954,7 +956,7 @@
       setTimeout(() => {
         toast.style.animation = 'toastOut 0.3s forwards';
         setTimeout(() => toast.remove(), 300);
-      }, 3500);
+      }, 4000);
     }
 
     function formatCurrency(amount) {
@@ -1033,10 +1035,18 @@
           bannersDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
         }
 
+        let initialLoad = true;
         ordRef.on('value', (snap) => {
           const val = snap.val();
-          ordersDB = val ? (Array.isArray(val) ? val.filter(Boolean) : Object.values(val)) : [];
-          if (window.location.hash.includes('owner') || window.location.hash.includes('orders')) {
+          const newOrders = val ? (Array.isArray(val) ? val.filter(Boolean) : Object.values(val)) : [];
+          
+          if (!initialLoad && newOrders.length !== ordersDB.length) {
+            showToast("📦 Order database updated in real-time!", "success");
+          }
+          ordersDB = newOrders;
+          initialLoad = false;
+
+          if (window.location.hash.includes('owner') || window.location.hash.includes('orders') || window.location.hash.includes('order/')) {
             renderRouter();
           }
         });
@@ -1551,7 +1561,7 @@
         await db.ref('orders/' + orderId).set(newOrder);
         cart = [];
         updateBadges();
-        showToast(`Order ${orderId} placed successfully!`);
+        showToast(`🎉 Order ${orderId} successfully placed! Notification triggered.`, "success");
         window.location.hash = `#order/${orderId}`;
       } catch (err) {
         showToast("Order placement failed: " + err.message, "error");
@@ -1573,7 +1583,14 @@
         container.innerHTML = `
           <div class="section-header">
             <h2 class="section-title">Order Tracking: ${order.orderId}</h2>
-            <span style="font-weight:700; color:var(--primary);">Status: ${order.status}</span>
+            <div style="display:flex; gap:1rem; align-items:center;">
+              <span style="font-weight:700; color:var(--primary);">Status: ${order.status}</span>
+              ${isOwner ? `
+                <select class="form-control" style="width:160px; padding:0.4rem;" onchange="updateOrderStatus('${order.orderId}', this.value)">
+                  ${statuses.map(st => `<option value="${st}" ${st === order.status ? 'selected' : ''}>${st}</option>`).join('')}
+                </select>
+              ` : ''}
+            </div>
           </div>
           <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; margin-bottom: 2rem;">
             <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
@@ -1583,13 +1600,13 @@
               <div><p style="color:var(--muted); font-size:0.85rem;">Total Amount</p><strong>${formatCurrency(order.total)}</strong></div>
             </div>
             
-            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">Live Order Timeline</h3>
+            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">Live Order Timeline (Realtime Synced)</h3>
             <div class="order-timeline">
               ${statuses.map((st, idx) => `
                 <div class="timeline-item ${idx <= currentIdx ? 'completed' : ''} ${st === order.status ? 'active' : ''}">
                   <div class="timeline-dot"></div>
                   <strong>${st}</strong>
-                  <p style="color:var(--muted); font-size:0.85rem;">${idx <= currentIdx ? 'Completed / Verified' : 'Pending'}</p>
+                  <p style="color:var(--muted); font-size:0.85rem;">${idx <= currentIdx ? 'Verified & Updated' : 'Pending'}</p>
                 </div>
               `).join('')}
             </div>
@@ -1622,6 +1639,15 @@
           </table>
         </div>
       `;
+    }
+
+    async function updateOrderStatus(orderId, newStatus) {
+      try {
+        await db.ref(`orders/${orderId}`).update({ status: newStatus });
+        showToast(`🔔 Order status changed to ${newStatus}! Realtime notification dispatched.`, "success");
+      } catch (err) {
+        showToast("Failed to update status: " + err.message, "error");
+      }
     }
 
     function renderProfile(container, hash) {
@@ -1663,7 +1689,7 @@
         showToast("Signed in successfully with Google!");
         renderRouter();
       } catch (err) {
-        showToast("Authentication failed: " + err.message, "error");
+        showToast("Authentication Error: " + err.message, "error");
       }
     }
 

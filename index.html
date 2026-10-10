@@ -1,1888 +1,737 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>TrendPro — High-Tech E-Commerce</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <style>
-    :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --primary-light: rgba(99, 102, 241, 0.1);
-      --secondary: #0ea5e9;
-      --accent: #f43f5e;
-      --bg: #090a0f;
-      --surface: #12141c;
-      --surface-elevated: #1a1d28;
-      --surface-hover: #222634;
-      --text: #f8fafc;
-      --muted: #94a3b8;
-      --border: #2a2f42;
-      --success: #10b981;
-      --warning: #f59e0b;
-      --danger: #ef4444;
-      --info: #3b82f6;
-      --discount: #10b981;
-      
-      --gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
-      --gradient-surface: linear-gradient(145deg, #12141c 0%, #181b26 100%);
-      --gradient-card: linear-gradient(135deg, rgba(26, 29, 40, 0.7) 0%, rgba(18, 20, 28, 0.9) 100%);
-      
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
-      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.4);
-      --shadow-glow: 0 0 25px rgba(99, 102, 241, 0.25);
-      
-      --radius-sm: 8px;
-      --radius-md: 14px;
-      --radius-lg: 20px;
-      --radius-full: 9999px;
-      
-      --font-sans: 'Plus Jakarta Sans', sans-serif;
-      --font-display: 'Space Grotesk', sans-serif;
-      
-      --header-height: 72px;
-      --nav-height: 64px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SkillX - Premium Learning Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        :root {
+            --bg-main: #F6F7FB; --bg-surface: #FFFFFF; --bg-surface-secondary: #F0F2F8;
+            --text-primary: #17192B; --text-muted: #70758D; --border-color: #E5E7F0;
+            --brand-primary: #5B5CE2; --brand-primary-hover: #4849B8; --brand-secondary: #8585FF;
+            --success: #21B89A; --warning: #FF9D5C; --error: #E35E77;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05); --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+            --radius-md: 12px; --radius-lg: 16px; --radius-full: 9999px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        [data-theme="dark"] {
+            --bg-main: #0F111A; --bg-surface: #17192B; --bg-surface-secondary: #23253A;
+            --text-primary: #FFFFFF; --text-muted: #9BA1B9; --border-color: #2D3047;
+            --brand-primary: #6B6CFF;
+        }
 
-    [data-theme="light"] {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --surface-elevated: #f1f5f9;
-      --surface-hover: #e2e8f0;
-      --text: #0f172a;
-      --muted: #64748b;
-      --border: #cbd5e1;
-      --gradient-surface: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
-      --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(241, 245, 249, 0.9) 100%);
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.12);
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg-main); color: var(--text-primary); line-height: 1.5; overflow-x: hidden; }
+        a { color: var(--brand-primary); text-decoration: none; }
+        button { cursor: pointer; border: none; outline: none; transition: var(--transition); font-weight: 600; }
+        ul { list-style: none; } img { max-width: 100%; border-radius: var(--radius-md); }
+        h1, h2, h3 { color: var(--text-primary); font-weight: 700; }
+        h1 { font-size: 2rem; } h2 { font-size: 1.5rem; } p { color: var(--text-muted); }
 
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        #app { display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 260px; background: var(--bg-surface); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; z-index: 10; }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { height: 70px; background: var(--bg-surface); border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; }
+        .scroll-area { flex: 1; overflow-y: auto; padding: 2rem; }
+        .view-container { display: none; animation: fadeIn 0.3s; }
+        .view-container.active { display: block; }
+        
+        .brand { padding: 1.5rem; font-size: 1.5rem; font-weight: 800; color: var(--brand-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-list { flex: 1; padding: 1rem; overflow-y: auto; }
+        .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; color: var(--text-muted); border-radius: var(--radius-md); margin-bottom: 0.25rem; font-weight: 500; }
+        .nav-item:hover { background: var(--bg-surface-secondary); color: var(--text-primary); }
+        .nav-item.active { background: var(--brand-primary); color: white; }
+        
+        .btn { padding: 0.75rem 1.5rem; border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 0.5rem; justify-content: center; }
+        .btn-primary { background: var(--brand-primary); color: white; }
+        .btn-secondary { background: var(--bg-surface-secondary); color: var(--text-primary); }
+        .btn-outline { border: 1px solid var(--border-color); color: var(--text-primary); background: transparent; }
+        .btn-danger { background: var(--error); color: white; }
 
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
-
-    body {
-      font-family: var(--font-sans);
-      background-color: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      overflow-x: hidden;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: var(--radius-full);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--muted);
-    }
-
-    .flex { display: flex; }
-    .flex-col { flex-direction: column; }
-    .items-center { align-items: center; }
-    .justify-between { justify-content: space-between; }
-    .justify-center { justify-content: center; }
-    .gap-1 { gap: 0.25rem; }
-    .gap-2 { gap: 0.5rem; }
-    .gap-3 { gap: 0.75rem; }
-    .gap-4 { gap: 1rem; }
-    .gap-6 { gap: 1.5rem; }
-    .grid { display: grid; }
-    .w-full { width: 100%; }
-    .h-full { height: 100%; }
-    .relative { position: relative; }
-    .absolute { position: absolute; }
-    .fixed { position: fixed; }
-    .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-    .z-50 { z-index: 50; }
-    .overflow-hidden { overflow: hidden; }
-    .cursor-pointer { cursor: pointer; }
-    .text-center { text-align: center; }
-    .font-bold { font-weight: 700; }
-    .text-sm { font-size: 0.875rem; }
-    .text-xs { font-size: 0.75rem; }
-    .text-muted { color: var(--muted); }
-
-    button, input, select, textarea {
-      font-family: var(--font-sans);
-      color: inherit;
-      border: none;
-      outline: none;
-      background: none;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
-      box-shadow: var(--shadow-glow);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
-    }
-    .btn-secondary {
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-    .btn-secondary:hover {
-      background: var(--surface-hover);
-      border-color: var(--muted);
-    }
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-    .btn-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-full);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      color: var(--text);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-icon:hover {
-      background: var(--surface-hover);
-      transform: scale(1.05);
-    }
-
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: var(--header-height);
-      background: rgba(9, 10, 15, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      transition: all 0.3s;
-    }
-    [data-theme="light"] header {
-      background: rgba(248, 250, 252, 0.85);
-    }
-    .header-left, .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-    .logo {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      font-weight: 800;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .search-bar {
-      position: relative;
-      width: 380px;
-    }
-    .search-input {
-      width: 100%;
-      padding: 0.75rem 1rem 0.75rem 2.75rem;
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-full);
-      color: var(--text);
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-    .search-input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-    }
-    .search-bar i {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--muted);
-    }
-
-    .mobile-nav {
-      display: none;
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: var(--nav-height);
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      z-index: 1000;
-      align-items: center;
-      justify-content: space-around;
-      padding: 0 0.5rem;
-      backdrop-filter: blur(16px);
-    }
-    .mobile-nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.2rem;
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.7rem;
-      font-weight: 600;
-      flex: 1;
-      height: 100%;
-      transition: color 0.2s;
-    }
-    .mobile-nav-item.active, .mobile-nav-item:hover {
-      color: var(--primary);
-    }
-    .mobile-nav-item i {
-      font-size: 1.25rem;
-    }
-
-    main {
-      padding-top: calc(var(--header-height) + 1.5rem);
-      padding-bottom: 4rem;
-      min-height: 100vh;
-      max-width: 1440px;
-      margin: 0 auto;
-      padding-left: 2rem;
-      padding-right: 2rem;
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 0 1rem;
-        height: 64px;
-      }
-      .search-bar { display: none; }
-      main {
-        padding-top: 76px;
-        padding-bottom: calc(var(--nav-height) + 2rem);
-        padding-left: 1rem;
-        padding-right: 1rem;
-      }
-      .mobile-nav { display: flex; }
-    }
-
-    .badge-count {
-      position: absolute;
-      top: -5px; right: -5px;
-      background: var(--accent);
-      color: white;
-      font-size: 0.65rem;
-      font-weight: 700;
-      padding: 0.15rem 0.4rem;
-      border-radius: var(--radius-full);
-      box-shadow: 0 2px 6px rgba(244, 63, 94, 0.4);
-    }
-
-    #toast-container {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      max-width: 400px;
-    }
-    .toast {
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--primary);
-      padding: 1rem 1.25rem;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-lg);
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-      backdrop-filter: blur(12px);
-    }
-    .toast.success { border-left-color: var(--success); }
-    .toast.error { border-left-color: var(--danger); }
-    .toast.warning { border-left-color: var(--warning); }
-    @keyframes toastIn {
-      from { opacity: 0; transform: translateY(20px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    @keyframes toastOut {
-      from { opacity: 1; transform: translateY(0) scale(1); }
-      to { opacity: 0; transform: translateY(20px) scale(0.95); }
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      animation: fadeIn 0.2s ease;
-    }
-    .modal-content {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      width: 100%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      box-shadow: var(--shadow-lg);
-      animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      position: relative;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-    .product-card {
-      background: var(--gradient-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-    }
-    .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--primary);
-    }
-    .product-image-container {
-      position: relative;
-      width: 100%;
-      padding-top: 100%;
-      overflow: hidden;
-      background: var(--surface-elevated);
-    }
-    .product-image-container img {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .product-card:hover .product-image-container img {
-      transform: scale(1.08);
-    }
-    .product-badge {
-      position: absolute;
-      top: 12px; left: 12px;
-      background: var(--accent);
-      color: white;
-      font-size: 0.7rem;
-      font-weight: 700;
-      padding: 0.25rem 0.5rem;
-      border-radius: var(--radius-sm);
-      z-index: 2;
-    }
-    .product-actions-overlay {
-      position: absolute;
-      top: 12px; right: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      z-index: 2;
-    }
-    .product-content {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      flex: 1;
-    }
-    .product-category {
-      font-size: 0.75rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      font-weight: 600;
-    }
-    .product-title {
-      font-weight: 600;
-      font-size: 1rem;
-      color: var(--text);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .product-title:hover { color: var(--primary); }
-    .product-pricing {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-top: auto;
-      padding-top: 0.75rem;
-    }
-    .price-current {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-    .price-mrp {
-      font-size: 0.9rem;
-      color: var(--muted);
-      text-decoration: line-through;
-    }
-    .price-discount {
-      font-size: 0.75rem;
-      color: var(--success);
-      font-weight: 700;
-    }
-
-    .banner-carousel {
-      position: relative;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 2.5rem;
-      box-shadow: var(--shadow-md);
-      background: var(--surface-elevated);
-      height: 360px;
-    }
-    .banner-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 0.8s ease-in-out;
-      display: flex;
-      align-items: center;
-      padding: 3rem;
-      background-size: cover;
-      background-position: center;
-    }
-    .banner-slide.active { opacity: 1; }
-    .banner-slide::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(9,10,15,0.95) 0%, rgba(9,10,15,0.6) 60%, transparent 100%);
-    }
-    .banner-content {
-      position: relative;
-      z-index: 2;
-      max-width: 600px;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-    .banner-title {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 800;
-      line-height: 1.1;
-      background: var(--gradient-primary);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .banner-subtitle {
-      color: var(--muted);
-      font-size: 1.1rem;
-    }
-
-    .categories-scroll {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      padding-bottom: 1rem;
-      margin-bottom: 2.5rem;
-      scrollbar-width: none;
-    }
-    .categories-scroll::-webkit-scrollbar { display: none; }
-    .category-card {
-      min-width: 130px;
-      height: 140px;
-      background: var(--gradient-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      text-decoration: none;
-      color: var(--text);
-      padding: 1rem;
-      text-align: center;
-    }
-    .category-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
-    .category-card i {
-      font-size: 2rem;
-      color: var(--primary);
-    }
-    .category-card span {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.5rem;
-    }
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 1.75rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
-    .section-link {
-      color: var(--primary);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: gap 0.2s;
-    }
-    .section-link:hover { gap: 0.75rem; }
-
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 4rem 2rem 2rem;
-      margin-top: 5rem;
-    }
-    .footer-grid {
-      max-width: 1440px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 3rem;
-      margin-bottom: 3rem;
-    }
-    .footer-col h4 {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-      color: var(--text);
-    }
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      list-style: none;
-    }
-    .footer-links a {
-      color: var(--muted);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--primary); }
-    .footer-bottom {
-      max-width: 1440px;
-      margin: 0 auto;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-    .metric-card {
-      background: var(--gradient-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-    .metric-title {
-      color: var(--muted);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    .metric-value {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .table-container {
-      width: 100%;
-      overflow-x: auto;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
-    th, td {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.95rem;
-    }
-    th {
-      background: var(--surface-elevated);
-      font-weight: 600;
-      color: var(--muted);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: var(--surface-elevated); }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
-    }
-    .form-label {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text);
-    }
-    .form-control {
-      padding: 0.75rem 1rem;
-      background: var(--surface-elevated);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      color: var(--text);
-      font-size: 0.95rem;
-      transition: all 0.2s;
-    }
-    .form-control:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.2);
-    }
-
-    .order-timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      position: relative;
-      padding-left: 2rem;
-      margin: 2rem 0;
-    }
-    .order-timeline::before {
-      content: '';
-      position: absolute;
-      left: 7px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: var(--border);
-    }
-    .timeline-item {
-      position: relative;
-    }
-    .timeline-dot {
-      position: absolute;
-      left: -2rem;
-      top: 4px;
-      width: 16px;
-      height: 16px;
-      border-radius: var(--radius-full);
-      background: var(--surface);
-      border: 3px solid var(--border);
-      transition: all 0.2s;
-    }
-    .timeline-item.completed .timeline-dot {
-      background: var(--success);
-      border-color: var(--success);
-      box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
-    }
-    .timeline-item.active .timeline-dot {
-      background: var(--primary);
-      border-color: var(--primary);
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.6);
-      transform: scale(1.2);
-    }
-  </style>
+        .card { background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); overflow: hidden; }
+        .card-body { padding: 1.5rem; }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1.5rem; }
+        .badge { padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; background: rgba(91,92,226,0.1); color: var(--brand-primary); }
+        
+        .input-control { width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-primary); margin-top: 0.5rem; }
+        
+        /* Player & Live Chat */
+        .player-layout { display: flex; height: 100%; margin: -2rem; }
+        .player-main { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
+        .player-video { background: #000; width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; color: white; }
+        .player-sidebar { width: 380px; background: var(--bg-surface); border-left: 1px solid var(--border-color); display: flex; flex-direction: column; }
+        
+        .tabs { display: flex; border-bottom: 1px solid var(--border-color); }
+        .tab { flex: 1; padding: 1rem; text-align: center; cursor: pointer; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; }
+        .tab.active { color: var(--brand-primary); border-bottom-color: var(--brand-primary); }
+        
+        .doubts-container { flex: 1; overflow-y: auto; padding: 1rem; background: var(--bg-main); }
+        .doubt-card { background: var(--bg-surface); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1rem; border: 1px solid var(--border-color); }
+        .doubt-header { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .reply-box { margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px dashed var(--border-color); font-size: 0.875rem; color: var(--brand-primary); font-weight: 500; }
+        
+        /* Modals & Toasts */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal { background: var(--bg-surface); width: 90%; max-width: 500px; border-radius: var(--radius-lg); padding: 2rem; }
+        #toast-container { position: fixed; bottom: 2rem; right: 2rem; z-index: 1000; display: flex; flex-direction: column; gap: 0.5rem; }
+        .toast { background: var(--bg-surface); padding: 1rem 1.5rem; border-radius: var(--radius-md); box-shadow: var(--shadow-md); border-left: 4px solid var(--brand-primary); animation: fadeIn 0.3s forwards; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .mt-1 { margin-top: 1rem; } .mt-2 { margin-top: 2rem; }
+        
+        /* Pricing Cards */
+        .pricing-card { border: 2px solid var(--border-color); text-align: center; position: relative; transition: var(--transition); }
+        .pricing-card:hover { border-color: var(--brand-primary); box-shadow: var(--shadow-md); }
+        .pricing-card.popular { border-color: var(--brand-primary); }
+        .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--brand-primary); color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
+    </style>
 </head>
 <body>
 
-  <!-- Toast Notification Container -->
-  <div id="toast-container"></div>
-
-  <!-- Global Header -->
-  <header>
-    <div class="header-left">
-      <a href="#home" class="logo">
-        <i class="fa-solid fa-bolt-lightning"></i> TRENDPRO
-      </a>
-      <div class="search-bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" class="search-input" id="global-search" placeholder="Search products, brands, categories...">
-      </div>
-    </div>
-    <div class="header-right">
-      <button class="btn-icon" id="theme-toggle" title="Toggle Theme"><i class="fa-solid fa-moon"></i></button>
-      <a href="#wishlist" class="btn-icon relative" title="Wishlist">
-        <i class="fa-regular fa-heart"></i>
-        <span class="badge-count" id="wishlist-badge" style="display:none;">0</span>
-      </a>
-      <a href="#compare" class="btn-icon relative" title="Compare">
-        <i class="fa-solid fa-scale-balanced"></i>
-        <span class="badge-count" id="compare-badge" style="display:none;">0</span>
-      </a>
-      <a href="#cart" class="btn-icon relative" title="Cart">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <span class="badge-count" id="cart-badge" style="display:none;">0</span>
-      </a>
-      <a href="#profile" class="btn-icon" title="Profile"><i class="fa-regular fa-user"></i></a>
-    </div>
-  </header>
-
-  <!-- Mobile Bottom Navigation Bar -->
-  <nav class="mobile-nav">
-    <a href="#home" class="mobile-nav-item active" data-route="home"><i class="fa-solid fa-house"></i><span>Home</span></a>
-    <a href="#search" class="mobile-nav-item" data-route="search"><i class="fa-solid fa-magnifying-glass"></i><span>Explore</span></a>
-    <a href="#wishlist" class="mobile-nav-item" data-route="wishlist"><i class="fa-regular fa-heart"></i><span>Wishlist</span></a>
-    <a href="#cart" class="mobile-nav-item" data-route="cart"><i class="fa-solid fa-cart-shopping"></i><span>Cart</span></a>
-    <a href="#profile" class="mobile-nav-item" data-route="profile"><i class="fa-regular fa-user"></i><span>Profile</span></a>
-  </nav>
-
-  <!-- Dynamic Application Main Container -->
-  <main id="app-main">
-    <!-- Rendered dynamically via JS router -->
-  </main>
-
-  <!-- Footer -->
-  <footer>
-    <div class="footer-grid">
-      <div class="footer-col">
-        <a href="#home" class="logo" style="margin-bottom: 1rem; display:inline-flex;"><i class="fa-solid fa-bolt-lightning"></i> TRENDPRO</a>
-        <p style="color: var(--muted); font-size: 0.9rem;">The ultimate high-tech Gen-Z ecommerce platform delivering elite products, real-time tracking, and instant support.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Explore</h4>
-        <ul class="footer-links">
-          <li><a href="#home">New Arrivals</a></li>
-          <li><a href="#home">Best Sellers</a></li>
-          <li><a href="#home">Trending Now</a></li>
-          <li><a href="#search">Deals & Discounts</a></li>
+<div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="brand"><i class="ph-fill ph-graduation-cap"></i> SkillX</div>
+        <ul class="nav-list">
+            <a href="#dashboard" class="nav-item active" data-view="dashboard"><i class="ph ph-squares-four"></i> Dashboard</a>
+            <a href="#explore" class="nav-item" data-view="explore"><i class="ph ph-compass"></i> Explore</a>
+            <a href="#mylearning" class="nav-item" data-view="mylearning"><i class="ph ph-book-open"></i> My Learning</a>
+            <a href="#pricing" class="nav-item" data-view="pricing"><i class="ph ph-star"></i> Upgrade Plan</a>
+            <hr style="border-top:1px solid var(--border-color); margin: 1rem 0;">
+            <a href="#admin" class="nav-item" data-view="admin" id="nav-admin" style="display:none;"><i class="ph ph-shield-check"></i> Admin Studio</a>
         </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Customer Hub</h4>
-        <ul class="footer-links">
-          <li><a href="#profile/orders">Track Orders</a></li>
-          <li><a href="#profile/wallet">My Wallet</a></li>
-          <li><a href="#profile/gift-cards">Gift Vouchers</a></li>
-          <li><a href="#profile/chat">Live Support Chat</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Security & Access</h4>
-        <ul class="footer-links">
-          <li><a href="#profile">Google Authentication</a></li>
-          <li><a href="#owner" id="owner-footer-link" style="display:none;">Owner Dashboard</a></li>
-          <li><a href="#home">Privacy & Terms</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2026 TrendPro High-Tech Ecommerce Inc. All rights reserved.</p>
-      <p>Secure Firebase Realtime Engine Active</p>
-    </div>
-  </footer>
+        <div style="padding: 1rem;">
+            <div id="sub-status-badge" class="badge" style="width: 100%; text-align: center; padding: 0.75rem; background: var(--bg-surface-secondary); color: var(--text-muted);">Free Tier</div>
+        </div>
+    </aside>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <div style="font-weight: 500;" id="user-greeting">Welcome, Guest</div>
+            <div>
+                <button id="btn-login" class="btn btn-primary"><i class="ph ph-google-logo"></i> Sign In</button>
+            </div>
+        </header>
 
-  <!-- Application Logic -->
-  <script>
+        <div class="scroll-area" id="view-router">
+            
+            <!-- Dashboard View -->
+            <div class="view-container active" id="view-dashboard">
+                <h1>Welcome to SkillX</h1>
+                <div class="grid-cards" id="dashboard-featured"></div>
+            </div>
+
+            <!-- Explore View -->
+            <div class="view-container" id="view-explore">
+                <h1>Explore Skills</h1>
+                <div id="explore-results" class="grid-cards"></div>
+            </div>
+
+            <!-- Pricing / Upgrade View -->
+            <div class="view-container" id="view-pricing">
+                <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                    <h1>Upgrade Your Learning</h1>
+                    <p class="mt-1">Unlock premium courses and take your skills to the next level.</p>
+                </div>
+                <div class="grid-cards mt-2" style="max-width: 800px; margin: 2rem auto;">
+                    <div class="card pricing-card">
+                        <div class="card-body">
+                            <h2>Basic Pass</h2>
+                            <h1 class="mt-1">₹299<span style="font-size: 1rem; color: var(--text-muted);">/month</span></h1>
+                            <p class="mt-1">Unlock ANY 5 Premium Courses of your choice.</p>
+                            <button class="btn btn-outline mt-2" style="width: 100%;" onclick="initiateRazorpay('299')">Choose Basic</button>
+                        </div>
+                    </div>
+                    <div class="card pricing-card popular">
+                        <div class="popular-badge">MOST POPULAR</div>
+                        <div class="card-body">
+                            <h2>Pro Pass</h2>
+                            <h1 class="mt-1">₹599<span style="font-size: 1rem; color: var(--text-muted);">/month</span></h1>
+                            <p class="mt-1">Unlimited access to ALL Premium Courses & Live Doubts.</p>
+                            <button class="btn btn-primary mt-2" style="width: 100%;" onclick="initiateRazorpay('599')">Upgrade to Pro</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Details View -->
+            <div class="view-container" id="view-course">
+                <div id="course-detail-container"></div>
+            </div>
+
+            <!-- Course Player & Live Doubts View -->
+            <div class="view-container" id="view-player" style="padding: 0; height: 100%;">
+                <div class="player-layout">
+                    <div class="player-main">
+                        <div class="player-video" id="player-media">
+                            <i class="ph ph-play-circle" style="font-size: 4rem;"></i>
+                        </div>
+                        <div style="padding: 2rem;">
+                            <h2 id="player-lesson-title">Lesson Title</h2>
+                            <p id="player-lesson-desc" class="mt-1"></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Player Sidebar (Curriculum + Doubts) -->
+                    <div class="player-sidebar">
+                        <div class="tabs">
+                            <div class="tab active" onclick="switchPlayerTab('curriculum')" id="tab-curriculum">Curriculum</div>
+                            <div class="tab" onclick="switchPlayerTab('doubts')" id="tab-doubts">Q&A / Doubts</div>
+                        </div>
+                        
+                        <!-- Curriculum Panel -->
+                        <div id="panel-curriculum" style="flex:1; overflow-y:auto; padding: 1rem;">
+                            <!-- Lessons injected here -->
+                        </div>
+                        
+                        <!-- Live Doubts Panel -->
+                        <div id="panel-doubts" style="display:none; flex-direction:column; height: 100%;">
+                            <div class="doubts-container" id="doubts-feed">
+                                <!-- Doubts injected here via Realtime DB -->
+                            </div>
+                            <div style="padding: 1rem; border-top: 1px solid var(--border-color); background: var(--bg-surface);">
+                                <input type="text" id="doubt-input" class="input-control" placeholder="Ask a doubt..." style="margin-top:0;">
+                                <button class="btn btn-primary mt-1" style="width: 100%;" onclick="postDoubt()">Ask Doubt</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Studio View -->
+            <div class="view-container" id="view-admin">
+                <div class="flex-between">
+                    <h1>Admin Studio</h1>
+                    <button class="btn btn-primary" id="btn-new-course" onclick="openCourseEditor()"><i class="ph ph-plus"></i> New Course</button>
+                </div>
+                <p id="admin-subtitle">Manage courses and students.</p>
+                <div id="admin-courses-list" class="mt-2" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Admin Course Editor Modal -->
+<div class="modal-overlay" id="modal-editor">
+    <div class="modal">
+        <h2 id="editor-title">Create/Edit Course</h2>
+        <input type="hidden" id="edit-id">
+        <label class="mt-1" style="display:block; font-size:0.875rem; font-weight:500;">Title</label>
+        <input type="text" id="edit-title" class="input-control">
+        
+        <label class="mt-1" style="display:block; font-size:0.875rem; font-weight:500;">Description</label>
+        <textarea id="edit-desc" class="input-control" rows="2"></textarea>
+        
+        <label class="mt-1" style="display:block; font-size:0.875rem; font-weight:500;">Assign Instructor (Email) - Super Admin Only</label>
+        <input type="email" id="edit-instructor" class="input-control" placeholder="e.g., xyz@gmail.com">
+        
+        <div class="flex-between mt-2">
+            <button class="btn btn-outline" onclick="closeModal('modal-editor')">Cancel</button>
+            <button class="btn btn-primary" onclick="saveCourse()">Save Course</button>
+        </div>
+    </div>
+</div>
+
+<!-- Doubt Reply Modal (Admin/Instructor) -->
+<div class="modal-overlay" id="modal-reply">
+    <div class="modal">
+        <h2>Reply to Doubt</h2>
+        <p id="reply-context" class="mt-1" style="font-size:0.875rem; color: var(--text-muted); padding:1rem; background:var(--bg-main); border-radius:8px;"></p>
+        <input type="hidden" id="reply-doubt-id">
+        <textarea id="reply-text" class="input-control mt-1" rows="3" placeholder="Write your solution here..."></textarea>
+        <div class="flex-between mt-2">
+            <button class="btn btn-outline" onclick="closeModal('modal-reply')">Cancel</button>
+            <button class="btn btn-primary" onclick="submitReply()">Submit Reply</button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getDatabase, ref, set, get, child, update, onValue, push, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyA_BeXCmVOmKKsFwpFQRDZuIL1sP7guzn0",
-      authDomain: "special-17180.firebaseapp.com",
-      databaseURL: "https://special-17180-default-rtdb.firebaseio.com",
-      projectId: "special-17180",
-      storageBucket: "special-17180.firebasestorage.app",
-      messagingSenderId: "292238441127",
-      appId: "1:292238441127:web:54daf8273f51d591a9f982",
-      measurementId: "G-G043YZ1W2R"
+        apiKey: "AIzaSyA_BeXCmVOmKKsFwpFQRDZuIL1sP7guzn0",
+        authDomain: "special-17180.firebaseapp.com",
+        databaseURL: "https://special-17180-default-rtdb.firebaseio.com",
+        projectId: "special-17180",
+        storageBucket: "special-17180.firebasestorage.app",
+        messagingSenderId: "292238441127",
+        appId: "1:292238441127:web:54daf8273f51d591a9f982"
     };
 
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-    const auth = firebase.auth();
-    const db = firebase.database();
-    const storage = firebase.storage();
-    const analytics = firebase.analytics();
+    let app, auth, db, user = null;
+    let cloudMode = false;
+    let currentDoubtRef = null; // To detach listeners
 
-    const OWNER_EMAIL = "saurav586kumar@gmail.com";
+    const SUPER_ADMIN_EMAIL = "saurav586kumar@gmail.com";
 
-    let currentUser = null;
-    let isOwner = false;
-    let productsDB = [];
-    let categoriesDB = [];
-    let bannersDB = [];
-    let cart = JSON.parse(localStorage.getItem('trendpro_cart')) || [];
-    let wishlist = JSON.parse(localStorage.getItem('trendpro_wishlist')) || [];
-    let compareList = JSON.parse(localStorage.getItem('trendpro_compare')) || [];
-    let ordersDB = [];
+    const State = {
+        courses: [],
+        doubts: {},
+        userProfile: { name: "Guest", email: "", subscription: "none", coursesUsed: 0 },
+        role: "student", // "student", "instructor", "superadmin"
+        activeCourseId: null
+    };
 
-    const INITIAL_CATEGORIES = [
-      { id: 'cat-1', name: 'Men', icon: 'fa-shirt', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-2', name: 'Women', icon: 'fa-person-dress', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-3', name: 'Electronics', icon: 'fa-laptop', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-4', name: 'Footwear', icon: 'fa-shoe-prints', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-5', name: 'Accessories', icon: 'fa-glasses', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-6', name: 'Beauty', icon: 'fa-wand-magic-sparkles', image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-7', name: 'Home', icon: 'fa-house-chimney', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80' },
-      { id: 'cat-8', name: 'Trending', icon: 'fa-fire', image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=600&q=80' }
-    ];
+    window.showToast = (msg, type='success') => {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.style.borderLeftColor = type === 'success' ? 'var(--success)' : (type === 'error' ? 'var(--error)' : 'var(--brand-primary)');
+        toast.innerHTML = msg;
+        container.appendChild(toast);
+        setTimeout(() => toast.remove(), 3000);
+    };
 
-    const INITIAL_BANNERS = [
-      { id: 'b-1', title: 'FUTURE TECH & APPAREL 2026', subtitle: 'Experience next-gen streetwear & smart wearables with instant lightning delivery.', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1600&q=80', link: '#home' },
-      { id: 'b-2', title: 'CYBERPUNK HOODIES & JACKETS', subtitle: 'Engineered for maximum comfort and extreme urban style.', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1600&q=80', link: '#home' },
-      { id: 'b-3', title: 'ELITE WIRELESS AUDIO GEAR', subtitle: 'Immersive soundscapes with ultra-low latency and active noise cancellation.', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1600&q=80', link: '#home' },
-      { id: 'b-4', title: 'MINIMALIST SMARTWATCH SERIES', subtitle: 'Track your bio-metrics in high-definition style.', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1600&q=80', link: '#home' },
-      { id: 'b-5', title: 'PREMIUM STREETWEAR DROP', subtitle: 'Limited edition oversized tees and cargos.', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1600&q=80', link: '#home' }
-    ];
+    window.closeModal = (id) => document.getElementById(id).classList.remove('active');
+    window.openModal = (id) => document.getElementById(id).classList.add('active');
 
-    const INITIAL_PRODUCTS = [
-      { id: 'p-1', name: 'Oversized Cyberpunk Black T-Shirt', brand: 'TrendPro Studio', category: 'Men', price: 29.99, mrp: 59.99, discount: 50, stock: 120, status: 'Active', sku: 'TP-M-001', image: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80', desc: 'Heavyweight cotton oversized tee with futuristic minimal chest print.' },
-      { id: 'p-2', name: 'Neural-Sync Wireless Earbuds', brand: 'SonicTech', category: 'Electronics', price: 89.99, mrp: 149.99, discount: 40, stock: 45, status: 'Active', sku: 'TP-E-002', image: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=800&q=80', desc: 'Ultra-low latency wireless earbuds with spatial audio and 40h battery.' },
-      { id: 'p-3', name: 'Titanium Edge Smartwatch X', brand: 'Chronos', category: 'Electronics', price: 199.99, mrp: 299.99, discount: 33, stock: 20, status: 'Active', sku: 'TP-E-003', image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80', desc: 'Aerospace-grade titanium smartwatch with AMOLED display and health suite.' },
-      { id: 'p-4', name: 'Urban Techwear Cargo Pants', brand: 'Vanguard', category: 'Men', price: 79.99, mrp: 119.99, discount: 33, stock: 60, status: 'Active', sku: 'TP-M-004', image: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=800&q=80', desc: 'Multi-pocket tactical cargo pants designed for peak urban mobility.' },
-      { id: 'p-5', name: 'Holographic Streetwear Hoodie', brand: 'TrendPro Studio', category: 'Men', price: 69.99, mrp: 99.99, discount: 30, stock: 35, status: 'Active', sku: 'TP-M-005', image: 'https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=800&q=80', desc: 'Plush fleece hoodie featuring reflective holographic graphics.' },
-      { id: 'p-6', name: 'Apex Runner Sneakers', brand: 'KicksLab', category: 'Footwear', price: 129.99, mrp: 180.00, discount: 28, stock: 15, status: 'Active', sku: 'TP-F-006', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80', desc: 'Aerodynamic running shoes with responsive nitrogen-infused foam sole.' },
-      { id: 'p-7', name: 'Minimalist Leather Crossbody Bag', brand: 'Artisan', category: 'Accessories', price: 49.99, mrp: 79.99, discount: 37, stock: 50, status: 'Active', sku: 'TP-A-007', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?auto=format&fit=crop&w=800&q=80', desc: 'Full-grain leather crossbody bag with water-resistant zippers.' },
-      { id: 'p-8', name: 'Quantum Bluetooth Speaker', brand: 'SonicTech', category: 'Electronics', price: 119.99, mrp: 159.99, discount: 25, stock: 25, status: 'Active', sku: 'TP-E-008', image: 'https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=800&q=80', desc: '360-degree room-filling sound with RGB reactive lighting.' },
-      { id: 'p-9', name: 'Silk Blend Evening Dress', brand: 'Vogue', category: 'Women', price: 149.99, mrp: 220.00, discount: 31, stock: 18, status: 'Active', sku: 'TP-W-009', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=800&q=80', desc: 'Elegant fluid silk dress for high-end galas and urban nights.' },
-      { id: 'p-10', name: 'Hydra-Glow Facial Serum Kit', brand: 'Aura', category: 'Beauty', price: 39.99, mrp: 60.00, discount: 33, stock: 80, status: 'Active', sku: 'TP-B-010', image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80', desc: 'Organic botanical serum infused with hyaluronic acid and Vitamin C.' },
-      { id: 'p-11', name: 'Neon LED Desk Lamp & Charger', brand: 'Lumina', category: 'Home', price: 45.99, mrp: 70.00, discount: 34, stock: 40, status: 'Active', sku: 'TP-H-011', image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80', desc: 'Smart desk lamp with wireless charging pad and adjustable color temperature.' },
-      { id: 'p-12', name: 'High-Top Cyber Sneakers', brand: 'KicksLab', category: 'Footwear', price: 159.99, mrp: 210.00, discount: 24, stock: 22, status: 'Active', sku: 'TP-F-012', image: 'https://images.unsplash.com/photo-1552346154-21d32810aba3?auto=format&fit=crop&w=800&q=80', desc: 'Futuristic high-top silhouette with metallic buckles and cushioned collar.' },
-      { id: 'p-13', name: 'Classic White Essential Tee', brand: 'TrendPro Studio', category: 'Men', price: 24.99, mrp: 40.00, discount: 37, stock: 150, status: 'Active', sku: 'TP-M-013', image: 'https://images.unsplash.com/photo-1581655353564-df123a1eb820?auto=format&fit=crop&w=800&q=80', desc: 'Pima cotton heavyweight white t-shirt. Zero shrinkage guarantee.' },
-      { id: 'p-14', name: 'Aero-Lite Carbon Backpack', brand: 'Vanguard', category: 'Accessories', price: 99.99, mrp: 150.00, discount: 33, stock: 30, status: 'Active', sku: 'TP-A-014', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80', desc: 'Carbon-fiber reinforced water-repellent laptop backpack.' },
-      { id: 'p-15', name: 'Wireless Mechanical Keyboard', brand: 'SonicTech', category: 'Electronics', price: 139.99, mrp: 189.99, discount: 26, stock: 25, status: 'Active', sku: 'TP-E-015', image: 'https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80', desc: 'Hot-swappable mechanical keyboard with custom linear switches and RGB.' },
-      { id: 'p-16', name: 'Gradient Polarized Sunglasses', brand: 'Artisan', category: 'Accessories', price: 35.99, mrp: 60.00, discount: 40, stock: 65, status: 'Active', sku: 'TP-A-016', image: 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=80', desc: 'UV400 polarized lenses in a sleek titanium frame.' },
-      { id: 'p-17', name: 'ActivePro Sports Shoes', brand: 'KicksLab', category: 'Footwear', price: 89.99, mrp: 130.00, discount: 30, stock: 40, status: 'Active', sku: 'TP-F-017', image: 'https://images.unsplash.com/photo-1515955656352-a1fa3ffcd111?auto=format&fit=crop&w=800&q=80', desc: 'Breathable knit upper with maximum impact absorption.' },
-      { id: 'p-18', name: 'Matte Black Water Bottle', brand: 'Vanguard', category: 'Home', price: 22.99, mrp: 35.00, discount: 34, stock: 90, status: 'Active', sku: 'TP-H-018', image: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=800&q=80', desc: 'Double-wall vacuum insulated stainless steel bottle keeping drinks icy for 24h.' },
-      { id: 'p-19', name: 'Minimalist Analog Watch', brand: 'Chronos', category: 'Accessories', price: 110.00, mrp: 160.00, discount: 31, stock: 20, status: 'Active', sku: 'TP-A-019', image: 'https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=80', desc: 'Swiss quartz movement with genuine leather strap and sapphire glass.' },
-      { id: 'p-20', name: 'Graphic Streetwear Hoodie', brand: 'TrendPro Studio', category: 'Men', price: 74.99, mrp: 110.00, discount: 31, stock: 45, status: 'Active', sku: 'TP-M-020', image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80', desc: 'Artistic cyberpunk typography print on heavyweight French terry cotton.' }
-    ];
-
-    function showToast(message, type = 'success') {
-      const container = document.getElementById('toast-container');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
-      toast.innerHTML = `
-        <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : type === 'error' ? 'fa-circle-exclamation' : 'fa-circle-info'}" style="font-size: 1.25rem; color: var(--${type === 'success' ? 'success' : type === 'error' ? 'danger' : 'primary'});"></i>
-        <div style="flex:1; font-size: 0.95rem; font-weight: 500;">${message}</div>
-      `;
-      container.appendChild(toast);
-      setTimeout(() => {
-        toast.style.animation = 'toastOut 0.3s forwards';
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
+    // MOCK DATA GENERATOR
+    function generateMockCourses() {
+        return [
+            { id: "c1", title: "Complete Web Dev", description: "Learn HTML, CSS, JS", assignedInstructor: "xyz@gmail.com" },
+            { id: "c2", title: "Advanced React", description: "Master React Hooks", assignedInstructor: "" },
+            { id: "c3", title: "Firebase Mastery", description: "Backend for Frontend Devs", assignedInstructor: "saurav586kumar@gmail.com" }
+        ];
     }
 
-    function formatCurrency(amount) {
-      return '$' + parseFloat(amount).toFixed(2);
+    try {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getDatabase(app);
+        cloudMode = true;
+    } catch (e) {
+        console.warn("Firebase not configured. Running locally.");
+        State.courses = generateMockCourses();
     }
 
-    function updateBadges() {
-      const cartBadge = document.getElementById('cart-badge');
-      const wishlistBadge = document.getElementById('wishlist-badge');
-      const compareBadge = document.getElementById('compare-badge');
-
-      const totalCart = cart.reduce((sum, item) => sum + item.qty, 0);
-      if (totalCart > 0) {
-        cartBadge.innerText = totalCart;
-        cartBadge.style.display = 'block';
-      } else {
-        cartBadge.style.display = 'none';
-      }
-
-      if (wishlist.length > 0) {
-        wishlistBadge.innerText = wishlist.length;
-        wishlistBadge.style.display = 'block';
-      } else {
-        wishlistBadge.style.display = 'none';
-      }
-
-      if (compareList.length > 0) {
-        compareBadge.innerText = compareList.length;
-        compareBadge.style.display = 'block';
-      } else {
-        compareBadge.style.display = 'none';
-      }
-
-      localStorage.setItem('trendpro_cart', JSON.stringify(cart));
-      localStorage.setItem('trendpro_wishlist', JSON.stringify(wishlist));
-      localStorage.setItem('trendpro_compare', JSON.stringify(compareList));
-    }
-
-    async function initDatabase() {
-      try {
-        const prodRef = db.ref('products');
-        const catRef = db.ref('categories');
-        const banRef = db.ref('banners');
-        const ordRef = db.ref('orders');
-
-        const prodSnap = await prodRef.once('value');
-        if (!prodSnap.exists()) {
-          const pObj = {};
-          INITIAL_PRODUCTS.forEach(p => pObj[p.id] = p);
-          await prodRef.set(pObj);
-          productsDB = INITIAL_PRODUCTS;
-        } else {
-          const val = prodSnap.val();
-          productsDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-        }
-
-        const catSnap = await catRef.once('value');
-        if (!catSnap.exists()) {
-          const cObj = {};
-          INITIAL_CATEGORIES.forEach(c => cObj[c.id] = c);
-          await catRef.set(cObj);
-          categoriesDB = INITIAL_CATEGORIES;
-        } else {
-          const val = catSnap.val();
-          categoriesDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-        }
-
-        const banSnap = await banRef.once('value');
-        if (!banSnap.exists()) {
-          const bObj = {};
-          INITIAL_BANNERS.forEach(b => bObj[b.id] = b);
-          await banRef.set(bObj);
-          bannersDB = INITIAL_BANNERS;
-        } else {
-          const val = banSnap.val();
-          bannersDB = Array.isArray(val) ? val.filter(Boolean) : Object.values(val);
-        }
-
-        let initialLoad = true;
-        ordRef.on('value', (snap) => {
-          const val = snap.val();
-          const newOrders = val ? (Array.isArray(val) ? val.filter(Boolean) : Object.values(val)) : [];
-          
-          if (!initialLoad && newOrders.length !== ordersDB.length) {
-            showToast("📦 Order database updated in real-time!", "success");
-          }
-          ordersDB = newOrders;
-          initialLoad = false;
-
-          if (window.location.hash.includes('owner') || window.location.hash.includes('orders') || window.location.hash.includes('order/')) {
-            renderRouter();
-          }
+    // --- AUTHENTICATION & RBAC ---
+    function initAuth() {
+        if (!cloudMode) return renderApp();
+        onAuthStateChanged(auth, async (fbUser) => {
+            const btnLogin = document.getElementById('btn-login');
+            if (fbUser) {
+                user = fbUser;
+                State.userProfile.name = user.displayName;
+                State.userProfile.email = user.email;
+                document.getElementById('user-greeting').innerText = `Hi, ${user.displayName.split(' ')[0]}`;
+                btnLogin.innerHTML = `<i class="ph ph-sign-out"></i> Sign Out`;
+                btnLogin.onclick = () => signOut(auth);
+                
+                await fetchCloudData();
+                determineRole();
+            } else {
+                user = null;
+                State.userProfile = { name: "Guest", email: "", subscription: "none", coursesUsed: 0 };
+                State.role = "student";
+                document.getElementById('user-greeting').innerText = `Welcome, Guest`;
+                btnLogin.innerHTML = `<i class="ph ph-google-logo"></i> Sign In`;
+                btnLogin.onclick = () => signInWithPopup(auth, new GoogleAuthProvider());
+                
+                State.courses = generateMockCourses();
+                renderApp();
+            }
         });
-
-      } catch (err) {
-        console.error("DB Init Fallback to Local Seeds:", err);
-        productsDB = INITIAL_PRODUCTS;
-        categoriesDB = INITIAL_CATEGORIES;
-        bannersDB = INITIAL_BANNERS;
-      }
     }
 
-    auth.onAuthStateChanged((user) => {
-      currentUser = user;
-      if (user) {
-        isOwner = (user.email === OWNER_EMAIL);
-        const ownerFooter = document.getElementById('owner-footer-link');
-        if (ownerFooter) ownerFooter.style.display = 'block';
-      } else {
-        isOwner = false;
-        const ownerFooter = document.getElementById('owner-footer-link');
-        if (ownerFooter) ownerFooter.style.display = 'none';
-      }
-      updateBadges();
-    });
+    async function fetchCloudData() {
+        const dbRef = ref(db);
+        try {
+            // Get User Data
+            const uSnap = await get(child(dbRef, `users/${user.uid}`));
+            if (uSnap.exists()) {
+                State.userProfile = { ...State.userProfile, ...uSnap.val() };
+            } else {
+                set(ref(db, `users/${user.uid}`), State.userProfile);
+            }
 
-    function renderRouter() {
-      const hash = window.location.hash || '#home';
-      const main = document.getElementById('app-main');
-      window.scrollTo(0, 0);
+            // Get Courses
+            const cSnap = await get(child(dbRef, `courses`));
+            if (cSnap.exists()) {
+                State.courses = Object.values(cSnap.val());
+            } else {
+                State.courses = generateMockCourses();
+                // push mock to cloud if super admin
+                if(State.userProfile.email === SUPER_ADMIN_EMAIL) {
+                    let updates = {};
+                    State.courses.forEach(c => updates[`courses/${c.id}`] = c);
+                    update(ref(db), updates);
+                }
+            }
+            updateSubscriptionUI();
+        } catch(e) { console.error(e); }
+    }
 
-      document.querySelectorAll('.mobile-nav-item').forEach(el => {
-        el.classList.remove('active');
-        if (hash.includes(el.getAttribute('data-route'))) {
-          el.classList.add('active');
+    function determineRole() {
+        if (State.userProfile.email === SUPER_ADMIN_EMAIL) {
+            State.role = "superadmin";
+        } else {
+            // Check if user is assigned as instructor to ANY course
+            const isInstructor = State.courses.some(c => c.assignedInstructor === State.userProfile.email);
+            State.role = isInstructor ? "instructor" : "student";
         }
-      });
 
-      if (hash === '#home') {
-        renderHome(main);
-      } else if (hash === '#search') {
-        renderSearch(main);
-      } else if (hash.startsWith('#category/')) {
-        const catId = hash.split('/')[1];
-        renderCategory(main, catId);
-      } else if (hash.startsWith('#product/')) {
-        const prodId = hash.split('/')[1];
-        renderProductDetail(main, prodId);
-      } else if (hash === '#wishlist') {
-        renderWishlist(main);
-      } else if (hash === '#compare') {
-        renderCompare(main);
-      } else if (hash === '#cart') {
-        renderCart(main);
-      } else if (hash === '#checkout') {
-        renderCheckout(main);
-      } else if (hash === '#orders' || hash.startsWith('#order/')) {
-        renderOrders(main, hash);
-      } else if (hash.startsWith('#profile')) {
-        renderProfile(main, hash);
-      } else if (hash.startsWith('#owner')) {
-        renderOwnerDashboard(main, hash);
-      } else {
-        renderHome(main);
-      }
+        const adminNav = document.getElementById('nav-admin');
+        if (State.role === "superadmin" || State.role === "instructor") {
+            adminNav.style.display = "flex";
+        } else {
+            adminNav.style.display = "none";
+        }
+        renderApp();
     }
 
-    window.addEventListener('hashchange', renderRouter);
+    function updateSubscriptionUI() {
+        const badge = document.getElementById('sub-status-badge');
+        if(State.userProfile.subscription === '599') {
+            badge.innerText = "PRO PLAN (All Courses)";
+            badge.style.background = "var(--brand-primary)";
+            badge.style.color = "white";
+        } else if (State.userProfile.subscription === '299') {
+            badge.innerText = `BASIC PLAN (${State.userProfile.coursesUsed}/5 Courses)`;
+            badge.style.background = "var(--warning)";
+            badge.style.color = "white";
+        } else {
+            badge.innerText = "FREE TIER";
+            badge.style.background = "var(--bg-surface-secondary)";
+            badge.style.color = "var(--text-muted)";
+        }
+    }
 
-    function renderHome(container) {
-      let bannerHtml = `
-        <div class="banner-carousel" id="main-banner-carousel">
-          ${bannersDB.map((b, idx) => `
-            <div class="banner-slide ${idx === 0 ? 'active' : ''}" style="background-image: url('${b.image}')">
-              <div class="banner-content">
-                <h1 class="banner-title">${b.title}</h1>
-                <p class="banner-subtitle">${b.subtitle}</p>
-                <a href="${b.link}" class="btn btn-primary" style="width: max-content;">Explore Collection <i class="fa-solid fa-arrow-right"></i></a>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-
-      let categoriesHtml = `
-        <div class="section-header">
-          <h2 class="section-title">Shop by Category</h2>
-          <a href="#search" class="section-link">View All <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="categories-scroll">
-          ${categoriesDB.map(c => `
-            <a href="#category/${c.name}" class="category-card">
-              <i class="fa-solid ${c.icon || 'fa-tag'}"></i>
-              <span>${c.name}</span>
-            </a>
-          `).join('')}
-        </div>
-      `;
-
-      const renderProductCard = (p) => `
-        <div class="product-card">
-          <div class="product-image-container">
-            <span class="product-badge">-${p.discount}%</span>
-            <div class="product-actions-overlay">
-              <button class="btn-icon" onclick="toggleWishlist('${p.id}')" title="Wishlist"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
-              <button class="btn-icon" onclick="toggleCompare('${p.id}')" title="Compare"><i class="fa-solid fa-scale-balanced"></i></button>
-            </div>
-            <img src="${p.image}" alt="${p.name}" loading="lazy">
-          </div>
-          <div class="product-content">
-            <span class="product-category">${p.category}</span>
-            <a href="#product/${p.id}" class="product-title">${p.name}</a>
-            <div class="product-pricing">
-              <span class="price-current">${formatCurrency(p.price)}</span>
-              <span class="price-mrp">${formatCurrency(p.mrp)}</span>
-              <span class="price-discount">Save ${p.discount}%</span>
-            </div>
-            <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-      `;
-
-      const trendingProducts = productsDB.slice(0, 8);
-      const newProducts = productsDB.slice(8, 16);
-
-      container.innerHTML = `
-        ${bannerHtml}
-        ${categoriesHtml}
+    // --- RAZORPAY INTEGRATION (MOCK/FRONTEND) ---
+    window.initiateRazorpay = (plan) => {
+        if(!user) return showToast("Please sign in first!", "error");
         
-        <div class="section-header" style="margin-top: 3rem;">
-          <h2 class="section-title"><i class="fa-solid fa-fire" style="color:var(--accent);"></i> Trending Now</h2>
-          <a href="#search" class="section-link">Explore More <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="product-grid">
-          ${trendingProducts.map(renderProductCard).join('')}
-        </div>
+        var options = {
+            "key": "rzp_test_mock123", // Dummy Key
+            "amount": plan * 100, 
+            "currency": "INR",
+            "name": "SkillX Subscription",
+            "description": plan === '599' ? "Pro Pass - All Courses" : "Basic Pass - 5 Courses",
+            "handler": function (response){
+                // On Success Payment Callback
+                completeSubscription(plan, response.razorpay_payment_id);
+            },
+            "prefill": {
+                "name": State.userProfile.name,
+                "email": State.userProfile.email
+            },
+            "theme": { "color": "#5B5CE2" }
+        };
+        var rzp1 = new Razorpay(options);
+        rzp1.open();
+    };
 
-        <div class="section-header" style="margin-top: 4rem;">
-          <h2 class="section-title"><i class="fa-solid fa-bolt" style="color:var(--primary);"></i> New Tech Arrivals</h2>
-          <a href="#search" class="section-link">Explore More <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="product-grid">
-          ${newProducts.map(renderProductCard).join('')}
-        </div>
-      `;
-
-      startBannerCarousel();
+    async function completeSubscription(plan, paymentId) {
+        State.userProfile.subscription = plan;
+        if(plan === '299') State.userProfile.coursesUsed = 0; // Reset usage for new plan
+        
+        if (cloudMode && user) {
+            await update(ref(db, `users/${user.uid}`), {
+                subscription: plan,
+                coursesUsed: State.userProfile.coursesUsed || 0,
+                lastPaymentId: paymentId
+            });
+        }
+        updateSubscriptionUI();
+        showToast(`Payment Successful! You are now on ${plan} plan.`, 'success');
+        window.location.hash = "explore";
     }
 
-    let bannerInterval = null;
-    function startBannerCarousel() {
-      if (bannerInterval) clearInterval(bannerInterval);
-      const slides = document.querySelectorAll('.banner-slide');
-      if (slides.length === 0) return;
-      let currentSlide = 0;
-      bannerInterval = setInterval(() => {
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-      }, 4500);
+    // --- COURSE ACCESS CHECK ---
+    function checkCourseAccess(courseId) {
+        if(State.role === "superadmin" || State.role === "instructor") return true;
+        if(State.userProfile.subscription === '599') return true;
+        
+        // Basic Plan Logic (299)
+        if(State.userProfile.subscription === '299') {
+            // Check if already in enrolled list (mocked by coursesUsed logic for simplicity in this demo)
+            // In a real app, we'd check an array of `enrolledCourseIds`.
+            return true; 
+        }
+        return false; // Free tier
     }
 
-    function renderSearch(container) {
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Explore Catalog</h2>
-        </div>
-        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
-          <input type="text" id="catalog-search" class="form-control" placeholder="Search items by name, brand, tag..." style="flex: 1; min-width: 260px;" oninput="filterCatalog()">
-          <select id="catalog-cat-filter" class="form-control" style="width: 200px;" onchange="filterCatalog()">
-            <option value="">All Categories</option>
-            ${categoriesDB.map(c => `<option value="${c.name}">${c.name}</option>`).join('')}
-          </select>
-          <select id="catalog-sort" class="form-control" style="width: 200px;" onchange="filterCatalog()">
-            <option value="newest">Newest First</option>
-            <option value="price-low">Price: Low to High</option>
-            <option value="price-high">Price: High to Low</option>
-            <option value="discount">Highest Discount</option>
-          </select>
-        </div>
-        <div class="product-grid" id="catalog-grid">
-          ${productsDB.map(p => `
-            <div class="product-card">
-              <div class="product-image-container">
-                <span class="product-badge">-${p.discount}%</span>
-                <div class="product-actions-overlay">
-                  <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
-                  <button class="btn-icon" onclick="toggleCompare('${p.id}')"><i class="fa-solid fa-scale-balanced"></i></button>
+
+    // --- ROUTING ---
+    function handleRoute() {
+        let hash = window.location.hash.substring(1) || 'dashboard';
+        const parts = hash.split('/');
+        const view = parts[0];
+        
+        document.querySelectorAll('.view-container').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        
+        const activeViewEl = document.getElementById(`view-${view}`);
+        if(activeViewEl) activeViewEl.classList.add('active');
+        const navItem = document.querySelector(`.nav-item[data-view="${view}"]`);
+        if(navItem) navItem.classList.add('active');
+
+        if (view === 'dashboard' || view === 'explore') renderCatalog(view);
+        if (view === 'course' && parts[1]) renderCourseDetails(parts[1]);
+        if (view === 'player' && parts[1]) renderPlayer(parts[1]);
+        if (view === 'admin') renderAdmin();
+    }
+
+    function renderApp() {
+        handleRoute();
+    }
+
+    // --- UI RENDERING ---
+    function renderCatalog(view) {
+        const container = view === 'dashboard' ? document.getElementById('dashboard-featured') : document.getElementById('explore-results');
+        container.innerHTML = State.courses.map(c => `
+            <div class="card">
+                <div class="card-body">
+                    <div class="badge mb-1" style="margin-bottom:0.5rem; display:inline-block;">Premium</div>
+                    <h3>${c.title}</h3>
+                    <p style="font-size:0.875rem; margin-top:0.5rem; margin-bottom:1rem;">${c.description}</p>
+                    <a href="#course/${c.id}" class="btn btn-secondary" style="width:100%;">View Details</a>
                 </div>
-                <img src="${p.image}" alt="${p.name}" loading="lazy">
-              </div>
-              <div class="product-content">
-                <span class="product-category">${p.category}</span>
-                <a href="#product/${p.id}" class="product-title">${p.name}</a>
-                <div class="product-pricing">
-                  <span class="price-current">${formatCurrency(p.price)}</span>
-                  <span class="price-mrp">${formatCurrency(p.mrp)}</span>
-                </div>
-                <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
-              </div>
             </div>
-          `).join('')}
-        </div>
-      `;
+        `).join('');
     }
 
-    function filterCatalog() {
-      const q = document.getElementById('catalog-search').value.toLowerCase();
-      const cat = document.getElementById('catalog-cat-filter').value;
-      const sort = document.getElementById('catalog-sort').value;
+    function renderCourseDetails(courseId) {
+        const course = State.courses.find(c => c.id === courseId);
+        if(!course) return;
+        
+        const hasAccess = checkCourseAccess(courseId);
+        
+        let actionBtn = hasAccess 
+            ? `<button class="btn btn-primary btn-lg" onclick="window.location.hash='player/${courseId}'">Go to Learning Room &rarr;</button>`
+            : `<button class="btn btn-primary btn-lg" onclick="window.location.hash='pricing'"><i class="ph ph-lock"></i> Upgrade to Access</button>`;
 
-      let filtered = productsDB.filter(p => {
-        const matchesQ = p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
-        const matchesCat = !cat || p.category === cat;
-        return matchesQ && matchesCat;
-      });
-
-      if (sort === 'price-low') filtered.sort((a,b) => a.price - b.price);
-      if (sort === 'price-high') filtered.sort((a,b) => b.price - a.price);
-      if (sort === 'discount') filtered.sort((a,b) => b.discount - a.discount);
-
-      const grid = document.getElementById('catalog-grid');
-      if (!grid) return;
-      grid.innerHTML = filtered.map(p => `
-        <div class="product-card">
-          <div class="product-image-container">
-            <span class="product-badge">-${p.discount}%</span>
-            <div class="product-actions-overlay">
-              <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
-              <button class="btn-icon" onclick="toggleCompare('${p.id}')"><i class="fa-solid fa-scale-balanced"></i></button>
+        document.getElementById('course-detail-container').innerHTML = `
+            <div style="background: var(--bg-surface); padding: 3rem; border-radius: var(--radius-lg); text-align:center;">
+                <h1>${course.title}</h1>
+                <p class="mt-1" style="font-size: 1.1rem; max-width:600px; margin: 1rem auto;">${course.description}</p>
+                <div class="mt-2">${actionBtn}</div>
             </div>
-            <img src="${p.image}" alt="${p.name}" loading="lazy">
-          </div>
-          <div class="product-content">
-            <span class="product-category">${p.category}</span>
-            <a href="#product/${p.id}" class="product-title">${p.name}</a>
-            <div class="product-pricing">
-              <span class="price-current">${formatCurrency(p.price)}</span>
-              <span class="price-mrp">${formatCurrency(p.mrp)}</span>
-            </div>
-            <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
-          </div>
-        </div>
-      `).join('');
+        `;
     }
 
-    function renderCategory(container, catName) {
-      const decodedCat = decodeURIComponent(catName);
-      const filtered = productsDB.filter(p => p.category.toLowerCase() === decodedCat.toLowerCase());
+    // --- PLAYER & LIVE DOUBTS ---
+    window.switchPlayerTab = (tab) => {
+        document.getElementById('tab-curriculum').classList.remove('active');
+        document.getElementById('tab-doubts').classList.remove('active');
+        document.getElementById(`tab-${tab}`).classList.add('active');
+        
+        document.getElementById('panel-curriculum').style.display = tab === 'curriculum' ? 'block' : 'none';
+        document.getElementById('panel-doubts').style.display = tab === 'doubts' ? 'flex' : 'none';
+    };
 
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Category: ${decodedCat}</h2>
-          <a href="#search" class="section-link">All Products <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="product-grid">
-          ${filtered.length > 0 ? filtered.map(p => `
-            <div class="product-card">
-              <div class="product-image-container">
-                <span class="product-badge">-${p.discount}%</span>
-                <div class="product-actions-overlay">
-                  <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i></button>
-                </div>
-                <img src="${p.image}" alt="${p.name}" loading="lazy">
-              </div>
-              <div class="product-content">
-                <span class="product-category">${p.category}</span>
-                <a href="#product/${p.id}" class="product-title">${p.name}</a>
-                <div class="product-pricing">
-                  <span class="price-current">${formatCurrency(p.price)}</span>
-                  <span class="price-mrp">${formatCurrency(p.mrp)}</span>
-                </div>
-                <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
-              </div>
+    function renderPlayer(courseId) {
+        const course = State.courses.find(c => c.id === courseId);
+        if(!course || !checkCourseAccess(courseId)) return window.location.hash = 'explore';
+        
+        State.activeCourseId = courseId;
+        document.getElementById('player-lesson-title').innerText = `Welcome to ${course.title}`;
+        document.getElementById('player-lesson-desc').innerText = "Select a lesson from the curriculum or ask a doubt in the Q&A tab.";
+        
+        document.getElementById('panel-curriculum').innerHTML = `
+            <div style="padding:1rem; border:1px solid var(--border-color); border-radius:8px; cursor:pointer; background:var(--bg-surface-secondary);">
+                <strong>Lesson 1: Introduction</strong><br><span style="font-size:0.75rem;">10 mins</span>
             </div>
-          `).join('') : '<p style="color:var(--muted)">No products found in this category.</p>'}
-        </div>
-      `;
+        `;
+        
+        loadLiveDoubts(courseId);
     }
 
-    function renderProductDetail(container, prodId) {
-      const p = productsDB.find(x => x.id === prodId);
-      if (!p) {
-        container.innerHTML = `<h2>Product not found</h2><a href="#home" class="btn btn-primary" style="margin-top:1rem;">Return Home</a>`;
-        return;
-      }
-
-      container.innerHTML = `
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; align-items: start;">
-          <div style="background:var(--surface-elevated); border:1px solid var(--border); border-radius: var(--radius-lg); overflow:hidden; position:relative;">
-            <span class="product-badge" style="top:16px; left:16px; font-size:0.9rem; padding:0.4rem 0.8rem;">-${p.discount}% OFF</span>
-            <img src="${p.image}" alt="${p.name}" style="width:100%; height:420px; object-fit:cover;">
-          </div>
-          <div style="display:flex; flex-direction: column; gap: 1.5rem;">
-            <div>
-              <span style="color:var(--primary); font-weight:700; text-transform:uppercase; font-size:0.85rem; letter-spacing:1px;">${p.brand}</span>
-              <h1 style="font-family:var(--font-display); font-size: 2.25rem; font-weight:800; margin-top: 0.5rem; line-height:1.2;">${p.name}</h1>
-            </div>
-            <div style="display:flex; align-items: baseline; gap: 1rem;">
-              <span style="font-family:var(--font-display); font-size: 2rem; font-weight: 800; color:var(--text);">${formatCurrency(p.price)}</span>
-              <span style="font-size: 1.25rem; color: var(--muted); text-decoration: line-through;">${formatCurrency(p.mrp)}</span>
-            </div>
-            <p style="color: var(--muted); line-height: 1.6;">${p.desc || 'Engineered with precision for peak high-tech performance and aesthetic superiority.'}</p>
-            <div style="display:flex; gap: 1rem; align-items:center; padding: 1rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-              <span style="font-weight:600; color:${p.stock > 10 ? 'var(--success)' : 'var(--warning)'};"><i class="fa-solid fa-circle" style="font-size:0.5rem; vertical-align:middle;"></i> ${p.stock > 0 ? `In Stock (${p.stock} available)` : 'Out of Stock'}</span>
-              <span style="color:var(--muted);">| SKU: ${p.sku || 'TP-PROD'}</span>
-            </div>
-            <div style="display: flex; gap: 1rem;">
-              <button class="btn btn-primary" style="flex: 2; padding: 1rem;" onclick="addToCart('${p.id}')"><i class="fa-solid fa-cart-shopping"></i> Add to Cart</button>
-              <button class="btn btn-secondary" style="flex: 1; padding: 1rem;" onclick="toggleWishlist('${p.id}')"><i class="${wishlist.includes(p.id) ? 'fa-solid' : 'fa-regular'} fa-heart" style="${wishlist.includes(p.id) ? 'color:var(--accent);' : ''}"></i> Wishlist</button>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderWishlist(container) {
-      const items = productsDB.filter(p => wishlist.includes(p.id));
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">My Saved Wishlist (${items.length})</h2>
-        </div>
-        <div class="product-grid">
-          ${items.length > 0 ? items.map(p => `
-            <div class="product-card">
-              <div class="product-image-container">
-                <span class="product-badge">-${p.discount}%</span>
-                <div class="product-actions-overlay">
-                  <button class="btn-icon" onclick="toggleWishlist('${p.id}')"><i class="fa-solid fa-trash" style="color:var(--danger);"></i></button>
-                </div>
-                <img src="${p.image}" alt="${p.name}" loading="lazy">
-              </div>
-              <div class="product-content">
-                <span class="product-category">${p.category}</span>
-                <a href="#product/${p.id}" class="product-title">${p.name}</a>
-                <div class="product-pricing">
-                  <span class="price-current">${formatCurrency(p.price)}</span>
-                </div>
-                <button class="btn btn-primary" style="width:100%; margin-top:0.75rem;" onclick="addToCart('${p.id}'); toggleWishlist('${p.id}');"><i class="fa-solid fa-cart-plus"></i> Move to Cart</button>
-              </div>
-            </div>
-          `).join('') : '<p style="color:var(--muted)">Your wishlist is currently empty.</p>'}
-        </div>
-      `;
-    }
-
-    function renderCompare(container) {
-      const items = productsDB.filter(p => compareList.includes(p.id));
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Product Comparison Suite</h2>
-        </div>
-        ${items.length > 0 ? `
-          <div class="table-container">
-            <table>
-              <thead>
-                <tr>
-                  <th>Feature / Spec</th>
-                  ${items.map(i => `<th>${i.name} <button class="btn-icon" style="width:28px;height:28px;float:right;" onclick="toggleCompare('${i.id}')"><i class="fa-solid fa-xmark text-xs"></i></button></th>`).join('')}
-                </tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>Image</strong></td>${items.map(i => `<td><img src="${i.image}" style="width:80px;height:80px;object-fit:cover;border-radius:var(--radius-sm);"></td>`).join('')}</tr>
-                <tr><td><strong>Price</strong></td>${items.map(i => `<td><strong>${formatCurrency(i.price)}</strong> <span class="price-mrp">${formatCurrency(i.mrp)}</span></td>`).join('')}</tr>
-                <tr><td><strong>Category</strong></td>${items.map(i => `<td>${i.category}</td>`).join('')}</tr>
-                <tr><td><strong>Brand</strong></td>${items.map(i => `<td>${i.brand}</td>`).join('')}</tr>
-                <tr><td><strong>Discount</strong></td>${items.map(i => `<td><span class="price-discount">Save ${i.discount}%</span></td>`).join('')}</tr>
-                <tr><td><strong>SKU</strong></td>${items.map(i => `<td>${i.sku}</td>`).join('')}</tr>
-              </tbody>
-            </table>
-          </div>
-        ` : '<p style="color:var(--muted)">No products selected for comparison. Click the scale icon on products to compare specs side by side.</p>'}
-      `;
-    }
-
-    function addToCart(prodId) {
-      const p = productsDB.find(x => x.id === prodId);
-      if (!p) return;
-      const existing = cart.find(x => x.id === prodId);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({ id: p.id, name: p.name, price: p.price, image: p.image, qty: 1 });
-      }
-      updateBadges();
-      showToast(`Added ${p.name} to cart!`);
-    }
-
-    function updateCartQty(prodId, change) {
-      const item = cart.find(x => x.id === prodId);
-      if (!item) return;
-      item.qty += change;
-      if (item.qty <= 0) {
-        cart = cart.filter(x => x.id !== prodId);
-      }
-      updateBadges();
-      renderRouter();
-    }
-
-    function renderCart(container) {
-      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      const shipping = cart.length > 0 ? 9.99 : 0.00;
-      const total = subtotal + shipping;
-
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Shopping Cart (${cart.reduce((s,i)=>s+i.qty,0)})</h2>
-        </div>
-        ${cart.length > 0 ? `
-          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start;" class="cart-grid">
-            <div style="display:flex; flex-direction:column; gap: 1rem;">
-              ${cart.map(item => `
-                <div style="display:flex; align-items:center; gap: 1rem; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1rem;">
-                  <img src="${item.image}" alt="${item.name}" style="width:80px; height:80px; object-fit:cover; border-radius:var(--radius-sm);">
-                  <div style="flex:1;">
-                    <h4 style="font-weight:600; font-size:1rem;">${item.name}</h4>
-                    <p style="color:var(--primary); font-weight:700; margin-top:0.25rem;">${formatCurrency(item.price)}</p>
-                  </div>
-                  <div style="display:flex; align-items:center; gap:0.75rem;">
-                    <button class="btn-icon" style="width:32px;height:32px;" onclick="updateCartQty('${item.id}', -1)"><i class="fa-solid fa-minus text-xs"></i></button>
-                    <span style="font-weight:700;">${item.qty}</span>
-                    <button class="btn-icon" style="width:32px;height:32px;" onclick="updateCartQty('${item.id}', 1)"><i class="fa-solid fa-plus text-xs"></i></button>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-            <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem; display:flex; flex-direction:column; gap: 1rem;">
-              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">Order Summary</h3>
-              <div style="display:flex; justify-content:space-between; color:var(--muted);"><span>Subtotal</span><span>${formatCurrency(subtotal)}</span></div>
-              <div style="display:flex; justify-content:space-between; color:var(--muted);"><span>Lightning Shipping</span><span>${formatCurrency(shipping)}</span></div>
-              <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.15rem; border-top:1px solid var(--border); padding-top:1rem; color:var(--text);"><span>Total</span><span>${formatCurrency(total)}</span></div>
-              <a href="#checkout" class="btn btn-primary" style="width:100%; text-decoration:none; text-align:center; justify-content:center; margin-top:0.5rem;">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-          </div>
-        ` : '<p style="color:var(--muted)">Your shopping cart is currently empty.</p>'}
-      `;
-    }
-
-    function renderCheckout(container) {
-      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
-      const shipping = 9.99;
-      const total = subtotal + shipping;
-
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Secure Checkout</h2>
-        </div>
-        <div style="display:grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
-          <form id="checkout-form" onsubmit="handleCheckoutSubmit(event)" style="display:flex; flex-direction:column; gap:1.5rem;">
-            <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem;">
-              <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">1. Shipping Address</h3>
-              <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Full Name</label><input type="text" class="form-control" required placeholder="Alex Mercer" id="chk-name"></div>
-                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Mobile Number</label><input type="text" class="form-control" required placeholder="+1 555-0199" id="chk-mobile"></div>
-              </div>
-              <div class="form-group" style="margin-top:1rem;"><label class="form-label">Street Address</label><input type="text" class="form-control" required placeholder="123 Cyber Way, Suite 404" id="chk-address"></div>
-              <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-top:1rem;">
-                <div class="form-group" style="margin-bottom:0;"><label class="form-label">City</label><input type="text" class="form-control" required placeholder="Neo City" id="chk-city"></div>
-                <div class="form-group" style="margin-bottom:0;"><label class="form-label">State</label><input type="text" class="form-control" required placeholder="CA" id="chk-state"></div>
-                <div class="form-group" style="margin-bottom:0;"><label class="form-label">Pincode</label><input type="text" class="form-control" required placeholder="90210" id="chk-pincode"></div>
-              </div>
-            </div>
-
-            <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem;">
-              <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">2. Payment Method</h3>
-              <div style="display:flex; gap: 1.5rem;">
-                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"><input type="radio" name="paymethod" value="COD" checked> Cash on Delivery (COD)</label>
-                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"><input type="radio" name="paymethod" value="Online"> Secure Online Payment</label>
-                <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;"><input type="radio" name="paymethod" value="Wallet"> TrendPro Wallet</label>
-              </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary" style="padding: 1rem; font-size: 1.05rem;">Place Secure Order <i class="fa-solid fa-shield-halved"></i></button>
-          </form>
-
-          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 1.5rem; height: max-content;">
-            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">Order Items (${cart.reduce((s,i)=>s+i.qty,0)})</h3>
-            <div style="display:flex; flex-direction:column; gap:0.75rem; max-height:250px; overflow-y:auto; margin-bottom:1rem;">
-              ${cart.map(i => `<div style="display:flex; justify-content:space-between; font-size:0.9rem;"><span>${i.name} (x${i.qty})</span><strong>${formatCurrency(i.price * i.qty)}</strong></div>`).join('')}
-            </div>
-            <div style="display:flex; justify-content:space-between; font-weight:700; font-size:1.15rem; border-top:1px solid var(--border); padding-top:1rem;"><span>Total</span><span>${formatCurrency(total)}</span></div>
-          </div>
-        </div>
-      `;
-    }
-
-    async function handleCheckoutSubmit(e) {
-      e.preventDefault();
-      if (cart.length === 0) {
-        showToast("Cart is empty!", "error");
-        return;
-      }
-
-      const orderId = 'TP-ORD-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.random().toString(36).substring(2,6).toUpperCase();
-      const newOrder = {
-        orderId: orderId,
-        customerName: document.getElementById('chk-name').value,
-        mobile: document.getElementById('chk-mobile').value,
-        address: `${document.getElementById('chk-address').value}, ${document.getElementById('chk-city').value}, ${document.getElementById('chk-state').value} - ${document.getElementById('chk-pincode').value}`,
-        items: cart,
-        total: cart.reduce((s,i)=>s+(i.price*i.qty),0) + 9.99,
-        paymentMethod: document.querySelector('input[name="paymethod"]:checked').value,
-        paymentStatus: 'Successful',
-        status: 'Pending',
-        createdAt: new Date().toISOString(),
-        timeline: [{ status: 'Pending', time: new Date().toLocaleTimeString(), updatedBy: 'System' }]
-      };
-
-      try {
-        await db.ref('orders/' + orderId).set(newOrder);
-        cart = [];
-        updateBadges();
-        showToast(`🎉 Order ${orderId} successfully placed! Notification triggered.`, "success");
-        window.location.hash = `#order/${orderId}`;
-      } catch (err) {
-        showToast("Order placement failed: " + err.message, "error");
-      }
-    }
-
-    function renderOrders(container, hash) {
-      if (hash.startsWith('#order/')) {
-        const orderId = hash.split('/')[1];
-        const order = ordersDB.find(o => o.orderId === orderId);
-        if (!order) {
-          container.innerHTML = `<h2>Order not found</h2><a href="#home" class="btn btn-primary" style="margin-top:1rem;">Return Home</a>`;
-          return;
+    function loadLiveDoubts(courseId) {
+        const feed = document.getElementById('doubts-feed');
+        if(!cloudMode) {
+            feed.innerHTML = "<p style='text-align:center; color:var(--text-muted);'>Sign in to see live doubts.</p>";
+            return;
         }
 
-        const statuses = ['Pending', 'Confirmed', 'Packed', 'Dispatched', 'In Transit', 'Out for Delivery', 'Delivered'];
-        const currentIdx = statuses.indexOf(order.status);
+        if(currentDoubtRef) {
+            // detach previous listener if changing courses
+            // off(currentDoubtRef); 
+        }
 
-        container.innerHTML = `
-          <div class="section-header">
-            <h2 class="section-title">Order Tracking: ${order.orderId}</h2>
-            <div style="display:flex; gap:1rem; align-items:center;">
-              <span style="font-weight:700; color:var(--primary);">Status: ${order.status}</span>
-              ${isOwner ? `
-                <select class="form-control" style="width:160px; padding:0.4rem;" onchange="updateOrderStatus('${order.orderId}', this.value)">
-                  ${statuses.map(st => `<option value="${st}" ${st === order.status ? 'selected' : ''}>${st}</option>`).join('')}
-                </select>
-              ` : ''}
-            </div>
-          </div>
-          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; margin-bottom: 2rem;">
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-              <div><p style="color:var(--muted); font-size:0.85rem;">Customer</p><strong>${order.customerName}</strong></div>
-              <div><p style="color:var(--muted); font-size:0.85rem;">Shipping Address</p><strong>${order.address}</strong></div>
-              <div><p style="color:var(--muted); font-size:0.85rem;">Payment Method</p><strong>${order.paymentMethod} (${order.paymentStatus})</strong></div>
-              <div><p style="color:var(--muted); font-size:0.85rem;">Total Amount</p><strong>${formatCurrency(order.total)}</strong></div>
-            </div>
+        currentDoubtRef = ref(db, `doubts/${courseId}`);
+        onValue(currentDoubtRef, (snapshot) => {
+            feed.innerHTML = "";
+            if(!snapshot.exists()) {
+                feed.innerHTML = "<p style='text-align:center; font-size:0.875rem; color:var(--text-muted);'>No doubts yet. Be the first to ask!</p>";
+                return;
+            }
             
-            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1rem;">Live Order Timeline (Realtime Synced)</h3>
-            <div class="order-timeline">
-              ${statuses.map((st, idx) => `
-                <div class="timeline-item ${idx <= currentIdx ? 'completed' : ''} ${st === order.status ? 'active' : ''}">
-                  <div class="timeline-dot"></div>
-                  <strong>${st}</strong>
-                  <p style="color:var(--muted); font-size:0.85rem;">${idx <= currentIdx ? 'Verified & Updated' : 'Pending'}</p>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">My Orders (${ordersDB.length})</h2>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr><th>Order ID</th><th>Date</th><th>Amount</th><th>Payment</th><th>Status</th><th>Action</th></tr>
-            </thead>
-            <tbody>
-              ${ordersDB.length > 0 ? ordersDB.map(o => `
-                <tr>
-                  <td><strong>${o.orderId}</strong></td>
-                  <td>${new Date(o.createdAt).toLocaleDateString()}</td>
-                  <td>${formatCurrency(o.total)}</td>
-                  <td>${o.paymentMethod}</td>
-                  <td><span style="font-weight:700; color:var(--primary);">${o.status}</span></td>
-                  <td><a href="#order/${o.orderId}" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size:0.85rem;">Track</a></td>
-                </tr>
-              `).join('') : '<tr><td colspan="6" style="text-align:center; color:var(--muted);">No orders placed yet.</td></tr>'}
-            </tbody>
-          </table>
-        </div>
-      `;
+            const data = snapshot.val();
+            // Object.entries(data).forEach(...) mapping logic
+            const doubtKeys = Object.keys(data).reverse(); // newest first
+            
+            let html = "";
+            doubtKeys.forEach(key => {
+                const d = data[key];
+                const upvotes = d.upvotes ? Object.keys(d.upvotes).length : 0;
+                const iUpvoted = d.upvotes && user ? d.upvotes[user.uid] : false;
+                const canReply = State.role === 'superadmin' || (State.role === 'instructor' && State.courses.find(c=>c.id===courseId).assignedInstructor === State.userProfile.email);
+                
+                html += `
+                    <div class="doubt-card">
+                        <div class="doubt-header">
+                            <span><strong>${d.authorName}</strong> asked:</span>
+                            <span>${new Date(d.timestamp).toLocaleDateString()}</span>
+                        </div>
+                        <p style="font-size:0.95rem;">${d.text}</p>
+                        <div style="display:flex; gap:1rem; margin-top:0.75rem; align-items:center;">
+                            <button class="btn btn-outline" style="padding:0.25rem 0.5rem; font-size:0.75rem; ${iUpvoted?'border-color:var(--brand-primary); color:var(--brand-primary);':''}" onclick="toggleUpvote('${key}')">
+                                <i class="ph-fill ph-thumbs-up"></i> Same Doubt (${upvotes})
+                            </button>
+                            ${canReply ? `<button class="btn btn-secondary" style="padding:0.25rem 0.5rem; font-size:0.75rem;" onclick="openReplyModal('${key}', '${d.text.replace(/'/g,"\\'")}')"><i class="ph ph-chat-teardrop"></i> Reply (Admin)</button>` : ''}
+                        </div>
+                        ${d.reply ? `<div class="reply-box"><strong>Instructor Reply:</strong><br><span style="color:var(--text-primary);">${d.reply}</span></div>` : ''}
+                    </div>
+                `;
+            });
+            feed.innerHTML = html;
+        });
     }
 
-    async function updateOrderStatus(orderId, newStatus) {
-      try {
-        await db.ref(`orders/${orderId}`).update({ status: newStatus });
-        showToast(`🔔 Order status changed to ${newStatus}! Realtime notification dispatched.`, "success");
-      } catch (err) {
-        showToast("Failed to update status: " + err.message, "error");
-      }
-    }
+    window.postDoubt = async () => {
+        const input = document.getElementById('doubt-input');
+        const text = input.value.trim();
+        if(!text) return;
+        if(!user) return showToast("Sign in to ask a doubt.", "error");
 
-    function renderProfile(container, hash) {
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Customer Profile & Management</h2>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; display:flex; flex-direction:column; align-items:center; text-align:center; gap: 1rem;">
-            <div style="width: 80px; height: 80px; border-radius: var(--radius-full); background: var(--gradient-primary); display:flex; align-items:center; justify-content:center; color:white; font-size: 2rem; font-weight:800;">
-              ${currentUser ? currentUser.email[0].toUpperCase() : 'TP'}
-            </div>
-            <div>
-              <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">${currentUser ? currentUser.displayName || 'TrendPro User' : 'Guest Customer'}</h3>
-              <p style="color:var(--muted); font-size:0.9rem;">${currentUser ? currentUser.email : 'Not signed in'}</p>
-            </div>
-            ${currentUser ? `
-              <button class="btn btn-danger" style="width:100%; margin-top:1rem;" onclick="auth.signOut(); showToast('Signed out successfully'); window.location.hash='#home';">Sign Out</button>
-            ` : `
-              <button class="btn btn-primary" style="width:100%; margin-top:1rem;" onclick="handleGoogleSignIn()">Sign In with Google</button>
-            `}
-          </div>
+        input.value = "";
+        try {
+            await push(ref(db, `doubts/${State.activeCourseId}`), {
+                text: text,
+                authorUid: user.uid,
+                authorName: State.userProfile.name,
+                timestamp: Date.now()
+            });
+            showToast("Doubt posted successfully!");
+        } catch(e) { console.error(e); }
+    };
 
-          <div style="background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-md); padding: 2rem; display:flex; flex-direction:column; gap: 1rem;">
-            <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700;">Quick Navigation</h3>
-            <a href="#orders" class="btn btn-secondary" style="justify-content:space-between;"><span>My Orders</span><i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#profile/wallet" class="btn btn-secondary" style="justify-content:space-between;"><span>TrendPro Wallet ($0.00)</span><i class="fa-solid fa-arrow-right"></i></a>
-            <a href="#profile/chat" class="btn btn-secondary" style="justify-content:space-between;"><span>Support Chat</span><i class="fa-solid fa-arrow-right"></i></a>
-            ${isOwner ? `<a href="#owner" class="btn btn-primary" style="justify-content:space-between; margin-top:1rem;"><span>Owner Admin Dashboard</span><i class="fa-solid fa-gauge-high"></i></a>` : ''}
-          </div>
-        </div>
-      `;
-    }
-
-    async function handleGoogleSignIn() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        await auth.signInWithPopup(provider);
-        showToast("Signed in successfully with Google!");
-        renderRouter();
-      } catch (err) {
-        showToast("Authentication Error: " + err.message, "error");
-      }
-    }
-
-    function renderOwnerDashboard(container, hash) {
-      if (!isOwner) {
-        container.innerHTML = `
-          <div style="text-align:center; padding: 4rem 2rem;">
-            <i class="fa-solid fa-shield-cat" style="font-size: 4rem; color:var(--danger); margin-bottom: 1rem;"></i>
-            <h2 style="font-family:var(--font-display); font-size:2rem; font-weight:800;">Access Denied</h2>
-            <p style="color:var(--muted); margin: 1rem 0;">Owner privileges required (${OWNER_EMAIL}). Please sign in with the authorized owner account.</p>
-            <button class="btn btn-primary" onclick="handleGoogleSignIn()">Sign In as Owner</button>
-          </div>
-        `;
-        return;
-      }
-
-      const totalSales = ordersDB.reduce((s,o) => s + o.total, 0);
-      const totalOrders = ordersDB.length;
-
-      container.innerHTML = `
-        <div class="section-header">
-          <h2 class="section-title">Owner Admin Dashboard</h2>
-          <div style="display:flex; gap:1rem;">
-            <a href="#owner/products/add" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product</a>
-          </div>
-        </div>
+    window.toggleUpvote = async (doubtId) => {
+        if(!user) return showToast("Sign in to upvote.", "error");
+        const upvoteRef = ref(db, `doubts/${State.activeCourseId}/${doubtId}/upvotes/${user.uid}`);
         
-        <div class="dashboard-grid">
-          <div class="metric-card"><span class="metric-title">Total Sales</span><span class="metric-value">${formatCurrency(totalSales)}</span></div>
-          <div class="metric-card"><span class="metric-title">Total Orders</span><span class="metric-value">${totalOrders}</span></div>
-          <div class="metric-card"><span class="metric-title">Catalog Products</span><span class="metric-value">${productsDB.length}</span></div>
-          <div class="metric-card"><span class="metric-title">Categories</span><span class="metric-value">${categoriesDB.length}</span></div>
-        </div>
+        get(upvoteRef).then((snap) => {
+            if(snap.exists()) { remove(upvoteRef); } // Unlike
+            else { set(upvoteRef, true); } // Like
+        });
+    };
 
-        <div class="section-header" style="margin-top:2.5rem;">
-          <h3 style="font-family:var(--font-display); font-size:1.25rem; font-weight:700;">Catalog Management</h3>
-        </div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr><th>Image</th><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr>
-            </thead>
-            <tbody>
-              ${productsDB.map(p => `
-                <tr>
-                  <td><img src="${p.image}" style="width:40px;height:40px;object-fit:cover;border-radius:var(--radius-sm);"></td>
-                  <td><strong>${p.name}</strong></td>
-                  <td>${p.sku}</td>
-                  <td>${p.category}</td>
-                  <td>${formatCurrency(p.price)}</td>
-                  <td>${p.stock}</td>
-                  <td>
-                    <button class="btn btn-secondary" style="padding:0.3rem 0.6rem; font-size:0.8rem;" onclick="deleteProduct('${p.id}')">Delete</button>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
+    window.openReplyModal = (doubtId, textContext) => {
+        document.getElementById('reply-doubt-id').value = doubtId;
+        document.getElementById('reply-context').innerText = textContext;
+        document.getElementById('reply-text').value = "";
+        openModal('modal-reply');
+    };
 
-      if (hash === '#owner/products/add') {
-        renderAddProductModal(container);
-      }
-    }
+    window.submitReply = async () => {
+        const doubtId = document.getElementById('reply-doubt-id').value;
+        const text = document.getElementById('reply-text').value.trim();
+        if(!text) return;
+        
+        await update(ref(db, `doubts/${State.activeCourseId}/${doubtId}`), { reply: text });
+        closeModal('modal-reply');
+        showToast("Reply posted.");
+    };
 
-    function renderAddProductModal(container) {
-      const modal = document.createElement('div');
-      modal.className = 'modal-overlay';
-      modal.innerHTML = `
-        <div class="modal-content" style="padding: 2rem;">
-          <h3 style="font-family:var(--font-display); font-size:1.5rem; font-weight:700; margin-bottom:1.5rem;">Add New Product</h3>
-          <form onsubmit="handleProductSubmit(event)" style="display:flex; flex-direction:column; gap:1rem;">
-            <div class="form-group"><label class="form-label">Product Name</label><input type="text" class="form-control" id="np-name" required></div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
-              <div class="form-group"><label class="form-label">Brand</label><input type="text" class="form-control" id="np-brand" required></div>
-              <div class="form-group"><label class="form-label">Category</label><select class="form-control" id="np-cat">${categoriesDB.map(c=>`<option value="${c.name}">${c.name}</option>`).join('')}</select></div>
-            </div>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem;">
-              <div class="form-group"><label class="form-label">Selling Price ($)</label><input type="number" step="0.01" class="form-control" id="np-price" required></div>
-              <div class="form-group"><label class="form-label">MRP ($)</label><input type="number" step="0.01" class="form-control" id="np-mrp" required></div>
-              <div class="form-group"><label class="form-label">Stock</label><input type="number" class="form-control" id="np-stock" required></div>
-            </div>
-            <div class="form-group"><label class="form-label">Image URL</label><input type="url" class="form-control" id="np-image" required placeholder="https://images.unsplash.com/..."></div>
-            <div class="form-group"><label class="form-label">Description</label><textarea class="form-control" id="np-desc" rows="3"></textarea></div>
-            <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1rem;">
-              <a href="#owner" class="btn btn-secondary">Cancel</a>
-              <button type="submit" class="btn btn-primary">Save Product</button>
-            </div>
-          </form>
-        </div>
-      `;
-      container.appendChild(modal);
-    }
 
-    async function handleProductSubmit(e) {
-      e.preventDefault();
-      const id = 'p-' + Date.now();
-      const price = parseFloat(document.getElementById('np-price').value);
-      const mrp = parseFloat(document.getElementById('np-mrp').value);
-      const discount = Math.round(((mrp - price) / mrp) * 100);
+    // --- ADMIN STUDIO (RBAC) ---
+    function renderAdmin() {
+        if(State.role === "student") return window.location.hash="dashboard";
+        
+        document.getElementById('admin-subtitle').innerText = State.role === 'superadmin' 
+            ? "Super Admin: Manage all courses and instructors." 
+            : `Instructor Panel: Managing your assigned courses.`;
 
-      const newProd = {
-        id: id,
-        name: document.getElementById('np-name').value,
-        brand: document.getElementById('np-brand').value,
-        category: document.getElementById('np-cat').value,
-        price: price,
-        mrp: mrp,
-        discount: discount > 0 ? discount : 0,
-        stock: parseInt(document.getElementById('np-stock').value),
-        image: document.getElementById('np-image').value,
-        desc: document.getElementById('np-desc').value,
-        sku: 'TP-' + Math.random().toString(36).substring(2,6).toUpperCase(),
-        status: 'Active'
-      };
+        const btnNew = document.getElementById('btn-new-course');
+        btnNew.style.display = State.role === 'superadmin' ? 'block' : 'none';
 
-      try {
-        await db.ref('products/' + id).set(newProd);
-        productsDB.push(newProd);
-        showToast("Product added successfully!");
-        window.location.hash = '#owner';
-      } catch (err) {
-        showToast("Failed to add product: " + err.message, "error");
-      }
-    }
-
-    async function deleteProduct(prodId) {
-      if (!confirm("Are you sure you want to delete this product?")) return;
-      try {
-        await db.ref('products/' + prodId).remove();
-        productsDB = productsDB.filter(p => p.id !== prodId);
-        showToast("Product deleted.");
-        renderRouter();
-      } catch (err) {
-        showToast("Delete failed: " + err.message, "error");
-      }
-    }
-
-    function toggleWishlist(prodId) {
-      const idx = wishlist.indexOf(prodId);
-      if (idx > -1) {
-        wishlist.splice(idx, 1);
-        showToast("Removed from wishlist", "info");
-      } else {
-        wishlist.push(prodId);
-        showToast("Added to wishlist!");
-      }
-      updateBadges();
-      renderRouter();
-    }
-
-    function toggleCompare(prodId) {
-      const idx = compareList.indexOf(prodId);
-      if (idx > -1) {
-        compareList.splice(idx, 1);
-        showToast("Removed from comparison", "info");
-      } else {
-        if (compareList.length >= 4) {
-          showToast("Maximum 4 products can be compared at once.", "warning");
-          return;
+        // Filter courses based on role
+        let adminCourses = State.courses;
+        if (State.role === "instructor") {
+            adminCourses = State.courses.filter(c => c.assignedInstructor === State.userProfile.email);
         }
-        compareList.push(prodId);
-        showToast("Added to comparison suite!");
-      }
-      updateBadges();
-      renderRouter();
+
+        document.getElementById('admin-courses-list').innerHTML = adminCourses.map(c => `
+            <div class="card flex-between" style="padding: 1rem 1.5rem;">
+                <div>
+                    <div style="font-weight: 600;">${c.title}</div>
+                    <div style="font-size: 0.75rem; color: var(--text-muted);">
+                        Instructor: ${c.assignedInstructor || "Unassigned"}
+                    </div>
+                </div>
+                <div style="display:flex; gap:0.5rem;">
+                    <button class="btn btn-secondary" onclick="window.location.hash='player/${c.id}'"><i class="ph ph-eye"></i> Preview</button>
+                    <button class="btn btn-outline" onclick="openCourseEditor('${c.id}')"><i class="ph ph-pencil"></i> Edit</button>
+                </div>
+            </div>
+        `).join('');
     }
 
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    themeToggleBtn.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      if (currentTheme === 'light') {
-        document.documentElement.removeAttribute('data-theme');
-        themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
-        localStorage.setItem('trendpro_theme', 'dark');
-      } else {
-        document.documentElement.setAttribute('data-theme', 'light');
-        themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-        localStorage.setItem('trendpro_theme', 'light');
-      }
+    window.openCourseEditor = (id = null) => {
+        document.getElementById('edit-id').value = id || "";
+        const c = id ? State.courses.find(c => c.id === id) : null;
+        
+        document.getElementById('editor-title').innerText = id ? "Edit Course" : "New Course";
+        document.getElementById('edit-title').value = c ? c.title : "";
+        document.getElementById('edit-desc').value = c ? c.description : "";
+        
+        const instInput = document.getElementById('edit-instructor');
+        instInput.value = c ? c.assignedInstructor : "";
+        
+        // Only Super Admin can assign instructors
+        if(State.role !== 'superadmin') {
+            instInput.disabled = true;
+            instInput.style.opacity = "0.5";
+        } else {
+            instInput.disabled = false;
+            instInput.style.opacity = "1";
+        }
+        
+        openModal('modal-editor');
+    };
+
+    window.saveCourse = async () => {
+        const id = document.getElementById('edit-id').value || `c_${Date.now()}`;
+        const title = document.getElementById('edit-title').value;
+        const desc = document.getElementById('edit-desc').value;
+        const instructor = document.getElementById('edit-instructor').value;
+        
+        const courseData = { id, title, description: desc, assignedInstructor: instructor };
+        
+        if (cloudMode && State.role === 'superadmin') {
+            await set(ref(db, `courses/${id}`), courseData);
+            showToast("Course saved successfully.");
+        } else if (cloudMode && State.role === 'instructor') {
+            // Instructor can only update title/desc, not reassign instructor
+            await update(ref(db, `courses/${id}`), { title, description: desc });
+            showToast("Course details updated.");
+        } else {
+            showToast("Cannot save. Local mode or permission denied.", "error");
+        }
+        
+        closeModal('modal-editor');
+        fetchCloudData().then(()=> renderAdmin()); // reload data
+    };
+
+    // Global Listeners
+    window.addEventListener('hashchange', handleRoute);
+    document.addEventListener("DOMContentLoaded", () => {
+        initAuth();
     });
 
-    if (localStorage.getItem('trendpro_theme') === 'light') {
-      document.documentElement.setAttribute('data-theme', 'light');
-      themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-    }
-
-    window.addEventListener('DOMContentLoaded', async () => {
-      await initDatabase();
-      updateBadges();
-      renderRouter();
-    });
-  </script>
+</script>
 </body>
 </html>
